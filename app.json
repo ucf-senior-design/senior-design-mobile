@@ -1,0 +1,54 @@
+{
+  "name": "tripPlanner",
+  "displayName": "tripPlanner",
+  "expo": {
+    "name": "tripPlanner",
+    "slug": "tripPlanner",
+    "scheme": "tripplanner",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/plane.png",
+    "splash": {
+      "image": "./assets/images/plane.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#191015"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "jsEngine": "hermes",
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "icon": "./assets/images/plane.png",
+      "package": "com.tripplanner",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/plane.png",
+        "backgroundImage": "./assets/images/plane.png"
+      },
+      "splash": {
+        "image": "./assets/images/plane.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#191015"
+      }
+    },
+    "ios": {
+      "icon": "./assets/images/plane.png",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tripplanner",
+      "splash": {
+        "image": "./assets/images/plane.png",
+        "tabletImage": "./assets/images/plane.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#191015"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/plane.png",
+      "splash": {
+        "image": "./assets/images/plane.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#191015"
+      }
+    }
+  }
+}
