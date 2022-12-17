@@ -14,7 +14,7 @@ export default function ThirdPartyAuth() {
   )
 }
 
-const $iconStyle = { height: 40, width: 40, margin: spacing.medium }
+const $iconStyle = { height: 40, width: 40, marginHorizontal: spacing.medium }
 
 const $container: ViewStyle = {
   flexDirection: "row",
