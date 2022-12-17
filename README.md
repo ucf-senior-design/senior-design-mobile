@@ -1,6 +1,7 @@
-# Welcome to your new ignited app!
-
-[![CircleCI](https://circleci.com/gh/infinitered/ignite.svg?style=svg)](https://circleci.com/gh/infinitered/ignite)
+# Getting Started
+This project was created using a ignite boiler plate. To get started be sure to follow the ios and android steps for [setting up your react envionrment](https://reactnative.dev/docs/environment-setup) and make sure you have your local.properties file [set propertly](https://stackoverflow.com/questions/32634352/react-native-android-build-failed-sdk-location-not-found). Then 
+1. run `yarn install`
+2. run `yarn run ios` or `yarn run android`
 
 ## The latest and greatest boilerplate for Infinite Red opinions
 
@@ -110,10 +111,6 @@ This is a great place to put miscellaneous helpers and utilities. Things like da
 
 **app.tsx** This is the entry point to your app. This is where you will find the main App component which renders the rest of the application.
 
-### ./ignite directory
-
-The `ignite` directory stores all things Ignite, including CLI and boilerplate items. Here you will find templates you can customize to help you get started with React Native.
-
 ### ./test directory
 
 This directory will hold your Jest configs and mocks.
@@ -121,10 +118,4 @@ This directory will hold your Jest configs and mocks.
 ## Running Detox end-to-end tests
 
 Read [Detox setup instructions](./detox/README.md).
-
-## Previous Boilerplates
-
-- [2018 aka Bowser](https://github.com/infinitered/ignite-bowser)
-- [2017 aka Andross](https://github.com/infinitered/ignite-andross)
-- [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
 
