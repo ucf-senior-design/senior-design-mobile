@@ -1,12 +1,6 @@
-# Getting Started
-1. [Ensure your enviornment variables are set for a react-native project](https://reactnative.dev/docs/environment-setup)
-2. Add a local.properties file in the `android` directory by doing [this](https://stackoverflow.com/questions/27620262/sdk-location-not-found-define-location-with-sdk-dir-in-the-local-properties-fil)
-3. Install dependecies by running `yarn install`
-4. Start the application by running `yarn run ios` or `yarn run android`
+# Welcome to your new ignited app!
 
-## Common Issues when settings up:
-1. [Not setting envionrment variables set]((https://reactnative.dev/docs/environment-setup))
-2. [Android build succesful, but cannot connect to development server](https://stackoverflow.com/questions/63375837/build-successful-but-failed-to-connect-to-development-server-using-adb-reverse)
+[![CircleCI](https://circleci.com/gh/infinitered/ignite.svg?style=svg)](https://circleci.com/gh/infinitered/ignite)
 
 ## The latest and greatest boilerplate for Infinite Red opinions
 
