@@ -37,6 +37,9 @@ const palette = {
   overlay50: "rgba(25, 16, 21, 0.5)",
 
   white: "#FFFFFF",
+
+  inputText: "#111D40",
+  inputField: "#FFFFFF",
 }
 
 export const colors = {

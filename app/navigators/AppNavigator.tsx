@@ -52,6 +52,8 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
 
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>

@@ -138,13 +138,14 @@ const $baseViewStyle: ViewStyle = {
 
 const $baseTextStyle: TextStyle = {
   fontSize: 12,
-  letterSpacing:1,
+  letterSpacing: 1,
   lineHeight: 20,
   fontFamily: typography.primary.bold,
   textAlign: "center",
   flexShrink: 1,
   flexGrow: 0,
   zIndex: 2,
+  textTransform: "uppercase",
 }
 
 const $rightAccessoryStyle: ViewStyle = { marginStart: spacing.extraSmall, zIndex: 1 }
@@ -154,34 +155,38 @@ const $viewPresets = {
   default: [
     $baseViewStyle,
     {
-      borderWidth: 3,
+      borderWidth: 2,
       borderColor: colors.palette.neutral100,
-     
     },
   ] as StyleProp<ViewStyle>,
 
-  filled: [$baseViewStyle, { backgroundColor: colors.palette.white }] as StyleProp<ViewStyle>,
+  filled: [$baseViewStyle, { backgroundColor: colors.palette.neutral100 }] as StyleProp<ViewStyle>,
 
   reversed: [
     $baseViewStyle,
     { backgroundColor: colors.palette.neutral800 },
   ] as StyleProp<ViewStyle>,
+
+  noFill: [[$baseViewStyle, { backgroundColor: colors.transparent }] as StyleProp<ViewStyle>],
 }
 
 const $textPresets: Record<Presets, StyleProp<TextStyle>> = {
   default: $baseTextStyle,
   filled: [$baseTextStyle, { color: colors.palette.neutral900 }],
   reversed: [$baseTextStyle, { color: colors.palette.neutral100 }],
+  noFill: $baseTextStyle,
 }
 
 const $pressedViewPresets: Record<Presets, StyleProp<ViewStyle>> = {
   default: { borderColor: colors.palette.neutral300 },
   filled: { backgroundColor: colors.palette.neutral300 },
   reversed: { backgroundColor: colors.palette.neutral700 },
+  noFill: {},
 }
 
 const $pressedTextPresets: Record<Presets, StyleProp<TextStyle>> = {
-  default: { color: colors.palette.neutral200},
+  default: { color: colors.palette.neutral200 },
   filled: { opacity: 0.9 },
   reversed: { opacity: 0.9 },
+  noFill: { color: colors.palette.neutral200 },
 }

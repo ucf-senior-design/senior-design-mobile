@@ -2,6 +2,8 @@ import { useScrollToTop } from "@react-navigation/native"
 import { StatusBar, StatusBarProps } from "expo-status-bar"
 import React, { useRef, useState } from "react"
 import {
+  ImageBackground,
+  ImageSourcePropType,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   LayoutChangeEvent,
@@ -12,8 +14,11 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { colors } from "../theme"
+import { Header } from "."
+import { colors, spacing } from "../theme"
+import { goBack } from "../navigators"
 import { ExtendedEdge, useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+import { ProgressPlugin } from "webpack"
 
 interface BaseScreenProps {
   /**
@@ -52,6 +57,19 @@ interface BaseScreenProps {
    * Pass any additional props directly to the KeyboardAvoidingView component.
    */
   KeyboardAvoidingViewProps?: KeyboardAvoidingViewProps
+  // TODO: add Gradient background for all page types
+  /**
+   * Add Gradient background to screen. Will only show currently if page is fixed
+   */
+  backgroundImage?: ImageSourcePropType
+  /**
+   * Adds background color when a background image is present
+   */
+  backgroundColorWithImage?: string
+  /**
+   * Adds a header with a back button
+   */
+  goBackHeader?: boolean
 }
 
 interface FixedScreenProps extends BaseScreenProps {
@@ -195,14 +213,55 @@ export function Screen(props: ScreenProps) {
     safeAreaEdges,
     StatusBarProps,
     statusBarStyle = "dark",
+    backgroundColorWithImage = colors.transparent,
   } = props
 
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
+  const $image: ViewStyle = {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: backgroundColorWithImage,
+  }
+  if (props.preset === "fixed" && props.backgroundImage)
+    return (
+      <ImageBackground source={props.backgroundImage} resizeMode="cover" style={$image}>
+        <StatusBar style={statusBarStyle} {...StatusBarProps} />
 
+        <View style={[$containerStyle, $containerInsets]}>
+          {props.goBackHeader ? (
+            <Header
+              leftIcon={"caretLeft"}
+              leftIconColor={colors.text}
+              onLeftPress={() => goBack()}
+            />
+          ) : (
+            <></>
+          )}
+          <KeyboardAvoidingView
+            behavior={isIos ? "padding" : undefined}
+            keyboardVerticalOffset={keyboardOffset}
+            {...KeyboardAvoidingViewProps}
+            style={[$keyboardAvoidingViewStyle, KeyboardAvoidingViewProps?.style]}
+          >
+            {isNonScrolling(props.preset) ? (
+              <ScreenWithoutScrolling {...props} />
+            ) : (
+              <ScreenWithScrolling {...props} />
+            )}
+          </KeyboardAvoidingView>
+        </View>
+      </ImageBackground>
+    )
   return (
     <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
-      <StatusBar style={statusBarStyle} {...StatusBarProps} />
+      {props.goBackHeader ? (
+        <Header leftIcon={"caretLeft"} leftIconColor={colors.text} onLeftPress={() => goBack()} />
+      ) : (
+        <></>
+      )}
 
+      <StatusBar style={statusBarStyle} {...StatusBarProps} />
       <KeyboardAvoidingView
         behavior={isIos ? "padding" : undefined}
         keyboardVerticalOffset={keyboardOffset}
@@ -219,26 +278,22 @@ export function Screen(props: ScreenProps) {
   )
 }
 
-const $containerStyle: ViewStyle = {
-  flex: 1,
-  height: "100%",
-  width: "100%",
-}
+const $containerStyle: ViewStyle = { flex: 1, width: "100%", height: "100%" }
 
 const $keyboardAvoidingViewStyle: ViewStyle = {
   flex: 1,
 }
 
 const $outerStyle: ViewStyle = {
-
-  marginVertical: 20,
-  marginHorizontal: 10,
+  paddingVertical: 20,
+  paddingHorizontal: 40,
   flex: 1,
   height: "100%",
   width: "100%",
 }
 
 const $innerStyle: ViewStyle = {
+  flex: 1,
   justifyContent: "flex-start",
   alignItems: "stretch",
 }
