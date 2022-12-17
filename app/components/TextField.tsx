@@ -100,6 +100,10 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    * Allows input to be hidden and unhid. Also auto sets any icons for this
    */
   canBeHidden?: boolean
+  /**
+   * Adds an error message
+   */
+  errorMessage?: string
 }
 
 /**
@@ -146,8 +150,8 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const $inputWrapperStyles = [
     $inputWrapperStyle,
-    status === "error" && { borderColor: colors.error },
-    TextInputProps.multiline && { minHeight: 112 },
+    status === "error" && { backgroundColor: colors.errorBackground },
+    TextInputProps.multiline && { minHeight: 112, color: colors.errorText },
     LeftAccessory && { paddingStart: 0 },
     RightAccessory && { paddingEnd: 0 },
     $inputWrapperStyleOverride,
@@ -155,6 +159,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const $inputStyles = [
     $inputStyle,
+    status === "error" && { color: colors.errorText },
     disabled && { color: colors.textDim },
     isRTL && { textAlign: "right" as TextStyle["textAlign"] },
     TextInputProps.multiline && { height: "auto" },
@@ -163,7 +168,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const $helperStyles = [
     $helperStyle,
-    status === "error" && { color: colors.error },
+    status === "error" && { color: colors.errorTextDim },
     HelperTextProps?.style,
   ]
 
@@ -222,7 +227,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
           underlineColorAndroid={colors.transparent}
           textAlignVertical="top"
           placeholder={placeholderContent}
-          placeholderTextColor={colors.textDim}
+          placeholderTextColor={status !== "error" ? colors.textDim : colors.errorTextDim}
           {...TextInputProps}
           editable={!disabled}
           style={[$inputStyles, { width: "100%" }]}
@@ -287,6 +292,7 @@ const $inputStyle: TextStyle = {
 
 const $helperStyle: TextStyle = {
   marginTop: spacing.extraSmall,
+  fontSize: 12,
 }
 
 const $rightAccessoryStyle: ViewStyle = {

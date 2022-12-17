@@ -24,7 +24,7 @@ export const LandingScreen: FC<LandingProps> = observer(function LandingScreen()
           preset="heading"
           style={{ textAlign: "left", marginBottom: 20 }}
         />
-        <Button text="Create Account" preset="default" onPress={() => navigate("Register")} />
+        <Button text="Create Account" preset="default" onPress={() => navigate("CreateLogin")} />
         <Button text="Login" preset="filled" onPress={() => navigate("Login")} />
         <Divider text={"or"} />
         <ThirdPartyAuth />
