@@ -1,6 +1,0 @@
-module ExpoLocalization {
-  umbrella header "ExpoLocalization-umbrella.h"
-
-  export *
-  module * { export * }
-}
