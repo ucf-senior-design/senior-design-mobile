@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { LandingScreen, Login, Register } from "../screens/"
+import { LandingScreen, Login, CreateLogin } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -30,7 +30,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Login: undefined
   Landing: undefined
-  Register: undefined
+  CreateLogin: undefined
 }
 
 console.log(LandingScreen)
@@ -53,7 +53,7 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="CreateLogin" component={CreateLogin} />
 
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>

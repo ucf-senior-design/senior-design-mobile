@@ -258,8 +258,6 @@ function HeaderAction(props: HeaderActionProps) {
 }
 
 const $wrapper: ViewStyle = {
-  position: "absolute",
-  marginTop:20,
   height: 56,
   flexDirection: "row",
   alignItems: "center",
@@ -267,10 +265,11 @@ const $wrapper: ViewStyle = {
 }
 
 const $container: ViewStyle = {
-  margin: 0,
-  padding: 0,
-  top: 0,
+  margin:0,
+  padding:0,
+  top:0,
   width: "100%",
+
 }
 
 const $title: TextStyle = {
