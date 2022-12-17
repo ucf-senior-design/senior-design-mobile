@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
 import { Dimensions, View, ViewStyle } from "react-native"
-import { Screen, Text, TextField, Button } from "../components"
+import { Screen, Text, TextField, Button, Icon } from "../components"
 import ThirdPartyAuth from "../components/authentication/ThirdPartyAuth"
 import Divider from "../components/Divider"
 import { AppStackScreenProps } from "../navigators/AppNavigator"
@@ -118,7 +118,11 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
         />
         <Divider text="or" />
         <ThirdPartyAuth />
-        <Button text="continue" />
+        <Button
+          
+          text="continue"
+          RightAccessory={() => <Icon icon="caretRight" color="white" />}
+        />
       </View>
     </Screen>
   )
