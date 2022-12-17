@@ -1,0 +1,6 @@
+module Pods_tripPlanner_tripPlannerTests {
+  umbrella header "Pods-tripPlanner-tripPlannerTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
