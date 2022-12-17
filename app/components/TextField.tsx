@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, Ref, useImperativeHandle, useRef } from "react"
+import React, { ComponentType, forwardRef, Ref, useImperativeHandle, useRef, useState } from "react"
 import {
   StyleProp,
   TextInput,
@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle,
 } from "react-native"
+import { Icon } from "."
 import { isRTL, translate } from "../i18n"
 import { colors, spacing, typography } from "../theme"
 import { Text, TextProps } from "./Text"
@@ -95,6 +96,10 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    * Note: It is a good idea to memoize this.
    */
   LeftAccessory?: ComponentType<TextFieldAccessoryProps>
+  /**
+   * Allows input to be hidden and unhid. Also auto sets any icons for this
+   */
+  canBeHidden?: boolean
 }
 
 /**
@@ -114,15 +119,19 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     helperTx,
     helperTxOptions,
     status,
-    RightAccessory,
     LeftAccessory,
     HelperTextProps,
     LabelTextProps,
+    canBeHidden,
     style: $inputStyleOverride,
     containerStyle: $containerStyleOverride,
     inputWrapperStyle: $inputWrapperStyleOverride,
     ...TextInputProps
   } = props
+
+  const RightAccessory = canBeHidden ? GetHiddenIcon() : props.RightAccessory
+  const [isHidden, setIsHidden] = useState(false)
+
   const input = useRef<TextInput>()
 
   const disabled = TextInputProps.editable === false || status === "disabled"
@@ -164,6 +173,19 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     input.current?.focus()
   }
 
+  function GetHiddenIcon() {
+    const HiddenAccessory = () => (
+      <Icon
+        icon={isHidden ? "hidden" : "view"}
+        containerStyle={[$rightAccessoryStyle]}
+        color={colors.palette.neutral900}
+        onPress={() => setIsHidden(!isHidden)}
+      />
+    )
+
+    return HiddenAccessory
+  }
+
   useImperativeHandle(ref, () => input.current)
 
   return (
@@ -184,7 +206,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         />
       )}
 
-      <View style={$inputWrapperStyles}>
+      <View style={[$inputWrapperStyles]}>
         {!!LeftAccessory && (
           <LeftAccessory
             style={$leftAccessoryStyle}
@@ -195,6 +217,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         )}
 
         <TextInput
+          secureTextEntry={canBeHidden ? (isHidden ? true : false) : false}
           ref={input}
           underlineColorAndroid={colors.transparent}
           textAlignVertical="top"
@@ -202,7 +225,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
           placeholderTextColor={colors.textDim}
           {...TextInputProps}
           editable={!disabled}
-          style={$inputStyles}
+          style={[$inputStyles, { width: "100%" }]}
         />
 
         {!!RightAccessory && (
@@ -237,21 +260,26 @@ const $inputWrapperStyle: ViewStyle = {
   flexDirection: "row",
   alignItems: "flex-start",
   borderWidth: 1,
+  width: "100%",
   borderRadius: 4,
-  backgroundColor: colors.palette.neutral200,
+  backgroundColor: colors.palette.inputField,
   borderColor: colors.palette.neutral400,
   overflow: "hidden",
+  marginBottom: spacing.medium,
 }
 
 const $inputStyle: TextStyle = {
   flex: 1,
   alignSelf: "stretch",
+  alignItems: "center",
+  justifyContent: "center",
   fontFamily: typography.primary.normal,
-  color: colors.text,
-  fontSize: 16,
-  height: 24,
+  color: colors.palette.inputText,
+  fontSize: 14,
+  height: 30,
+  width: "100%",
   // https://github.com/facebook/react-native/issues/21720#issuecomment-532642093
-  paddingVertical: 0,
+  paddingVertical: 5,
   paddingHorizontal: 0,
   marginVertical: spacing.extraSmall,
   marginHorizontal: spacing.small,
