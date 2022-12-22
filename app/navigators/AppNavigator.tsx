@@ -11,7 +11,8 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { LandingScreen, Login, CreateLogin } from "../screens/"
+import { LandingScreen, Login, CreateAccount, Email } from "../screens/"
+import { Details } from "../screens/AuthScreen/Register-Details"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -30,10 +31,11 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Login: undefined
   Landing: undefined
-  CreateLogin: undefined
+  Details:undefined
+  CreateAccount: undefined
+  Email:undefined
 }
 
-console.log(LandingScreen)
 /**
  * This is a list of all the route names that will exit the app if the back button
  * is pressed while in that screen. Only affects Android.
@@ -53,8 +55,9 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="CreateLogin" component={CreateLogin} />
-
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen name="Email" component={Email} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )

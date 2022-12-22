@@ -1,16 +1,16 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
 import { Dimensions, View, ViewStyle } from "react-native"
-import { Screen, Text, TextField, Button, Icon } from "../components"
-import ThirdPartyAuth from "../components/authentication/ThirdPartyAuth"
-import Divider from "../components/Divider"
-import { AppStackScreenProps } from "../navigators/AppNavigator"
-import { colors, spacing } from "../theme"
+import { Screen, Text, TextField, Button, Icon } from "../../components"
+import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
+import { AppStackScreenProps } from "../../navigators/AppNavigator"
+import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
+import { navigate } from "../../navigators"
 import * as EmailValidator from "email-validator"
 
-interface RegisterProps extends AppStackScreenProps<"CreateLogin"> {}
-export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
+interface RegisterProps extends AppStackScreenProps<"CreateAccount"> {}
+export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount() {
   const [user, sUser] = useState({
     email: "",
     password: "",
@@ -53,13 +53,13 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
     <Screen
       preset="fixed"
       statusBarStyle="light"
-      backgroundImage={require("../../assets/images/gradientBg.png")}
+      backgroundImage={require("../../../assets/images/gradientBg.png")}
       goBackHeader={true}
     >
       <View style={$container}>
         <Text
           preset="heading"
-          text="create a login"
+          text="create account"
           style={{ textAlign: "center", marginBottom: spacing.extraSmall }}
         />
         <Text preset="subheading" text={errorMessage} style={{ color: colors.errorText }} />
@@ -67,8 +67,6 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
         <TextField
           status={isEmailInvalid ? "error" : undefined}
           helper={isEmailInvalid ? "invalid email" : undefined}
-          inputWrapperStyle={isEmailInvalid && { marginBottom: 0 }}
-          containerStyle={isEmailInvalid && { marginVertical: spacing.extraSmall }}
           label="email"
           placeholder="email@domain.com"
           onChangeText={(e) =>
@@ -96,7 +94,6 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
           boxContainerStyle={{ marginBottom: spacing.medium }}
           boxStyle={{ borderRadius: 2 }}
           levels={levels}
-          onChange={(e) => console.log(e)}
           password={user.password}
           width={Dimensions.get("window").width - 50}
         />
@@ -104,11 +101,9 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
         <TextField
           status={isConfirmPasswordInvalid ? "error" : undefined}
           helper={isConfirmPasswordInvalid ? "does not match password" : undefined}
-          containerStyle={isEmailInvalid && { marginVertical: spacing.extraSmall }}
           label="confirm password"
           placeholder="password"
           canBeHidden={true}
-          inputWrapperStyle={isConfirmPasswordInvalid && { marginBottom: 0 }}
           onChangeText={(e) =>
             sUser((user) => ({
               ...user,
@@ -116,12 +111,13 @@ export const CreateLogin: FC<RegisterProps> = observer(function CreateLogin() {
             }))
           }
         />
-        <Divider text="or" />
+
         <ThirdPartyAuth />
         <Button
-          
+          style={{ alignSelf: "flex-end", marginTop: spacing.small }}
           text="continue"
           RightAccessory={() => <Icon icon="caretRight" color="white" />}
+          onPress={() => navigate("Details")}
         />
       </View>
     </Screen>
@@ -134,7 +130,4 @@ const $container: ViewStyle = {
   justifyContent: "center",
   flexDirection: "column",
   alignItems: "center",
-}
-function emailRegex() {
-  throw new Error("Function not implemented.")
 }
