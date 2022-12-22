@@ -75,6 +75,7 @@ The inside of the `app` directory looks similar to the following:
 app
 ├── components
 ├── config
+├── hooks
 ├── i18n
 ├── models
 ├── navigators
@@ -90,6 +91,9 @@ This is where your reusable components live which help you build your screens.
 
 **i18n**
 This is where your translations will live if you are using `react-native-i18n`.
+
+**hooks**
+Store any complex logic or custom hooks here.
 
 **models**
 This is where your app's models will live. Each model has a directory which will contain the `mobx-state-tree` model file, test file, and any other supporting files like actions, types, etc.

@@ -101,9 +101,13 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    */
   canBeHidden?: boolean
   /**
-   * Adds an error message
+   * Adds theming for a background that will always be white ex: popup
    */
-  errorMessage?: string
+  whiteBackground?: boolean
+  /**
+   * Centers label with bold preset.
+   */
+  labelCenter? :boolean
 }
 
 /**
@@ -127,6 +131,8 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     HelperTextProps,
     LabelTextProps,
     canBeHidden,
+    whiteBackground,
+    labelCenter,
     style: $inputStyleOverride,
     containerStyle: $containerStyleOverride,
     inputWrapperStyle: $inputWrapperStyleOverride,
@@ -144,13 +150,20 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     ? translate(placeholderTx, placeholderTxOptions)
     : placeholder
 
-  const $containerStyles = [$containerStyleOverride]
+  const $containerStyles = [
+    $containerStyleOverride,
+    status === "error" && { marginVertical: spacing.extraSmall },
+  ]
 
   const $labelStyles = [$labelStyle, LabelTextProps?.style]
 
   const $inputWrapperStyles = [
     $inputWrapperStyle,
-    status === "error" && { backgroundColor: colors.errorBackground },
+    whiteBackground && {
+      backgroundColor: colors.palette.primary100,
+      borderWidth: 0,
+    },
+    status === "error" && { backgroundColor: colors.errorBackground, marginBottom: 0 },
     TextInputProps.multiline && { minHeight: 112, color: colors.errorText },
     LeftAccessory && { paddingStart: 0 },
     RightAccessory && { paddingEnd: 0 },
@@ -202,12 +215,12 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     >
       {!!(label || labelTx) && (
         <Text
-          preset="formLabel"
+          preset={labelCenter ? "bold" : "formLabel"}
           text={label}
           tx={labelTx}
           txOptions={labelTxOptions}
           {...LabelTextProps}
-          style={$labelStyles}
+          style={[$labelStyles, whiteBackground && { color: "black", textAlign: "center" }]}
         />
       )}
 
@@ -222,6 +235,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         )}
 
         <TextInput
+          autoCapitalize="none"
           secureTextEntry={canBeHidden ? (isHidden ? true : false) : false}
           ref={input}
           underlineColorAndroid={colors.transparent}

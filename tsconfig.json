@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
+  "typeRoots": ["./types"],
   "exclude": ["node_modules"],
   "include": ["index.js", "App.js", "app", "test"],
   "extends": "expo/tsconfig.base"

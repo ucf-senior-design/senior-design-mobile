@@ -87,6 +87,7 @@ export function Icon(props: IconProps) {
 export const iconRegistry = {
   plane: require("../../assets/icons/caretRight.png"),
   // TODO: Get back icon
+  email: require("../../assets/icons/email.png"),
   back: require("../../assets/icons/caretRight.png"),
   bell: require("../../assets/icons/bell.png"),
   caretLeft: require("../../assets/icons/caretLeft.png"),
