@@ -6,7 +6,6 @@ import { AppStackScreenProps, navigate } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
 interface LoginProps extends AppStackScreenProps<"Login"> {}
-import { doEmailPasswordLogin } from "../../hooks/Authentication"
 import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
 
 export const Login: FC<LoginProps> = observer(function LoginScreen({ navigation }) {
@@ -82,16 +81,6 @@ export const Login: FC<LoginProps> = observer(function LoginScreen({ navigation 
           </View>
           <ThirdPartyAuth />
           <Button
-            onPress={async () =>
-              await doEmailPasswordLogin(user, (response) => {
-                console.log(response)
-                if (response.isSuccess) {
-                  navigate("Landing")
-                } else {
-                  sErrorMessage(response.errorMessage)
-                }
-              })
-            }
             text="log in"
           />
         </View>
