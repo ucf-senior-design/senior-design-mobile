@@ -42,11 +42,3 @@ jobs:
           yarn install --frozen-lockfile
           yarn lint
           yarn build
-
-      # Checks to make sure there are not unused deps
-      - name: npm unused packages checker
-        uses: Amr-Reda/npm-unused-packages-checker@v1
-
-      # SpellCheck!
-      - name: Check Spelling
-        uses: check-spelling/check-spelling@v0.0.21
