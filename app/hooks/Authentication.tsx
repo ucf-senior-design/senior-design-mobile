@@ -1,5 +1,4 @@
-import { API_URL, FIREBASE_CLIENT_ID, TWITTER_KEY, TWITTER_SECRET } from "@env"
-import { useEffect, useState } from "react"
+import { API_URL } from "@env"
 import { createFetchRequestOptions } from "../utils/fetch"
 
 interface EmailPasswordLogin {
@@ -13,17 +12,11 @@ interface AuthenticationResponse {
 }
 
 export function Auth() {
-  async function doFacebookLogin() {
-    console.log("do twitter login")
-  }
-  async function doTwitterLogin() {
-    console.log("do twitter login")
-  }
-  async function doGoogleLogin() {
-   
-  }
+  async function doFacebookLogin() {}
+  async function doTwitterLogin() {}
+  async function doGoogleLogin() {}
 
-   async function doEmailPasswordLogin(
+  async function doEmailPasswordLogin(
     login: EmailPasswordLogin,
     callback: (response: AuthenticationResponse) => void,
   ) {

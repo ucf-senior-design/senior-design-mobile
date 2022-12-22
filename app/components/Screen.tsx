@@ -15,10 +15,9 @@ import {
   ViewStyle,
 } from "react-native"
 import { Header } from "."
-import { colors, spacing } from "../theme"
+import { colors } from "../theme"
 import { goBack } from "../navigators"
 import { ExtendedEdge, useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
-import { ProgressPlugin } from "webpack"
 
 interface BaseScreenProps {
   /**

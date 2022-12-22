@@ -1,52 +1,46 @@
-import React, { useState } from "react"
+import React from "react"
 import { Button, Icon, Text, TextField } from "."
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "../theme"
 import { SelectListHook } from "../hooks"
 import { BackdropModal } from "./BackdropModal"
 
-interface SelectChipProps {
-  value: string
-  isSelected: boolean
-  onPress: () => void
-}
-function SelectChip(props: SelectChipProps) {
-  const { value, isSelected, onPress } = props
-  return (
-    <Pressable
-      onPress={() => onPress()}
-      style={[$chip, isSelected && { backgroundColor: "#4262BF" }]}
-    >
-      <View>
-        <Text text={value} preset="bold" style={{ fontSize: 12 }} />
-      </View>
-    </Pressable>
-  )
-}
-
 export interface SelectChipListProps {
   updateSelected: (value: string) => void
   options: Map<string, boolean>
 }
+
 export function SelectChipList({
   hook,
   label,
   propertyName,
 }: {
+  /**
+   * Handles all operations to handle selecting options.
+   */
   hook: SelectListHook
+  /**
+   * Label for the form.
+   */
   label: string
+  /**
+   * Property name to be used in popup ( should be singular)
+   */
   propertyName: string
 }) {
   const chips = []
 
   hook.values.options.forEach((option, index) => {
     chips.push(
-      <SelectChip
+      <Pressable
         key={index}
-        isSelected={hook.isSelected(option)}
-        value={option}
         onPress={() => hook.updateSelected(option)}
-      />,
+        style={[$chip, hook.isSelected(option) && { backgroundColor: "#4262BF" }]}
+      >
+        <View>
+          <Text text={option} preset="bold" style={{ fontSize: 12 }} />
+        </View>
+      </Pressable>,
     )
   })
 
@@ -80,6 +74,7 @@ const $addOption: ViewStyle = {
   margin: 4,
   padding: 2,
 }
+
 const $chipContainer: ViewStyle = {
   flexWrap: "wrap",
   flexDirection: "row",
@@ -88,9 +83,11 @@ const $chipContainer: ViewStyle = {
   alignItems: "center",
   marginVertical: spacing.extraSmall,
 }
+
 const $labelStyles: TextStyle = {
   marginBottom: spacing.extraSmall,
 }
+
 const $chip: ViewStyle = {
   margin: 4,
   backgroundColor: "rgba(37, 50, 86,.9)",
@@ -99,6 +96,7 @@ const $chip: ViewStyle = {
   borderRadius: 3,
   alignSelf: "center",
 }
+
 const $container: ViewStyle = {
   flexDirection: "column",
   width: "100%",

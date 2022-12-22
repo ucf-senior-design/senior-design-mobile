@@ -4,7 +4,7 @@ import { View, ViewStyle } from "react-native"
 import { AppStackScreenProps, navigate } from "../../navigators"
 import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
 import { SelectListHook } from "../../hooks"
-import { colors, spacing } from "../../theme"
+import { spacing } from "../../theme"
 interface RegisterProps extends AppStackScreenProps<"Details"> {}
 export const Details: FC<RegisterProps> = observer(function Details() {
   const [details, sDetails] = useState({
@@ -53,7 +53,11 @@ export const Details: FC<RegisterProps> = observer(function Details() {
           }
         />
         <SelectChipList hook={select_foodAllergies} label="allergies" propertyName="allergy" />
-        <SelectChipList hook={select_medicalConditions} label="medical conditions" propertyName="medical condition"/>
+        <SelectChipList
+          hook={select_medicalConditions}
+          label="medical conditions"
+          propertyName="medical condition"
+        />
         <Button
           preset="default"
           style={{

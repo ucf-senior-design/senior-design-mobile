@@ -1,5 +1,5 @@
 import React from "react"
-import { View, ViewProps, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { colors } from "../theme"
 import { Text } from "."
 

@@ -1,6 +1,5 @@
 import React from "react"
 import { View } from "react-native"
-import Email from "react-native-eva-icons/icons/Email"
 import { Text, Button, Icon } from ".."
 import { spacing } from "../../theme"
 export function SendEmail({ purpose }: { purpose: "emailVerify" | "passwordReset" }) {
