@@ -1,32 +1,50 @@
 import React, { useState } from "react"
-
-/**
- * Creates a Hook to be used with a Select List
- * @param {Array<string>} options Array of string values to be in the select list
- * @param {Array<string>} [initSelected] Array of string values to initilize as selected
- */
 export interface valuesHookProps {
+  /**
+   * Array of string values to be in the select list
+   */
   initSelected?: Array<string>
+  /**
+   * Array of string values to initilize as selected
+   */
   options: Array<string>
 }
 
 export interface SelectListHook {
-  values: values
+  /**
+   * Readable values in the hook.
+   */
+  values: Values
+  /**
+   * Adds another selectable option to the list.
+   */
   addOption: () => void
+  /**
+   * Toggles whether or not a value has been selected.
+   */
   updateSelected: (option: string) => void
+  /**
+   * Returns whether or not a chip is currently selected.
+   */
   isSelected: (option: string) => boolean
+  /**
+   * Handles the visibility of the popup that allows the user to add a custom option.
+   */
   togglePopUp: () => void
+  /**
+   * Reads input of the custom option a user inputs.
+   */
   updateOptionInput: (option: string) => void
 }
 
-interface values {
+interface Values {
   optionInput: string
   isPopUpVisible: boolean
   selected: Set<string>
   options: Array<string>
 }
 export function SelectListHook(props: valuesHookProps): SelectListHook {
-  const [values, setValues] = useState<values>({
+  const [values, setValues] = useState<Values>({
     optionInput: "",
     isPopUpVisible: false,
     selected: new Set(props.initSelected) ?? new Set(),
@@ -34,7 +52,7 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
   })
 
   function isSelected(option: string): boolean {
-    return selected.has(option)
+    return values.selected.has(option)
   }
 
   function updateOptionInput(option: string) {
@@ -86,8 +104,6 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
       isPopUpVisible: !values.isPopUpVisible,
     }))
   }
-  const selected = values.selected
-  const options = values.options
 
   return { values, addOption, updateSelected, isSelected, togglePopUp, updateOptionInput }
 }

@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
 import { View, ViewStyle } from "react-native"
-import { Screen, Text, TextField, Button, Icon } from "../../components"
-import { AppStackScreenProps, navigate } from "../../navigators"
+import { Screen, Text, TextField, Button } from "../../components"
+import { AppStackScreenProps } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
 interface LoginProps extends AppStackScreenProps<"Login"> {}
@@ -80,9 +80,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen({ navigation 
             />
           </View>
           <ThirdPartyAuth />
-          <Button
-            text="log in"
-          />
+          <Button text="log in" />
         </View>
       </Screen>
     </>
