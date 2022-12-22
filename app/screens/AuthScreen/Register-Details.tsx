@@ -3,9 +3,9 @@ import React, { FC, useState } from "react"
 import { View, ViewStyle } from "react-native"
 import { AppStackScreenProps, navigate } from "../../navigators"
 import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
-import { SelectListHook } from "../../hooks"
+import { SelectListHook } from "../../models/hooks"
 import { spacing } from "../../theme"
-interface RegisterProps extends AppStackScreenProps<"Details"> {}
+type RegisterProps = AppStackScreenProps<"Details">
 export const Details: FC<RegisterProps> = observer(function Details() {
   const [details, sDetails] = useState({
     username: "",
@@ -13,10 +13,10 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     medicalConditions: [],
   })
 
-  const select_foodAllergies = SelectListHook({
+  const foodAllergies = SelectListHook({
     options: ["egg", "peanuts", "tree nuts", "milk", "vegan"],
   })
-  const select_medicalConditions = SelectListHook({
+  const medicalCond = SelectListHook({
     options: [
       "avoid crowds",
       "avoid unstable terrain",
@@ -52,9 +52,9 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             }))
           }
         />
-        <SelectChipList hook={select_foodAllergies} label="allergies" propertyName="allergy" />
+        <SelectChipList hook={foodAllergies} label="allergies" propertyName="allergy" />
         <SelectChipList
-          hook={select_medicalConditions}
+          hook={medicalCond}
           label="medical conditions"
           propertyName="medical condition"
         />

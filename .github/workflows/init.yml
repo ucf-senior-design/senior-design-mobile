@@ -41,7 +41,6 @@ jobs:
           npm install -g yarn
           yarn install --frozen-lockfile
           yarn lint
-          yarn prettier
           yarn build
 
       # Checks to make sure there are not unused deps

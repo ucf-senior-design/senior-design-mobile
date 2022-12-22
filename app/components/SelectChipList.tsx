@@ -2,7 +2,7 @@ import React from "react"
 import { Button, Icon, Text, TextField } from "."
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "../theme"
-import { SelectListHook } from "../hooks"
+import { SelectListHook } from "../models/hooks"
 import { BackdropModal } from "./BackdropModal"
 
 export interface SelectChipListProps {

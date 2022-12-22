@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 export interface valuesHookProps {
   /**
    * Array of string values to be in the select list
@@ -70,8 +70,8 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
       return
     }
 
-    let nSelect = values.selected
-    let nOptions = values.options
+    const nSelect = values.selected
+    const nOptions = values.options
 
     nSelect.add(values.optionInput)
     nOptions.push(values.optionInput)
@@ -85,7 +85,7 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
   }
 
   function updateSelected(option: string) {
-    let nSelect = values.selected
+    const nSelect = values.selected
     if (isSelected(option)) {
       nSelect.delete(option)
     } else {

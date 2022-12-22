@@ -1,5 +1,7 @@
 # Getting Started
-This project was created using a ignite boiler plate. To get started be sure to follow the ios and android steps for [setting up your react envionrment](https://reactnative.dev/docs/environment-setup) and make sure you have your local.properties file [set propertly](https://stackoverflow.com/questions/32634352/react-native-android-build-failed-sdk-location-not-found). Then 
+
+This project was created using a ignite boiler plate. To get started be sure to follow the ios and android steps for [setting up your react envionrment](https://reactnative.dev/docs/environment-setup) and make sure you have your local.properties file [set propertly](https://stackoverflow.com/questions/32634352/react-native-android-build-failed-sdk-location-not-found). Then
+
 1. run `yarn install`
 2. run `yarn run ios` or `yarn run android`
 
@@ -122,4 +124,3 @@ This directory will hold your Jest configs and mocks.
 ## Running Detox end-to-end tests
 
 Read [Detox setup instructions](./detox/README.md).
-

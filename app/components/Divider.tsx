@@ -6,23 +6,9 @@ import { Text } from "."
 export default function Divider({ text }: { text: string }) {
   return (
     <View style={$baseView}>
-      <View
-        style={[
-          $baseDivider,
-          {
-            marginRight: 10,
-          },
-        ]}
-      />
+      <View style={$rightLine} />
       <Text> {text} </Text>
-      <View
-        style={[
-          $baseDivider,
-          {
-            marginLeft: 10,
-          },
-        ]}
-      />
+      <View style={$leftLine} />
     </View>
   )
 }
@@ -36,3 +22,16 @@ const $baseDivider: ViewStyle = {
   borderBottomColor: colors.text,
   borderBottomWidth: 2,
 }
+const $rightLine = [
+  $baseDivider,
+  {
+    marginRight: 10,
+  },
+]
+
+const $leftLine = [
+  $baseDivider,
+  {
+    marginLeft: 10,
+  },
+]
