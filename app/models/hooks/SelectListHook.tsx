@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React from "react"
 export interface valuesHookProps {
   /**
    * Array of string values to be in the select list
@@ -44,7 +44,7 @@ interface Values {
   options: Array<string>
 }
 export function SelectListHook(props: valuesHookProps): SelectListHook {
-  const [values, setValues] = useState<Values>({
+  const [values, setValues] = React.useState<Values>({
     optionInput: "",
     isPopUpVisible: false,
     selected: new Set(props.initSelected) ?? new Set(),
