@@ -31,9 +31,9 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Login: undefined
   Landing: undefined
-  Details:undefined
+  Details: undefined
   CreateAccount: undefined
-  Email:undefined
+  Email: undefined
 }
 
 /**
@@ -63,7 +63,7 @@ const AppStack = observer(function AppStack() {
   )
 })
 
-interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const colorScheme = useColorScheme()

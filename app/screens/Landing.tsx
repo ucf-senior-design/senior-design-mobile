@@ -6,15 +6,13 @@ import { AppStackScreenProps } from "../navigators/AppNavigator"
 import { colors } from "../theme"
 import ThirdPartyAuth from "../components/authentication/ThirdPartyAuth"
 import { navigate } from "../navigators"
-import Divider from "../components/Divider"
 
-const plane = require("../../assets/images/plane.png")
-interface LandingProps extends AppStackScreenProps<"Landing"> {}
+type LandingProps = AppStackScreenProps<"Landing">
 export const LandingScreen: FC<LandingProps> = observer(function LandingScreen() {
   return (
     <Screen
       preset="fixed"
-      backgroundImage={plane}
+      backgroundImage={require("../../assets/images/plane.png")}
       statusBarStyle="light"
       backgroundColorWithImage={colors.background}
     >
@@ -39,10 +37,4 @@ const $welcomeContent: ViewStyle = {
   margin: 20,
   justifyContent: "flex-end",
   flexDirection: "column",
-}
-
-const $landingPlane: ImageStyle = {
-  position: "absolute",
-  height: "100%",
-  width: "100%",
 }

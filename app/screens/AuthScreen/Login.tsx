@@ -5,10 +5,10 @@ import { Screen, Text, TextField, Button } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
-interface LoginProps extends AppStackScreenProps<"Login"> {}
 import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
+type LoginProps = AppStackScreenProps<"Login">
 
-export const Login: FC<LoginProps> = observer(function LoginScreen({ navigation }) {
+export const Login: FC<LoginProps> = observer(function LoginScreen() {
   const [errorMessage, sErrorMessage] = useState("")
   const [user, sUser] = useState({
     email: "",
@@ -80,7 +80,12 @@ export const Login: FC<LoginProps> = observer(function LoginScreen({ navigation 
             />
           </View>
           <ThirdPartyAuth />
-          <Button text="log in" />
+          <Button
+            text="log in"
+            onPress={() => {
+              sErrorMessage("no login function")
+            }}
+          />
         </View>
       </Screen>
     </>

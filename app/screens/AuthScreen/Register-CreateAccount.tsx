@@ -6,10 +6,9 @@ import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
 import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
-import { navigate } from "../../navigators"
 import * as EmailValidator from "email-validator"
 
-interface RegisterProps extends AppStackScreenProps<"CreateAccount"> {}
+type RegisterProps = AppStackScreenProps<"CreateAccount">
 export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount() {
   const [user, sUser] = useState({
     email: "",
@@ -117,7 +116,7 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
           style={{ alignSelf: "flex-end", marginTop: spacing.small }}
           text="continue"
           RightAccessory={() => <Icon icon="caretRight" color="white" />}
-          onPress={() => navigate("Details")}
+          onPress={() => sErrorMessage("No Register Function")}
         />
       </View>
     </Screen>

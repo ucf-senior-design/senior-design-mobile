@@ -107,7 +107,7 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
   /**
    * Centers label with bold preset.
    */
-  labelCenter? :boolean
+  labelCenter?: boolean
 }
 
 /**
@@ -224,7 +224,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         />
       )}
 
-      <View style={[$inputWrapperStyles]}>
+      <View style={$inputWrapperStyles}>
         {!!LeftAccessory && (
           <LeftAccessory
             style={$leftAccessoryStyle}
@@ -236,7 +236,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
         <TextInput
           autoCapitalize="none"
-          secureTextEntry={canBeHidden ? (isHidden ? true : false) : false}
+          secureTextEntry={canBeHidden ? !!isHidden : false}
           ref={input}
           underlineColorAndroid={colors.transparent}
           textAlignVertical="top"

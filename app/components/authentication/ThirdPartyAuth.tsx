@@ -1,7 +1,7 @@
 import { View, ViewStyle } from "react-native"
 import { Icon } from ".."
 import { spacing } from "../../theme"
-import { Auth } from "../../hooks"
+import { Auth } from "../../models/hooks"
 import React from "react"
 import Divider from "../Divider"
 

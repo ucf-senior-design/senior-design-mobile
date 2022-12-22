@@ -1,5 +1,5 @@
 import { API_URL } from "@env"
-import { createFetchRequestOptions } from "../utils/fetch"
+import { createFetchRequestOptions } from "../../utils/fetch"
 
 interface EmailPasswordLogin {
   email: string
@@ -12,9 +12,15 @@ interface AuthenticationResponse {
 }
 
 export function Auth() {
-  async function doFacebookLogin() {}
-  async function doTwitterLogin() {}
-  async function doGoogleLogin() {}
+  function doFacebookLogin() {
+    console.log("facebook login")
+  }
+  function doTwitterLogin() {
+    console.log("twitter login")
+  }
+  function doGoogleLogin() {
+    console.log("google login")
+  }
 
   async function doEmailPasswordLogin(
     login: EmailPasswordLogin,
@@ -25,10 +31,10 @@ export function Auth() {
     const result = await response.text()
 
     if (response.ok) {
-      callback({ isSuccess: true })
+      callback({ isSuccess: response.ok })
       return
     }
-    callback({ isSuccess: false, errorMessage: result })
+    callback({ isSuccess: response.ok, errorMessage: result })
   }
 
   return { doGoogleLogin, doTwitterLogin, doFacebookLogin, doEmailPasswordLogin }
