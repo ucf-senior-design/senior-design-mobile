@@ -2,6 +2,10 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+*Info.plist
+*GoogleService-Info.plist
+tripPlanner/Info.plist
+
 ## User settings
 xcuserdata/
 
