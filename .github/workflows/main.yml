@@ -35,6 +35,7 @@ jobs:
         uses: expo/expo-github-action@v7
         with:
           expo-version: latest
+          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
       
       - name: Install dependencies
@@ -42,6 +43,7 @@ jobs:
       
       - name: Set up Expo-Updates
         run: npx expo install expo-updates
+
         
       - name: Publish to Expo & create a QR code
         uses: expo/expo-preview-action@v1
