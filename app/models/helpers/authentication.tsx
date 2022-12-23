@@ -134,6 +134,7 @@ export async function doEmailPasswordLogin(
     } else if (response.status === needToVerifyEmailCode) {
       navigate("Email")
     } else if (response.status === needToAddDetailsCode) {
+      await storePartialCredentialResult(await response.json())
       navigate("Details")
     }
     return

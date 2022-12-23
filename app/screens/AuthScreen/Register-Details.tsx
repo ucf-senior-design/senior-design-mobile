@@ -8,7 +8,7 @@ import { Image } from "react-native"
 import { User } from "../../../types/auth"
 import { SelectListHook } from "../../models/hooks"
 import { colors, spacing } from "../../theme"
-import { save, load } from "../../utils/storage"
+import { load } from "../../utils/storage"
 type RegisterProps = AppStackScreenProps<"Details">
 
 interface RegisterUser extends User {
@@ -90,7 +90,11 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             preset="title"
             style={{ textAlign: "center", fontSize: 25 }}
           />
-          <Text preset="subheading" text={errorMessage} style={{ color: colors.errorText }} />
+          <Text
+            preset="subheading"
+            text={errorMessage}
+            style={{ color: colors.errorText, alignSelf: "center" }}
+          />
           {details.profilePic.length > 0 && (
             <Image
               source={{ uri: details.profilePic }}
