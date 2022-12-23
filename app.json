@@ -7,11 +7,11 @@
     "scheme": "tripplanner",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/plane.png",
+    "icon": "./assets/images/landing.png",
     "splash": {
-      "image": "./assets/images/plane.png",
+      "image": "./assets/images/landing.png",
       "resizeMode": "contain",
-      "backgroundColor": "#191015"
+      "backgroundColor": "#1F2337"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,32 +22,32 @@
       "icon": "./assets/images/plane.png",
       "package": "com.tripplanner",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/plane.png",
-        "backgroundImage": "./assets/images/plane.png"
+        "foregroundImage": "./assets/images/landing.png",
+        "backgroundImage": "./assets/images/landing.png"
       },
       "splash": {
-        "image": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       }
     },
     "ios": {
-      "icon": "./assets/images/plane.png",
+      "icon": "./assets/images/landing.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.tripplanner",
       "splash": {
-        "image": "./assets/images/plane.png",
-        "tabletImage": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
+        "tabletImage": "./assets/images/landing.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#1F2337"
       }
     },
     "web": {
-      "favicon": "./assets/images/plane.png",
+      "favicon": "./assets/images/landing.png",
       "splash": {
-        "image": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#1F2337"
       }
     }
   }
