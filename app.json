@@ -19,7 +19,7 @@
     "jsEngine": "hermes",
     "assetBundlePatterns": ["**/*"],
     "android": {
-      "icon": "./assets/images/plane.png",
+      "icon": "./assets/images/landing.png",
       "package": "com.tripplanner",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/landing.png",
