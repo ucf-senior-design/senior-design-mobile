@@ -37,7 +37,10 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-      
+
+      - name: GitHub Environment Variables Action
+        uses: FranzDiebold/github-env-vars-action@v2.7.0
+
       - name: Install dependencies
         run: yarn install
       
@@ -49,7 +52,7 @@ jobs:
         run: |
           { 
             echo 'EAS_UPDATE_OUTPUT<<EOF'
-            eas update --branch "${{ env.BRANCH_NAME }}" --message "${{ env.COMMIT_MESSAGE }}" --non-interactive --json
+            eas update --branch "$CI_ACTION_REF_NAME" --message "$CI_PR_TITLE" --non-interactive --json
             echo 'EOF'
           } >> $GITHUB_ENV
 
