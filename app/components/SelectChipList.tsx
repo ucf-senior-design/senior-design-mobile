@@ -51,14 +51,19 @@ export function SelectChipList({
         <View style={$chipContainer}>
           {chips}
           <View style={$addOption}>
-            <Icon icon="more" color={colors.text} onPress={() => hook.togglePopUp()} />
+            <Icon
+              style={{ width: 20, height: 20 }}
+              icon="add"
+              color={colors.text}
+              onPress={() => hook.togglePopUp()}
+            />
           </View>
         </View>
       </View>
       <BackdropModal isVisible={hook.values.isPopUpVisible} toggleShow={() => hook.togglePopUp()}>
         <TextField
           whiteBackground
-          label={`add ${propertyName} value`}
+          label={`add ${propertyName}`}
           labelCenter
           onChangeText={(e) => {
             hook.updateOptionInput(e)
@@ -90,7 +95,7 @@ const $labelStyles: TextStyle = {
 
 const $chip: ViewStyle = {
   margin: 4,
-  backgroundColor: "rgba(37, 50, 86,.7)",
+  backgroundColor: "#283051",
   paddingVertical: 8,
   paddingHorizontal: 20,
 

@@ -106,8 +106,12 @@ export function Button(props: ButtonProps) {
     ]
   }
 
+  if (disabled) {
+    rest.onPress = () => {}
+  }
+
   return (
-    <Pressable style={$viewStyle} accessibilityRole="button" {...rest}>
+    <Pressable  style={$viewStyle} accessibilityRole="button" {...rest}>
       {(state) => (
         <>
           {!!LeftAccessory && <LeftAccessory style={$leftAccessoryStyle} pressableState={state} />}

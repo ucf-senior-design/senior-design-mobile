@@ -123,7 +123,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
 
           <TextField
             status={isNameInvalid ? "error" : undefined}
-            helper={isNameInvalid ? "invalid email" : undefined}
+            helper={isNameInvalid ? "missing name" : undefined}
             value={details.name}
             label="name"
             onChangeText={(e) =>
