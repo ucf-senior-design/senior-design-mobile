@@ -2,6 +2,7 @@
 // If you run `yarn ios` or `yarn android`, it'll use ./index.js instead.
 import App from "./app/app.tsx"
 import React from "react"
+import "expo-asset"
 import { registerRootComponent } from "expo"
 import * as SplashScreen from "expo-splash-screen"
 

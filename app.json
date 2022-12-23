@@ -14,10 +14,13 @@
       "backgroundColor": "#1F2337"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/2c6b976d-68a8-4e9e-ab2d-e449fece046a"
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "icon": "./assets/images/landing.png",
       "package": "com.tripplanner",
@@ -49,6 +52,12 @@
         "resizeMode": "contain",
         "backgroundColor": "#1F2337"
       }
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a"
+      }
+    },
+    "runtimeVersion": "1.0.0"
   }
 }
