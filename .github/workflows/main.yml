@@ -31,19 +31,27 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: 🏗 Setup Expo
+      - name: Set up Expo
         uses: expo/expo-github-action@v7
         with:
           expo-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: yarn install
-
-      - name: 🚀 Publish preview
-        run: expo publish --release-channel=pr-${{ github.event.number }} --non-interactive
-
-      - name: 💬 Comment preview
-        uses: expo/expo-github-action/preview-comment@v7
+      - name: Publish to Expo & create a QR code
+        uses: expo/expo-preview-action@v1
         with:
           channel: pr-${{ github.event.number }}
+        id: preview
+      - name: Comment deployment link
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: >
+            You can [preview the PR here](${{ steps.preview.outputs.EXPO_QR_CODE_URL }}).<br><br>
+            <a href="${{ steps.publish.outputs.EXPO_QR_CODE_URL }}"><img src="${{ steps.preview.outputs.EXPO_QR_CODE_URL }}" height="512px" width="512px"></a>
+            <br><br>
+            QR code not working or need a different client? Try the QR code or deep link from the [project page](${{steps.preview.outputs.EXPO_PROJECT_URL}}).
+            <br><br>
+            ${{ steps.publish.outputs.EXPO_NEW_BUILD_IS_REQUIRED_MESSAGE }}
