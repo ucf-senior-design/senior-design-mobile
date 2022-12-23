@@ -49,9 +49,9 @@ jobs:
         run: |
           { 
             echo 'EAS_UPDATE_OUTPUT<<EOF'
-            eas update --branch "${{ env.BRANCH_NAME }}" --message "${{ env.COMMIT_MESSAGE }}" --json
+            eas update --branch "${{ env.BRANCH_NAME }}" --message "${{ env.COMMIT_MESSAGE }}" --non-interactive --json
             echo 'EOF'
-          } >> "$GITHUB_ENV"
+          } >> $GITHUB_ENV
 
       - name: Add QR Code
         uses: matthewmcintyre/eas-update-qr-commenter@v2.0
