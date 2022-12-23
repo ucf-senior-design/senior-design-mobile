@@ -86,6 +86,7 @@ export function Icon(props: IconProps) {
 
 export const iconRegistry = {
   email: require("../../assets/icons/email.png"),
+  person: require("../../assets/icons/person.png"),
   bell: require("../../assets/icons/bell.png"),
   caretLeft: require("../../assets/icons/caretLeft.png"),
   caretRight: require("../../assets/icons/caretRight.png"),

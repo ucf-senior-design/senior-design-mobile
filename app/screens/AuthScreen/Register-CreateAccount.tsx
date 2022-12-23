@@ -7,6 +7,8 @@ import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
 import * as EmailValidator from "email-validator"
+import { navigate } from "../../navigators"
+import { doEmailPasswordRegister } from "../../models/hooks"
 
 type RegisterProps = AppStackScreenProps<"CreateAccount">
 export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount() {
@@ -22,6 +24,18 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
     user.password !== user.confirmPassword || user.confirmPassword.length === 0
 
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
+
+  async function maybeRegister() {
+    doEmailPasswordRegister(
+      {
+        email: user.email,
+        password: user.password,
+      },
+      (response) => {
+        sErrorMessage(response.errorMessage)
+      },
+    )
+  }
 
   const levels = [
     {
@@ -113,10 +127,11 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
 
         <ThirdPartyAuth />
         <Button
+          disabled={isConfirmPasswordInvalid || isEmailInvalid}
           style={{ alignSelf: "flex-end", marginTop: spacing.small }}
           text="continue"
           RightAccessory={() => <Icon icon="caretRight" color="white" />}
-          onPress={() => sErrorMessage("No Register Function")}
+          onPress={async () => await maybeRegister()}
         />
       </View>
     </Screen>

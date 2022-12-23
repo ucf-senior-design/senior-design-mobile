@@ -78,6 +78,7 @@ export function Button(props: ButtonProps) {
     tx,
     text,
     txOptions,
+    disabled,
     style: $viewStyleOverride,
     pressedStyle: $pressedViewStyleOverride,
     textStyle: $textStyleOverride,
@@ -94,6 +95,7 @@ export function Button(props: ButtonProps) {
       $viewPresets[preset],
       $viewStyleOverride,
       !!pressed && [$pressedViewPresets[preset], $pressedViewStyleOverride],
+      disabled && { opacity: 0.3 },
     ]
   }
   function $textStyle({ pressed }) {

@@ -2,10 +2,11 @@ import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
 import { View, ViewStyle } from "react-native"
 import { Screen, Text, TextField, Button } from "../../components"
-import { AppStackScreenProps } from "../../navigators"
+import { AppStackScreenProps, navigate } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
 import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
+import { doEmailPasswordLogin } from "../../models/hooks"
 type LoginProps = AppStackScreenProps<"Login">
 
 export const Login: FC<LoginProps> = observer(function LoginScreen() {
@@ -16,6 +17,18 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
   })
 
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
+
+  async function handleLogin() {
+    await doEmailPasswordLogin(user, (response) => {
+      if (response.isSuccess) {
+        navigate("Landing")
+      } else {
+        sErrorMessage(response.errorMessage)
+        return
+      }
+    })
+  }
+
   return (
     <>
       <Screen
@@ -80,12 +93,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
             />
           </View>
           <ThirdPartyAuth />
-          <Button
-            text="log in"
-            onPress={() => {
-              sErrorMessage("no login function")
-            }}
-          />
+          <Button text="log in" onPress={() => handleLogin()} />
         </View>
       </Screen>
     </>

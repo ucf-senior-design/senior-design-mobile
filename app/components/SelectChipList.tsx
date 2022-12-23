@@ -90,9 +90,10 @@ const $labelStyles: TextStyle = {
 
 const $chip: ViewStyle = {
   margin: 4,
-  backgroundColor: "rgba(37, 50, 86,.9)",
+  backgroundColor: "rgba(37, 50, 86,.7)",
   paddingVertical: 8,
   paddingHorizontal: 20,
+
   borderRadius: 3,
   alignSelf: "center",
 }

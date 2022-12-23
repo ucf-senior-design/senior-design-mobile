@@ -1,20 +1,18 @@
 import { View, ViewStyle } from "react-native"
 import { Icon } from ".."
 import { spacing } from "../../theme"
-import { Auth } from "../../models/hooks"
+import { doGoogleLogin, doFacebookLogin, doTwitterLogin } from "../../models/hooks"
 import React from "react"
 import Divider from "../Divider"
 
 export default function ThirdPartyAuth() {
-  const auth = Auth()
-
   return (
     <>
       <Divider text={"or"} />
       <View style={$container}>
-        <Icon icon="google" onPress={() => auth.doGoogleLogin()} style={$iconStyle} />
-        <Icon icon="facebook" style={$iconStyle} onPress={() => auth.doFacebookLogin()} />
-        <Icon icon="twitter" style={$iconStyle} onPress={() => auth.doTwitterLogin()} />
+        <Icon icon="google" onPress={() => doGoogleLogin()} style={$iconStyle} />
+        <Icon icon="facebook" style={$iconStyle} onPress={() => doFacebookLogin()} />
+        <Icon icon="twitter" style={$iconStyle} onPress={() => doTwitterLogin()} />
       </View>
     </>
   )
