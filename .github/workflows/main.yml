@@ -31,12 +31,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Check that code is pretty
-        run: |
-          npm install -g yarn
-          yarn install --frozen-lockfile
-          yarn lint
-
       - name: 🏗 Setup Expo
         uses: expo/expo-github-action@v7
         with:
