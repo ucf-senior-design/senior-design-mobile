@@ -47,6 +47,8 @@ jobs:
       - name: Set up Expo-Updates
         run: npx expo install expo-updates
       
+      - name: 🚀 Build app
+        run: eas build -p --non-interactive --channel "pr-$CI_REF_SLUG"
       - name: Publish update
         id: eas-publish-update
         run: |
