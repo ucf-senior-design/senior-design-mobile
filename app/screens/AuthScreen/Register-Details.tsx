@@ -9,6 +9,7 @@ import { User } from "../../../types/auth"
 import { SelectListHook } from "../../models/hooks"
 import { colors, spacing } from "../../theme"
 import { load } from "../../utils/storage"
+import { launchImageLibrary } from "react-native-image-picker"
 type RegisterProps = AppStackScreenProps<"Details">
 
 interface RegisterUser extends User {
@@ -61,6 +62,15 @@ export const Details: FC<RegisterProps> = observer(function Details() {
   const isUsernameInvalid = details.username.length === 0
   const isNameInvalid = details.name.length === 0
 
+  async function maybeUpdatePicture() {
+    const result = await launchImageLibrary({ includeBase64: true, mediaType: "photo" })
+    if (result.assets.length > 0 && result.assets[0].base64) {
+      sDetails((details) => ({
+        ...details,
+        profilePic: `data:image/png;base64,${result.assets[0].base64}`,
+      }))
+    }
+  }
   async function maybeFinishRegister() {
     const user: User = {
       ...details,
@@ -117,7 +127,12 @@ export const Details: FC<RegisterProps> = observer(function Details() {
               }}
             />
           )}
-          <Button text="Upload Picture " preset="noFill" style={{ margin: 0 }} />
+          <Button
+            text="Upload Picture "
+            preset="noFill"
+            style={{ margin: 0 }}
+            onPress={async () => await maybeUpdatePicture()}
+          />
 
           <TextField
             status={isNameInvalid ? "error" : undefined}
