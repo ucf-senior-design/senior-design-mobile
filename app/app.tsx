@@ -77,6 +77,7 @@ function App(props: AppProps) {
     initialNavigationState,
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
+    isLoggedIn,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
   const [areFontsLoaded] = useFonts(customFontsToLoad)
@@ -117,6 +118,7 @@ function App(props: AppProps) {
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
         <AppNavigator
+          isLoggedIn={isLoggedIn}
           linking={linking}
           initialState={initialNavigationState}
           onStateChange={onNavigationStateChange}

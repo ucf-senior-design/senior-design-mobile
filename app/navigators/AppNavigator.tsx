@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { LandingScreen, Login, CreateAccount, Email } from "../screens/"
+import { LandingScreen, Login, CreateAccount, Email, Home } from "../screens/"
 import { Details } from "../screens/AuthScreen/Register-Details"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -51,20 +51,27 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = StackScreen
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
-const AppStack = observer(function AppStack() {
+const AppStack = observer(function AppStack(isLoggedIn: { isLoggedIn: boolean }) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Landing" component={LandingScreen} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="CreateAccount" component={CreateAccount} />
-      <Stack.Screen name="Details" component={Details} />
+      {!isLoggedIn && (
+        <>
+          <Stack.Screen name="Landing" component={LandingScreen} />{" "}
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="CreateAccount" component={CreateAccount} />
+          <Stack.Screen name="Details" component={Details} />
+        </>
+      )}
+      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Email" component={Email} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
 })
 
-type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
+type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>> & {
+  isLoggedIn: boolean
+}
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const colorScheme = useColorScheme()
@@ -77,7 +84,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      <AppStack />
+      <AppStack isLoggedIn={props.isLoggedIn} />
     </NavigationContainer>
   )
 })
