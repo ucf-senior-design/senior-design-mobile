@@ -34,6 +34,7 @@ export type AppStackParamList = {
   Details: undefined
   CreateAccount: undefined
   Email: undefined
+  Home: undefined
 }
 
 /**

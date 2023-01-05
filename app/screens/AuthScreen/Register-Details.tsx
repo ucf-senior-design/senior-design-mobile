@@ -68,9 +68,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
       allergies: Array.from(foodAllergies.values.selected),
     }
     addDetails(user, (response) => {
-      if (response.isSuccess) {
-        navigate("Email")
-      } else {
+      if (!response.isSuccess) {
         sErrorMessage(response.errorMessage)
       }
     })

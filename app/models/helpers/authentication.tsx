@@ -1,9 +1,10 @@
-import { API_URL, WEB_CLIENT_ID } from "@env"
+import { API_URL } from "@env"
 import { navigate } from "../../navigators"
 import { createFetchRequestOptions } from "../../utils/fetch"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { save, load } from "../../utils/storage"
 import React from "react"
+import { LoginManager as FacebookLogin, AccessToken } from "react-native-fbsdk-next"
 import { User } from "../../../types/auth"
 
 interface EmailPasswordLogin {
@@ -18,6 +19,7 @@ interface AuthenticationResponse {
 
 const needToVerifyEmailCode = 203
 const needToAddDetailsCode = 202
+const emailVerfied = 201
 
 async function storePartialCredentialResult(u: any) {
   await save("user", {
@@ -32,7 +34,47 @@ async function storePartialCredentialResult(u: any) {
   })
 }
 
-export function doFacebookLogin() {}
+async function doLoginWithCredentials(
+  provider: "google" | "facebook" | "twitter",
+  idToken: string,
+) {
+  const options = createFetchRequestOptions(
+    JSON.stringify({
+      provider: provider,
+      idToken: idToken,
+    }),
+    "POST",
+  )
+
+  const response = await fetch(`${API_URL}auth/loginWithCred`, options)
+
+  if (response.ok) {
+    if (response.status === 200) {
+      navigate("Landing")
+    } else if (response.status === 202) {
+      navigate("Details")
+      await storePartialCredentialResult(await response.json())
+    }
+  } else {
+    alert(await response.text())
+  }
+}
+export async function doFacebookLogin() {
+  FacebookLogin.logInWithPermissions(["public_profile"]).then(
+    function (result) {
+      if (result.isCancelled) {
+        console.log("Login cancelled")
+      } else {
+        AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
+          await doLoginWithCredentials("facebook", facebookToken.accessToken)
+        })
+      }
+    },
+    function (error) {
+      alert(error)
+    },
+  )
+}
 export function doTwitterLogin() {
   console.log("twitter login")
 }
@@ -47,10 +89,13 @@ export async function saveRegisterdUser(user: User) {
 export async function addDetails(user: User, callback: (response: AuthenticationResponse) => void) {
   const options = createFetchRequestOptions(JSON.stringify(user), "POST")
   const response = await fetch(`${API_URL}auth/details`, options)
-  console.log("ADD USER")
   const result = await response.text()
 
   if (response.ok) {
+    if (response.status === emailVerfied) {
+      navigate("Home")
+      return
+    }
     callback({ isSuccess: response.ok })
     return
   }
@@ -61,26 +106,7 @@ export async function doGoogleLogin() {
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
   try {
     await GoogleSignin.signIn().then(async (user) => {
-      const options = createFetchRequestOptions(
-        JSON.stringify({
-          provider: "google",
-          idToken: user.idToken,
-        }),
-        "POST",
-      )
-
-      const response = await fetch(`${API_URL}auth/loginWithCred`, options)
-
-      if (response.ok) {
-        if (response.status === 200) {
-          navigate("Landing")
-        } else if (response.status === 202) {
-          navigate("Details")
-          await storePartialCredentialResult(await response.json())
-        }
-      } else {
-        alert(await response.text())
-      }
+      await doLoginWithCredentials("google", user.idToken)
     })
   } catch (e) {
     alert(e)
@@ -100,6 +126,9 @@ export async function sendEmailVerification(callback: (response: AuthenticationR
 
   const response = await fetch(`${API_URL}auth/email`, options)
   if (response.ok) {
+    if (response.status === emailVerfied) {
+      navigate("Home")
+    }
     callback({ isSuccess: response.ok })
   } else {
     callback({ isSuccess: response.ok, errorMessage: await response.text() })
@@ -130,7 +159,7 @@ export async function doEmailPasswordLogin(
   if (response.ok) {
     if (response.status === 200) {
       await saveRegisterdUser(await response.json())
-      navigate("Landing")
+      navigate("Home")
     } else if (response.status === needToVerifyEmailCode) {
       navigate("Email")
     } else if (response.status === needToAddDetailsCode) {
