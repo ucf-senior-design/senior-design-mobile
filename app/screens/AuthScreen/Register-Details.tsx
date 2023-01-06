@@ -3,7 +3,7 @@ import React, { FC, useState } from "react"
 import { View, ViewStyle, ScrollView } from "react-native"
 import { AppStackScreenProps, navigate } from "../../navigators"
 import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
-import { addDetails } from "../../models/hooks"
+import { useAuth } from "../../models/hooks"
 import { Image } from "react-native"
 import { User } from "../../../types/auth"
 import { SelectListHook } from "../../models/hooks"
@@ -43,6 +43,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }))
   }
 
+  const { addDetails } = useAuth()
   React.useEffect(() => {
     getStoredUserInfo()
   }, [])

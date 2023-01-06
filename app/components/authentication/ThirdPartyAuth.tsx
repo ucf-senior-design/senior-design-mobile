@@ -1,11 +1,12 @@
 import { View, ViewStyle } from "react-native"
 import { Icon } from ".."
 import { spacing } from "../../theme"
-import { doGoogleLogin, doFacebookLogin, doTwitterLogin } from "../../models/hooks"
+import { useAuth } from "../../models/hooks"
 import React from "react"
 import Divider from "../Divider"
 
 export default function ThirdPartyAuth() {
+  const { doGoogleLogin, doFacebookLogin } = useAuth()
   return (
     <>
       <Divider text={"or"} />

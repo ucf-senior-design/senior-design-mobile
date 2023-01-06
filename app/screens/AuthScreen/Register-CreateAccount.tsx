@@ -8,7 +8,7 @@ import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
 import * as EmailValidator from "email-validator"
 import { navigate } from "../../navigators"
-import { doEmailPasswordRegister } from "../../models/hooks"
+import { useAuth } from "../../models/hooks"
 
 type RegisterProps = AppStackScreenProps<"CreateAccount">
 export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount() {
@@ -25,6 +25,7 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
 
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
 
+  const { doEmailPasswordRegister } = useAuth()
   async function maybeRegister() {
     doEmailPasswordRegister(
       {

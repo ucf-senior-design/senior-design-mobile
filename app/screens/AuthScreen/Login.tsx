@@ -6,7 +6,7 @@ import { AppStackScreenProps, navigate } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
 import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
-import { doEmailPasswordLogin } from "../../models/hooks"
+import { useAuth } from "../../models/hooks"
 type LoginProps = AppStackScreenProps<"Login">
 
 export const Login: FC<LoginProps> = observer(function LoginScreen() {
@@ -15,7 +15,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
     email: "",
     password: "",
   })
-
+  const { doEmailPasswordLogin } = useAuth()
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
 
   async function handleLogin() {
