@@ -1,2 +1,2 @@
-export * from "../helpers/authentication"
+export * from "./authentication"
 export * from "./SelectListHook"

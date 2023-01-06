@@ -73,14 +73,16 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }
   }
   async function maybeFinishRegister() {
+    
     const user: User = {
       ...details,
       medicalInfo: Array.from(medicalCond.values.selected),
       allergies: Array.from(foodAllergies.values.selected),
     }
-    addDetails(user, (response) => {
+    await addDetails(user, (response) => {
+      
       if (!response.isSuccess) {
-        sErrorMessage(response.errorMessage)
+        alert(response.errorMessage)
       }
     })
   }
@@ -175,7 +177,10 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             }}
             text="continue"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
-            onPress={() => maybeFinishRegister()}
+            onPress={async () => {
+            
+              await maybeFinishRegister()
+            }}
           />
         </ScrollView>
       </View>

@@ -59,14 +59,15 @@ const AppStack = observer(function AppStack({
 }: {
   user: User & { didFinishRegister: boolean }
 }) {
+  console.log("AppStack", user)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user && !user.didFinishRegister && (
+      {(user !== undefined && user !== null && !user.didFinishRegister) && (
         <>
           <Stack.Screen name="Details" component={Details} />
         </>
       )}
-      {!user && (
+      {(user === undefined || user === null) && (
         <>
           <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Login" component={Login} />
