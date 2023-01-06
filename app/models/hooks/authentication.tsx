@@ -3,10 +3,9 @@ import { navigate } from "../../navigators"
 import { createFetchRequestOptions } from "../../utils/fetch"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { save, load, remove } from "../../utils/storage"
-import React, { useContext } from "react"
+import React from "react"
 import { LoginManager as FacebookLogin, AccessToken } from "react-native-fbsdk-next"
 import { User } from "../../../types/auth"
-import { boolean } from "mobx-state-tree/dist/internal"
 
 interface EmailPasswordLogin {
   email: string
@@ -20,9 +19,7 @@ interface AuthenticationResponse {
 
 interface AuthContext {
   user?: User & { didFinishRegister: boolean }
-
   saveRegisterdUser: (user: User) => Promise<void>
-
   doFacebookLogin: () => Promise<void>
   doGoogleLogin: () => Promise<void>
   doEmailPasswordLogin: (
@@ -34,16 +31,16 @@ interface AuthContext {
     callback: (response: AuthenticationResponse) => void,
   ) => Promise<void>
   doLogout: () => Promise<void>
-
   addDetails: (user: User, callback: (response: AuthenticationResponse) => void) => Promise<void>
-
   sendEmailVerification: (callback: (response: AuthenticationResponse) => void) => Promise<void>
   sendPasswordReset: (callback: (response: AuthenticationResponse) => void) => Promise<void>
 }
+
 const MUST_VERIFY_EMAIL = 203
 const MUST_ADD_DETAILS = 202
 const EMAIL_VERIFIED = 201
 
+// Use this to handle any authentication processes
 const AuthContext = React.createContext<AuthContext>({} as AuthContext)
 
 export function useAuth(): AuthContext {
@@ -93,6 +90,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await remove("user")
     setUser(undefined)
   }
+
+
   async function storePartialCredentialResult(u: any) {
     const user = {
       userName: "",
@@ -108,6 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(user)
   }
+
 
   async function doLoginWithCredentials(
     provider: "google" | "facebook" | "twitter",
@@ -134,6 +134,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       alert(await response.text())
     }
   }
+
   async function doFacebookLogin() {
     FacebookLogin.logInWithPermissions(["public_profile"]).then(
       function (result) {
@@ -150,6 +151,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
   }
 
+  
   async function saveRegisterdUser(user: User) {
     await save("user", {
       ...user,
