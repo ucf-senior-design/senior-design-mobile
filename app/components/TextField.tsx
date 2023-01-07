@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, Ref, useImperativeHandle, useRef } from "react"
+import React, { ComponentType, forwardRef, Ref, useImperativeHandle, useRef, useState } from "react"
 import {
   StyleProp,
   TextInput,
@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle,
 } from "react-native"
+import { Icon } from "."
 import { isRTL, translate } from "../i18n"
 import { colors, spacing, typography } from "../theme"
 import { Text, TextProps } from "./Text"
@@ -95,6 +96,18 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    * Note: It is a good idea to memoize this.
    */
   LeftAccessory?: ComponentType<TextFieldAccessoryProps>
+  /**
+   * Allows input to be hidden and unhid. Also auto sets any icons for this
+   */
+  canBeHidden?: boolean
+  /**
+   * Adds theming for a background that will always be white ex: popup
+   */
+  whiteBackground?: boolean
+  /**
+   * Centers label with bold preset.
+   */
+  labelCenter?: boolean
 }
 
 /**
@@ -114,15 +127,21 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     helperTx,
     helperTxOptions,
     status,
-    RightAccessory,
     LeftAccessory,
     HelperTextProps,
     LabelTextProps,
+    canBeHidden,
+    whiteBackground,
+    labelCenter,
     style: $inputStyleOverride,
     containerStyle: $containerStyleOverride,
     inputWrapperStyle: $inputWrapperStyleOverride,
     ...TextInputProps
   } = props
+
+  const RightAccessory = canBeHidden ? GetHiddenIcon() : props.RightAccessory
+  const [isHidden, setIsHidden] = useState(false)
+
   const input = useRef<TextInput>()
 
   const disabled = TextInputProps.editable === false || status === "disabled"
@@ -131,14 +150,21 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     ? translate(placeholderTx, placeholderTxOptions)
     : placeholder
 
-  const $containerStyles = [$containerStyleOverride]
+  const $containerStyles = [
+    $containerStyleOverride,
+    status === "error" && { marginVertical: spacing.extraSmall },
+  ]
 
   const $labelStyles = [$labelStyle, LabelTextProps?.style]
 
   const $inputWrapperStyles = [
     $inputWrapperStyle,
-    status === "error" && { borderColor: colors.error },
-    TextInputProps.multiline && { minHeight: 112 },
+    whiteBackground && {
+      backgroundColor: colors.palette.primary100,
+      borderWidth: 0,
+    },
+    status === "error" && { backgroundColor: colors.errorBackground, marginBottom: 0 },
+    TextInputProps.multiline && { minHeight: 112, color: colors.errorText },
     LeftAccessory && { paddingStart: 0 },
     RightAccessory && { paddingEnd: 0 },
     $inputWrapperStyleOverride,
@@ -146,6 +172,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const $inputStyles = [
     $inputStyle,
+    status === "error" && { color: colors.errorText },
     disabled && { color: colors.textDim },
     isRTL && { textAlign: "right" as TextStyle["textAlign"] },
     TextInputProps.multiline && { height: "auto" },
@@ -154,7 +181,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const $helperStyles = [
     $helperStyle,
-    status === "error" && { color: colors.error },
+    status === "error" && { color: colors.errorTextDim },
     HelperTextProps?.style,
   ]
 
@@ -162,6 +189,19 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     if (disabled) return
 
     input.current?.focus()
+  }
+
+  function GetHiddenIcon() {
+    const HiddenAccessory = () => (
+      <Icon
+        icon={isHidden ? "hidden" : "view"}
+        containerStyle={[$rightAccessoryStyle]}
+        color={colors.palette.neutral900}
+        onPress={() => setIsHidden(!isHidden)}
+      />
+    )
+
+    return HiddenAccessory
   }
 
   useImperativeHandle(ref, () => input.current)
@@ -175,12 +215,12 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     >
       {!!(label || labelTx) && (
         <Text
-          preset="formLabel"
+          preset={labelCenter ? "bold" : "formLabel"}
           text={label}
           tx={labelTx}
           txOptions={labelTxOptions}
           {...LabelTextProps}
-          style={$labelStyles}
+          style={[$labelStyles, whiteBackground && { color: "black", textAlign: "center" }]}
         />
       )}
 
@@ -195,14 +235,16 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         )}
 
         <TextInput
+          autoCapitalize="none"
+          secureTextEntry={canBeHidden ? !!isHidden : false}
           ref={input}
           underlineColorAndroid={colors.transparent}
           textAlignVertical="top"
           placeholder={placeholderContent}
-          placeholderTextColor={colors.textDim}
+          placeholderTextColor={status !== "error" ? colors.textDim : colors.errorTextDim}
           {...TextInputProps}
           editable={!disabled}
-          style={$inputStyles}
+          style={[$inputStyles, { width: "100%" }]}
         />
 
         {!!RightAccessory && (
@@ -237,21 +279,26 @@ const $inputWrapperStyle: ViewStyle = {
   flexDirection: "row",
   alignItems: "flex-start",
   borderWidth: 1,
+  width: "100%",
   borderRadius: 4,
-  backgroundColor: colors.palette.neutral200,
+  backgroundColor: colors.palette.inputField,
   borderColor: colors.palette.neutral400,
   overflow: "hidden",
+  marginBottom: spacing.medium,
 }
 
 const $inputStyle: TextStyle = {
   flex: 1,
   alignSelf: "stretch",
+  alignItems: "center",
+  justifyContent: "center",
   fontFamily: typography.primary.normal,
-  color: colors.text,
-  fontSize: 16,
-  height: 24,
+  color: colors.palette.inputText,
+  fontSize: 14,
+  height: 30,
+  width: "100%",
   // https://github.com/facebook/react-native/issues/21720#issuecomment-532642093
-  paddingVertical: 0,
+  paddingVertical: 5,
   paddingHorizontal: 0,
   marginVertical: spacing.extraSmall,
   marginHorizontal: spacing.small,
@@ -259,6 +306,7 @@ const $inputStyle: TextStyle = {
 
 const $helperStyle: TextStyle = {
   marginTop: spacing.extraSmall,
+  fontSize: 12,
 }
 
 const $rightAccessoryStyle: ViewStyle = {

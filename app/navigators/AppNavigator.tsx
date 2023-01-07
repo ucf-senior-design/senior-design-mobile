@@ -10,8 +10,11 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
+import { User } from "../../types/auth"
 import Config from "../config"
-import { LandingScreen, Login, Register } from "../screens/"
+import { useAuth } from "../models/hooks"
+import { LandingScreen, Login, CreateAccount, Email, Home, Password } from "../screens/"
+import { Details } from "../screens/AuthScreen/Register-Details"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -30,10 +33,15 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Login: undefined
   Landing: undefined
-  Register: undefined
+  Details: undefined
+  CreateAccount: undefined
+  Email: undefined
+  Home: undefined
+  Password: undefined
+  Trips: undefined,
+  Settings: undefined
 }
 
-console.log(LandingScreen)
 /**
  * This is a list of all the route names that will exit the app if the back button
  * is pressed while in that screen. Only affects Android.
@@ -48,21 +56,48 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = StackScreen
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
-const AppStack = observer(function AppStack() {
+const AppStack = observer(function AppStack({
+  user,
+}: {
+  user: User & { didFinishRegister: boolean }
+}) {
+  console.log("AppStack", user)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Landing" component={LandingScreen} />
-
-      {/** 🔥 Your screens go here */}
+      {/* Pages shown to users that did not finish registration */}
+      {user !== undefined && user !== null && !user.didFinishRegister && (
+        <>
+          <Stack.Screen name="Details" component={Details} />
+        </>
+      )}
+      {/* Pages that should only be shown to not logged in users */}
+      {(user === undefined || user === null) && (
+        <>
+          <Stack.Screen name="Landing" component={LandingScreen} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        </>
+      )}
+      {/* Pages shown to only logged in users */}
+      {user && user.didFinishRegister && (
+        <>
+          <Stack.Screen name="Home" component={Home} />
+        </>
+      )}
+      {/* Pages that can be shown to anyone */}
+      <Stack.Screen name="Email" component={Email} />
+      <Stack.Screen name="Password" component={Password} />
     </Stack.Navigator>
   )
 })
 
-interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>> & {
+  isLoggedIn: boolean
+}
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const colorScheme = useColorScheme()
-
+  const { user } = useAuth()
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 
   return (
@@ -71,7 +106,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      <AppStack />
+      <AppStack user={user} />
     </NavigationContainer>
   )
 })

@@ -106,6 +106,7 @@ function navigationRestoredDefaultState(persistNavigation: PersistNavigationConf
 export function useNavigationPersistence(storage: any, persistenceKey: string) {
   const [initialNavigationState, setInitialNavigationState] = useState()
   const isMounted = useIsMounted()
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
   const initNavState = navigationRestoredDefaultState(Config.persistNavigation)
   const [isRestored, setIsRestored] = useState(initNavState)
@@ -115,6 +116,7 @@ export function useNavigationPersistence(storage: any, persistenceKey: string) {
   const onNavigationStateChange = (state) => {
     const previousRouteName = routeNameRef.current
     const currentRouteName = getActiveRouteName(state)
+    const user = storage.load("user")
 
     if (previousRouteName !== currentRouteName) {
       // track screens.
@@ -128,6 +130,7 @@ export function useNavigationPersistence(storage: any, persistenceKey: string) {
 
     // Persist state to storage
     storage.save(persistenceKey, state)
+    setIsLoggedIn(user !== null && user !== undefined)
   }
 
   const restoreState = async () => {
@@ -143,7 +146,7 @@ export function useNavigationPersistence(storage: any, persistenceKey: string) {
     if (!isRestored) restoreState()
   }, [isRestored])
 
-  return { onNavigationStateChange, restoreState, isRestored, initialNavigationState }
+  return { onNavigationStateChange, restoreState, isRestored, initialNavigationState, isLoggedIn }
 }
 
 /**

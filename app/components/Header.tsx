@@ -144,7 +144,7 @@ interface HeaderActionProps {
  */
 export function Header(props: HeaderProps) {
   const {
-    backgroundColor = colors.background,
+    backgroundColor = colors.transparent,
     LeftActionComponent,
     leftIcon,
     leftIconColor,
@@ -265,6 +265,9 @@ const $wrapper: ViewStyle = {
 }
 
 const $container: ViewStyle = {
+  margin: 0,
+  padding: 0,
+  top: 0,
   width: "100%",
 }
 

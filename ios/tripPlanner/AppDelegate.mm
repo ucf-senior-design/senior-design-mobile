@@ -7,6 +7,8 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import <FBSDKCoreKit/FBSDKCoreKit-swift.h>
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -36,6 +38,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
   RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
 
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+  didFinishLaunchingWithOptions:launchOptions];
+
 #if RCT_NEW_ARCH_ENABLED
   _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
   _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
@@ -60,7 +65,19 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [self.window makeKeyAndVisible];
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                         didFinishLaunchingWithOptions:launchOptions];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [[FBSDKApplicationDelegate sharedInstance]application:app
+                                                      openURL:url
+                                                      options:options];
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.

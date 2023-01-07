@@ -22,6 +22,10 @@ import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
+import { WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET } from "@env"
+import { Settings } from "react-native-fbsdk-next"
+import { AuthProvider } from "./models/hooks"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
@@ -74,9 +78,18 @@ function App(props: AppProps) {
     initialNavigationState,
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
+    isLoggedIn,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
   const [areFontsLoaded] = useFonts(customFontsToLoad)
+
+  React.useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: WEB_CLIENT_ID,
+    })
+    Settings.setAppID(TWITTER_APP_ID)
+    Settings.initializeSDK()
+  }, [])
 
   const { rehydrated } = useInitialRootStore(() => {
     // This runs after the root store has been initialized and rehydrated.
@@ -105,11 +118,14 @@ function App(props: AppProps) {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <AppNavigator
-          linking={linking}
-          initialState={initialNavigationState}
-          onStateChange={onNavigationStateChange}
-        />
+        <AuthProvider>
+          <AppNavigator
+            isLoggedIn={isLoggedIn}
+            linking={linking}
+            initialState={initialNavigationState}
+            onStateChange={onNavigationStateChange}
+          />
+        </AuthProvider>
       </ErrorBoundary>
     </SafeAreaProvider>
   )

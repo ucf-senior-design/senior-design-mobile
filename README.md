@@ -1,5 +1,7 @@
 # Getting Started
-This project was created using a ignite boiler plate. To get started be sure to follow the ios and android steps for [setting up your react envionrment](https://reactnative.dev/docs/environment-setup) and make sure you have your local.properties file [set propertly](https://stackoverflow.com/questions/32634352/react-native-android-build-failed-sdk-location-not-found). Then 
+
+This project was created using a ignite boiler plate. To get started be sure to follow the ios and android steps for [setting up your react envionrment](https://reactnative.dev/docs/environment-setup) and make sure you have your local.properties file [set propertly](https://stackoverflow.com/questions/32634352/react-native-android-build-failed-sdk-location-not-found). Then
+
 1. run `yarn install`
 2. run `yarn run ios` or `yarn run android`
 
@@ -75,6 +77,7 @@ The inside of the `app` directory looks similar to the following:
 app
 ├── components
 ├── config
+├── hooks
 ├── i18n
 ├── models
 ├── navigators
@@ -90,6 +93,9 @@ This is where your reusable components live which help you build your screens.
 
 **i18n**
 This is where your translations will live if you are using `react-native-i18n`.
+
+**hooks**
+Store any complex logic or custom hooks here.
 
 **models**
 This is where your app's models will live. Each model has a directory which will contain the `mobx-state-tree` model file, test file, and any other supporting files like actions, types, etc.
@@ -118,4 +124,3 @@ This directory will hold your Jest configs and mocks.
 ## Running Detox end-to-end tests
 
 Read [Detox setup instructions](./detox/README.md).
-
