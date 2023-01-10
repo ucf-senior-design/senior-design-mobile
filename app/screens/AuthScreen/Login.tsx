@@ -24,7 +24,6 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
         navigate("Landing")
       } else {
         sErrorMessage(response.errorMessage)
-        return
       }
     })
   }

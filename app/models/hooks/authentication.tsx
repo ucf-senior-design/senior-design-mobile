@@ -113,8 +113,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   ) {
     const options = createFetchRequestOptions(
       JSON.stringify({
-        provider: provider,
-        idToken: idToken,
+        provider,
+        idToken,
       }),
       "POST",
     )
@@ -135,13 +135,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function doFacebookLogin() {
     FacebookLogin.logInWithPermissions(["public_profile"]).then(
-      function (result) {
-        if (result.isCancelled) {
-        } else {
-          AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
-            await doLoginWithCredentials("facebook", facebookToken.accessToken)
-          })
-        }
+      function () {
+        AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
+          await doLoginWithCredentials("facebook", facebookToken.accessToken)
+        })
       },
       function (error) {
         alert(error)
@@ -213,20 +210,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     callback: (response: AuthenticationResponse) => void,
   ) {
     console.log(API_URL)
-    try {
-      const options = createFetchRequestOptions(JSON.stringify(register), "POST")
-      const response = await fetch(`${API_URL}auth/register`, options)
 
-      console.log(await response.text())
-      if (response.ok) {
-        await storePartialCredentialResult(await response.json())
-        navigate("Details")
-      } else {
-        callback({ isSuccess: response.ok, errorMessage: await response.text() })
-      }
-    } catch (e) {
-      
-      console.warn("ERROR", e)
+    const options = createFetchRequestOptions(JSON.stringify(register), "POST")
+    const response = await fetch(`${API_URL}auth/register`, options)
+
+    console.log(await response.text())
+    if (response.ok) {
+      await storePartialCredentialResult(await response.json())
+      navigate("Details")
+    } else {
+      callback({ isSuccess: response.ok, errorMessage: await response.text() })
     }
   }
 

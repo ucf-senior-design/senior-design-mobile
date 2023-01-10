@@ -38,7 +38,7 @@ export type AppStackParamList = {
   Email: undefined
   Home: undefined
   Password: undefined
-  Trips: undefined,
+  Trips: undefined
   Settings: undefined
 }
 

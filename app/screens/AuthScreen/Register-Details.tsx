@@ -1,12 +1,10 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
-import { View, ViewStyle, ScrollView } from "react-native"
-import { AppStackScreenProps, navigate } from "../../navigators"
+import { View, ViewStyle, ScrollView, Image } from "react-native"
+import { AppStackScreenProps } from "../../navigators"
 import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
-import { useAuth } from "../../models/hooks"
-import { Image } from "react-native"
+import { useAuth, SelectListHook } from "../../models/hooks"
 import { User } from "../../../types/auth"
-import { SelectListHook } from "../../models/hooks"
 import { colors, spacing } from "../../theme"
 import { load } from "../../utils/storage"
 import { launchImageLibrary } from "react-native-image-picker"
@@ -26,7 +24,6 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     allergies: [],
     username: "",
   })
-  const [errorMessage, sErrorMessage] = useState("")
 
   async function getStoredUserInfo() {
     const user = await load("user")
@@ -98,11 +95,6 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             text="let's add some details"
             preset="title"
             style={{ textAlign: "center", fontSize: 25 }}
-          />
-          <Text
-            preset="subheading"
-            text={errorMessage}
-            style={{ color: colors.errorText, alignSelf: "center" }}
           />
           {details.profilePic.length > 0 && (
             <Image

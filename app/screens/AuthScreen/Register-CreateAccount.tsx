@@ -7,7 +7,6 @@ import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
 import * as EmailValidator from "email-validator"
-import { navigate } from "../../navigators"
 import { useAuth } from "../../models/hooks"
 
 type RegisterProps = AppStackScreenProps<"CreateAccount">

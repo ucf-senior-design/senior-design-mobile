@@ -16,6 +16,7 @@
     "lint": "eslint -c lintConfig.json index.js App.js app test --fix --ext .js,.ts,.tsx && npm run format",
     "patch": "patch-package",
     "test": "jest",
+    "eas-build-pre-install": "echo $GOOGLE_SERVICES_BASE64 | base64 --decode >> ./android/app/google-services.json && echo $STRINGS_XML | base64 --decode >> ./android/app/src/main/res/values/strings.xml",
     "test:watch": "jest --watch",
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081",
     "postinstall": "node ./bin/postInstall",
