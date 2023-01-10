@@ -38,7 +38,7 @@ export type AppStackParamList = {
   Email: undefined
   Home: undefined
   Password: undefined
-  Trips: undefined,
+  Trips: undefined
   Settings: undefined
 }
 
@@ -61,7 +61,6 @@ const AppStack = observer(function AppStack({
 }: {
   user: User & { didFinishRegister: boolean }
 }) {
-  console.log("AppStack", user)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* Pages shown to users that did not finish registration */}

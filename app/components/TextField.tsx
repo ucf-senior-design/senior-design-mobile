@@ -144,7 +144,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
   const input = useRef<TextInput>()
 
-  const disabled = TextInputProps.editable === false || status === "disabled"
+  const disabled = TextInputProps.editable === false
 
   const placeholderContent = placeholderTx
     ? translate(placeholderTx, placeholderTxOptions)

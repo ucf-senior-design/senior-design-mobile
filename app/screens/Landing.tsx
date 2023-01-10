@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Image, ImageStyle, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { Text, Button, Screen } from "../components"
 import { AppStackScreenProps } from "../navigators/AppNavigator"
 import { colors } from "../theme"

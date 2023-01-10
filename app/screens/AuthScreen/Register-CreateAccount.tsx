@@ -7,7 +7,6 @@ import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
 import * as EmailValidator from "email-validator"
-import { navigate } from "../../navigators"
 import { useAuth } from "../../models/hooks"
 
 type RegisterProps = AppStackScreenProps<"CreateAccount">
@@ -82,6 +81,7 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
           status={isEmailInvalid ? "error" : undefined}
           helper={isEmailInvalid ? "invalid email" : undefined}
           label="email"
+          value={user.email}
           placeholder="email@domain.com"
           onChangeText={(e) =>
             sUser((user) => ({
@@ -95,6 +95,7 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
           placeholder="password"
           canBeHidden={true}
           inputWrapperStyle={{ marginBottom: 0 }}
+          value={user.password}
           onChangeText={(e) =>
             sUser((user) => ({
               ...user,
@@ -118,6 +119,7 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
           label="confirm password"
           placeholder="password"
           canBeHidden={true}
+          value={user.confirmPassword}
           onChangeText={(e) =>
             sUser((user) => ({
               ...user,

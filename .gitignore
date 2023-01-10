@@ -106,3 +106,4 @@ dist
 android/app/src/main/res/values/strings.xml
 ios/Config.xcconfig
 ios/tripPlanner/Info.plist
+android/app/src/main/res/values/strings.xml

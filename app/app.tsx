@@ -23,7 +23,7 @@ import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
-import { WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET } from "@env"
+import { WEB_CLIENT_ID, TWITTER_APP_ID } from "@env"
 import { Settings } from "react-native-fbsdk-next"
 import { AuthProvider } from "./models/hooks"
 

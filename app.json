@@ -7,9 +7,9 @@
     "scheme": "tripplanner",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/plane.png",
+    "icon": "./assets/images/landing.png",
     "splash": {
-      "image": "./assets/images/plane.png",
+      "image": "./assets/images/landing.png",
       "resizeMode": "contain",
       "backgroundColor": "#191015"
     },
@@ -17,37 +17,44 @@
       "fallbackToCacheTimeout": 0
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
-      "icon": "./assets/images/plane.png",
+      "icon": "./assets/images/landing.png",
       "package": "com.tripplanner",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/plane.png",
-        "backgroundImage": "./assets/images/plane.png"
+        "foregroundImage": "./assets/images/landing.png",
+        "backgroundImage": "./assets/images/landing.png"
       },
       "splash": {
-        "image": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       }
     },
     "ios": {
-      "icon": "./assets/images/plane.png",
+      "icon": "./assets/images/landing.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.tripplanner",
       "splash": {
-        "image": "./assets/images/plane.png",
-        "tabletImage": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
+        "tabletImage": "./assets/images/landing.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       }
     },
     "web": {
-      "favicon": "./assets/images/plane.png",
+      "favicon": "./assets/images/landing.png",
       "splash": {
-        "image": "./assets/images/plane.png",
+        "image": "./assets/images/landing.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a"
       }
     }
   }
