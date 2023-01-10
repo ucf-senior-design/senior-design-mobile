@@ -58,6 +58,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
           <TextField
             status={isEmailInvalid ? "error" : undefined}
             helper={isEmailInvalid ? "invalid email" : undefined}
+            value={user.email}
             label="email"
             placeholder="email@domain.com"
             onChangeText={(e) =>
@@ -69,6 +70,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
           />
 
           <TextField
+            value={user.password}
             label="password"
             placeholder="password"
             canBeHidden={true}

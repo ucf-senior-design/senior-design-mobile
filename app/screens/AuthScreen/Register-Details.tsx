@@ -73,14 +73,12 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }
   }
   async function maybeFinishRegister() {
-    
     const user: User = {
       ...details,
       medicalInfo: Array.from(medicalCond.values.selected),
       allergies: Array.from(foodAllergies.values.selected),
     }
     await addDetails(user, (response) => {
-      
       if (!response.isSuccess) {
         alert(response.errorMessage)
       }
@@ -153,6 +151,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             status={isUsernameInvalid ? "error" : undefined}
             helper={isUsernameInvalid ? "invalid username" : undefined}
             label="username"
+            value={details.username}
             onChangeText={(e) =>
               sDetails((details) => ({
                 ...details,
@@ -178,7 +177,6 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             text="continue"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
-            
               await maybeFinishRegister()
             }}
           />

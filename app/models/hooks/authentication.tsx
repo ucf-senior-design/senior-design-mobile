@@ -91,7 +91,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(undefined)
   }
 
-
   async function storePartialCredentialResult(u: any) {
     const user = {
       userName: "",
@@ -107,7 +106,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(user)
   }
-
 
   async function doLoginWithCredentials(
     provider: "google" | "facebook" | "twitter",
@@ -151,7 +149,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
   }
 
-  
   async function saveRegisterdUser(user: User) {
     await save("user", {
       ...user,
@@ -161,7 +158,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function addDetails(user: User, callback: (response: AuthenticationResponse) => void) {
-    const options = createFetchRequestOptions(JSON.stringify(user), "POST")
+    // TODO: Upload Profile Picture For User
+    const userWithNoPicture = { ...user, profilePic: "" }
+    const options = createFetchRequestOptions(JSON.stringify(userWithNoPicture), "POST")
     const response = await fetch(`${API_URL}auth/details`, options)
     const result = await response.text()
 
@@ -213,14 +212,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: { email: string; password: string },
     callback: (response: AuthenticationResponse) => void,
   ) {
-    const options = createFetchRequestOptions(JSON.stringify(register), "POST")
-    const response = await fetch(`${API_URL}auth/register`, options)
+    console.log(API_URL)
+    try {
+      const options = createFetchRequestOptions(JSON.stringify(register), "POST")
+      const response = await fetch(`${API_URL}auth/register`, options)
 
-    if (response.ok) {
-      await storePartialCredentialResult(await response.json())
-      navigate("Details")
-    } else {
-      callback({ isSuccess: response.ok, errorMessage: await response.text() })
+      console.log(await response.text())
+      if (response.ok) {
+        await storePartialCredentialResult(await response.json())
+        navigate("Details")
+      } else {
+        callback({ isSuccess: response.ok, errorMessage: await response.text() })
+      }
+    } catch (e) {
+      
+      console.warn("ERROR", e)
     }
   }
 
