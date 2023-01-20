@@ -13,7 +13,7 @@ import { useColorScheme } from "react-native"
 import { User } from "../../types/auth"
 import Config from "../config"
 import { useAuth } from "../models/hooks"
-import { LandingScreen, Login, CreateAccount, Email, Home, Password } from "../screens/"
+import { LandingScreen, Login, CreateAccount, Email, Home, Password, TripHome } from "../screens/"
 import { Details } from "../screens/AuthScreen/Register-Details"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -31,15 +31,16 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Login: undefined
-  Landing: undefined
-  Details: undefined
-  CreateAccount: undefined
-  Email: undefined
-  Home: undefined
-  Password: undefined
+  Login: undefined,
+  Landing: undefined,
+  Details: undefined,
+  CreateAccount: undefined,
+  Email: undefined,
+  Home: undefined,
+  Password: undefined,
   Trips: undefined,
-  Settings: undefined
+  Settings: undefined,
+  TripHome: undefined,
 }
 
 /**
@@ -64,29 +65,7 @@ const AppStack = observer(function AppStack({
   console.log("AppStack", user)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* Pages shown to users that did not finish registration */}
-      {user !== undefined && user !== null && !user.didFinishRegister && (
-        <>
-          <Stack.Screen name="Details" component={Details} />
-        </>
-      )}
-      {/* Pages that should only be shown to not logged in users */}
-      {(user === undefined || user === null) && (
-        <>
-          <Stack.Screen name="Landing" component={LandingScreen} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        </>
-      )}
-      {/* Pages shown to only logged in users */}
-      {user && user.didFinishRegister && (
-        <>
-          <Stack.Screen name="Home" component={Home} />
-        </>
-      )}
-      {/* Pages that can be shown to anyone */}
-      <Stack.Screen name="Email" component={Email} />
-      <Stack.Screen name="Password" component={Password} />
+      <Stack.Screen name="TripHome" component={TripHome} />
     </Stack.Navigator>
   )
 })
