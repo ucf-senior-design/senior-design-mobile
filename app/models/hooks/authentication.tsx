@@ -91,7 +91,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(undefined)
   }
 
-
   async function storePartialCredentialResult(u: any) {
     const user = {
       userName: "",
@@ -108,15 +107,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(user)
   }
 
-
   async function doLoginWithCredentials(
     provider: "google" | "facebook" | "twitter",
     idToken: string,
   ) {
     const options = createFetchRequestOptions(
       JSON.stringify({
-        provider: provider,
-        idToken: idToken,
+        provider,
+        idToken,
       }),
       "POST",
     )
@@ -137,13 +135,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function doFacebookLogin() {
     FacebookLogin.logInWithPermissions(["public_profile"]).then(
-      function (result) {
-        if (result.isCancelled) {
-        } else {
-          AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
-            await doLoginWithCredentials("facebook", facebookToken.accessToken)
-          })
-        }
+      function () {
+        AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
+          await doLoginWithCredentials("facebook", facebookToken.accessToken)
+        })
       },
       function (error) {
         alert(error)
@@ -151,7 +146,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
   }
 
-  
   async function saveRegisterdUser(user: User) {
     await save("user", {
       ...user,
@@ -161,7 +155,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function addDetails(user: User, callback: (response: AuthenticationResponse) => void) {
-    const options = createFetchRequestOptions(JSON.stringify(user), "POST")
+    // TODO: Upload Profile Picture For User
+    const userWithNoPicture = { ...user, profilePic: "" }
+    const options = createFetchRequestOptions(JSON.stringify(userWithNoPicture), "POST")
     const response = await fetch(`${API_URL}auth/details`, options)
     const result = await response.text()
 
@@ -213,9 +209,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: { email: string; password: string },
     callback: (response: AuthenticationResponse) => void,
   ) {
+    console.log(API_URL)
+
     const options = createFetchRequestOptions(JSON.stringify(register), "POST")
     const response = await fetch(`${API_URL}auth/register`, options)
 
+    console.log(await response.text())
     if (response.ok) {
       await storePartialCredentialResult(await response.json())
       navigate("Details")

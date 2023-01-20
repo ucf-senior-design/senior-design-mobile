@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Screen, Text, useAutoImage } from "../components"
+import { Button, Screen, Text } from "../components"
 import { AppStackScreenProps } from "../navigators"
 import { View } from "react-native"
 import { useAuth } from "../models/hooks"

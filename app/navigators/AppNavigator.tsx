@@ -62,7 +62,6 @@ const AppStack = observer(function AppStack({
 }: {
   user: User & { didFinishRegister: boolean }
 }) {
-  console.log("AppStack", user)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="TripHome" component={TripHome} />
