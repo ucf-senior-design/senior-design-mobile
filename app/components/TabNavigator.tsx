@@ -19,13 +19,13 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={({route}) => ({
         tabBarActiveTintColor: "red",
         tabBarInactiveTintColor: "green",
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         headerShown: false,
     })} >
             <Tab.Screen name="TripHome" component={TripHome}/>
             <Tab.Screen name="Trips" component={Trips}/>
             <Tab.Screen name="Account" component={Account}/>
-        </Tab.Navigator>
+    </Tab.Navigator>
   )
 }
 

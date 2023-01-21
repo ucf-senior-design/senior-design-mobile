@@ -18,6 +18,7 @@ import { Header } from "."
 import { colors } from "../theme"
 import { goBack } from "../navigators"
 import { ExtendedEdge, useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+import TabNavigator from "./TabNavigator"
 
 interface BaseScreenProps {
   /**
@@ -69,6 +70,10 @@ interface BaseScreenProps {
    * Adds a header with a back button
    */
   goBackHeader?: boolean
+  /**
+   * Enables or disables bottom tab navigation
+   */
+  showNavBar?: boolean
 }
 
 interface FixedScreenProps extends BaseScreenProps {
@@ -213,6 +218,7 @@ export function Screen(props: ScreenProps) {
     StatusBarProps,
     statusBarStyle = "dark",
     backgroundColorWithImage = colors.transparent,
+    showNavBar,
   } = props
 
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
@@ -226,7 +232,6 @@ export function Screen(props: ScreenProps) {
     return (
       <ImageBackground source={props.backgroundImage} resizeMode="cover" style={$image}>
         <StatusBar style={statusBarStyle} {...StatusBarProps} />
-
         <View style={[$containerStyle, $containerInsets]}>
           {props.goBackHeader ? (
             <Header
@@ -248,6 +253,7 @@ export function Screen(props: ScreenProps) {
             ) : (
               <ScreenWithScrolling {...props} />
             )}
+            {props.showNavBar ? (<TabNavigator/>) : null}
           </KeyboardAvoidingView>
         </View>
       </ImageBackground>
@@ -272,6 +278,7 @@ export function Screen(props: ScreenProps) {
         ) : (
           <ScreenWithScrolling {...props} />
         )}
+        {props.showNavBar ? (<TabNavigator/>) : null}
       </KeyboardAvoidingView>
     </View>
   )
