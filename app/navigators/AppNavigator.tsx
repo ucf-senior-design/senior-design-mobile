@@ -15,6 +15,7 @@ import Config from "../config"
 import { useAuth } from "../models/hooks"
 import { LandingScreen, Login, CreateAccount, Email, Home, Password, TripHome } from "../screens/"
 import { Details } from "../screens/AuthScreen/Register-Details"
+import Dashboard from "../screens/TripDashboard/Dashboard"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -41,6 +42,7 @@ export type AppStackParamList = {
   Trips: undefined,
   Settings: undefined,
   TripHome: undefined,
+  Dashboard: undefined,
 }
 
 /**
@@ -64,7 +66,7 @@ const AppStack = observer(function AppStack({
 }) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="TripHome" component={TripHome} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
     </Stack.Navigator>
   )
 })

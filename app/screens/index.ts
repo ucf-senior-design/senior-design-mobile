@@ -9,4 +9,4 @@ export * from "./AuthScreen/Register-Email"
 export * from "./AuthScreen/PasswordReset"
 
 export * from "./Home"
-export * from "./TripHome"
+export * from "./TripDashboard/TripHome"
