@@ -1,10 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import {createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
-import { TripHome } from '../screens'
-import Trips from '../screens/TripDashboard/Trips'
-import Account from '../screens/TripDashboard/Account'
+import { TripHome, ViewTrip, Account } from '../screens'
+
 
 export type TabStackParamList = 
 {
@@ -23,7 +21,7 @@ const TabNavigator = () => {
         headerShown: false,
     })} >
             <Tab.Screen name="TripHome" component={TripHome}/>
-            <Tab.Screen name="Trips" component={Trips}/>
+            <Tab.Screen name="Trips" component={ViewTrip}/>
             <Tab.Screen name="Account" component={Account}/>
     </Tab.Navigator>
   )

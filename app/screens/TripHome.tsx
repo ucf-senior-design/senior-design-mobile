@@ -1,9 +1,9 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Screen, Text, useAutoImage } from "../../components"
-import { AppStackScreenProps } from "../../navigators"
+import { Button, Screen, Text, useAutoImage } from "../components"
+import { AppStackScreenProps } from "../navigators"
 import { ScrollView, View } from "react-native"
-import { useAuth } from "../../models/hooks"
+import { useAuth } from "../models/hooks"
 
 type TripHomeProps = AppStackScreenProps<"TripHome">
 export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
