@@ -9,3 +9,8 @@ export * from "./AuthScreen/Register-Email"
 export * from "./AuthScreen/PasswordReset"
 
 export * from "./Home"
+export * from "./TripHome"
+export * from "./Dashboard"
+export * from "./ViewTrip"
+export * from "./Account"
+

@@ -23,7 +23,7 @@ import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
-import { WEB_CLIENT_ID, TWITTER_APP_ID } from "@env"
+import { WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET } from "@env"
 import { Settings } from "react-native-fbsdk-next"
 import { AuthProvider } from "./models/hooks"
 
@@ -87,6 +87,7 @@ function App(props: AppProps) {
     GoogleSignin.configure({
       webClientId: WEB_CLIENT_ID,
     })
+    console.log( WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET);
     Settings.setAppID(TWITTER_APP_ID)
     Settings.initializeSDK()
   }, [])
