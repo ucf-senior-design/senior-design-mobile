@@ -2,6 +2,9 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import {createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TripHome, ViewTrip, Account } from '../screens'
+import { colors } from '../theme'
+import { roundToNearestMinutes } from 'date-fns'
+import { Icon } from './Icon'
 
 
 export type TabStackParamList = 
@@ -19,6 +22,10 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: "green",
         tabBarShowLabel: true,
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          
+        },
     })} >
             <Tab.Screen name="TripHome" component={TripHome}/>
             <Tab.Screen name="Trips" component={ViewTrip}/>
