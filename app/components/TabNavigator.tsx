@@ -1,37 +1,43 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import {createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { TripHome, ViewTrip, Account } from '../screens'
-import { colors } from '../theme'
-import { roundToNearestMinutes } from 'date-fns'
-import { Icon } from './Icon'
+import { View, Text } from "react-native"
+import React from "react"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { TripHome, ViewTrip, Account } from "../screens"
+import { colors } from "../theme"
+import { roundToNearestMinutes } from "date-fns"
+import { Icon } from "./Icon"
 
-
-export type TabStackParamList = 
-{
-    TripHome: undefined,
-    Trips: undefined,
-    Account: undefined,
+export type TabStackParamList = {
+  TripHome: undefined
+  Trips: undefined
+  Account: undefined
 }
 
-const Tab = createBottomTabNavigator<TabStackParamList>();
+const Tab = createBottomTabNavigator<TabStackParamList>()
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({route}) => ({
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
         tabBarActiveTintColor: "red",
         tabBarInactiveTintColor: "green",
         tabBarShowLabel: true,
         headerShown: false,
         tabBarStyle: {
+          // backgroundColor: "white",
           backgroundColor: colors.background,
-          
         },
-    })} >
-            <Tab.Screen name="TripHome" component={TripHome}/>
-            <Tab.Screen name="Trips" component={ViewTrip}/>
-            <Tab.Screen name="Account" component={Account}/>
+        tabBarIcon: () => {
+          if (route.name === "TripHome") return <Icon icon="home" />
+          else if (route.name === "Account") return <Icon icon="personSmall" />
+          else if (route.name === "Trips") return <Icon icon="briefcase" />
+          else return <Icon icon="debug" />
+        },
+      })}
+    >
+      <Tab.Screen name="TripHome" component={TripHome} />
+      <Tab.Screen name="Trips" component={ViewTrip} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   )
 }
 
-export default TabNavigator;
+export default TabNavigator

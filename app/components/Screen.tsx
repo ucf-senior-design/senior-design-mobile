@@ -253,7 +253,7 @@ export function Screen(props: ScreenProps) {
             ) : (
               <ScreenWithScrolling {...props} />
             )}
-            {showNavBar ? (<TabNavigator/>) : null}
+            {showNavBar ? <TabNavigator /> : null}
           </KeyboardAvoidingView>
         </View>
       </ImageBackground>
@@ -278,7 +278,7 @@ export function Screen(props: ScreenProps) {
         ) : (
           <ScreenWithScrolling {...props} />
         )}
-        {showNavBar ? (<TabNavigator/>) : null}
+        {showNavBar ? <TabNavigator /> : null}
       </KeyboardAvoidingView>
     </View>
   )

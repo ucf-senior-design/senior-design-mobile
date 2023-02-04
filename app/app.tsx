@@ -87,7 +87,7 @@ function App(props: AppProps) {
     GoogleSignin.configure({
       webClientId: WEB_CLIENT_ID,
     })
-    console.log( WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET);
+    console.log(WEB_CLIENT_ID, TWITTER_APP_ID, TWITTER_KEY, TWITTER_SECRET)
     Settings.setAppID(TWITTER_APP_ID)
     Settings.initializeSDK()
   }, [])
