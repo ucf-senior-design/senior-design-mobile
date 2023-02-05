@@ -17,20 +17,19 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "red",
-        tabBarInactiveTintColor: "green",
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
           // backgroundColor: "white",
           backgroundColor: colors.background,
         },
-        tabBarIcon: () => {
+        tabBarIcon: ({ focused, color, size }) => {
           if (route.name === "TripHome") return <Icon icon="home" />
           else if (route.name === "Account") return <Icon icon="personSmall" />
           else if (route.name === "Trips") return <Icon icon="briefcase" />
           else return <Icon icon="debug" />
         },
+
       })}
     >
       <Tab.Screen name="TripHome" component={TripHome} />
