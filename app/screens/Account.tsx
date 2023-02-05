@@ -10,11 +10,14 @@ export const Account: FC<AccountProps> = observer(function ViewTripScreen() {
   const { doLogout } = useAuth()
   return (
     <Screen>
-      <Icon icon="personSmall" style={{
-        justifyContent: "center"
-      }}/>
-        <Text text="Account screen"/>
-        <Button text="logout" onPress={() => doLogout()} />
+      <Icon
+        icon="personSmall"
+        style={{
+          width: "100%",
+        }}
+      />
+      <Text text="Account screen" />
+      <Button text="logout" onPress={() => doLogout()} />
     </Screen>
   )
 })

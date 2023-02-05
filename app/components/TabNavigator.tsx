@@ -39,8 +39,22 @@ const TabNavigator = () => {
                 </View>
               </>
             )
-          else if (route.name === "Account") return <Icon icon="personSmall" />
-          else if (route.name === "Trips") return <Icon icon="briefcase" />
+          else if (route.name === "Account")
+            return (
+              <>
+                <View style={focused ? $focusedBar : {}}>
+                  <Icon icon="personSmall"></Icon>
+                </View>
+              </>
+            )
+          else if (route.name === "Trips")
+            return (
+              <>
+                <View style={focused ? $focusedBar : {}}>
+                  <Icon icon="briefcase"></Icon>
+                </View>
+              </>
+            )
           else return <Icon icon="debug" />
         },
       })}
