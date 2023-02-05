@@ -1,9 +1,7 @@
-import { View, Text } from "react-native"
+import { View, Text, ViewStyle } from "react-native"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { TripHome, ViewTrip, Account } from "../screens"
-import { colors } from "../theme"
-import { roundToNearestMinutes } from "date-fns"
 import { Icon } from "./Icon"
 
 export type TabStackParamList = {
@@ -12,21 +10,35 @@ export type TabStackParamList = {
   Account: undefined
 }
 
+const $focusedBar: ViewStyle = {
+  borderTopWidth: 5,
+  borderColor: "white",
+  width: "100%",
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+}
+
 const Tab = createBottomTabNavigator<TabStackParamList>()
 const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "red",
-        tabBarInactiveTintColor: "green",
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          // backgroundColor: "white",
-          backgroundColor: colors.background,
+          backgroundColor: "black",
+          border: "none",
         },
-        tabBarIcon: () => {
-          if (route.name === "TripHome") return <Icon icon="home" />
+        tabBarIcon: ({ focused }) => {
+          if (route.name === "TripHome")
+            return (
+              <>
+                <View style={focused ? $focusedBar : {}}>
+                  <Icon icon="home"></Icon>
+                </View>
+              </>
+            )
           else if (route.name === "Account") return <Icon icon="personSmall" />
           else if (route.name === "Trips") return <Icon icon="briefcase" />
           else return <Icon icon="debug" />
