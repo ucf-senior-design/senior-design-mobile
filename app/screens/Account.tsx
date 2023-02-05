@@ -1,13 +1,20 @@
-import { View, Text } from "react-native"
+import { View, ScrollView } from "react-native"
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
+import { Button, Icon, Screen, Text, useAutoImage } from "../components"
 import { AppStackScreenProps } from "../navigators"
+import { useAuth } from "../models/hooks/authentication"
 
 type AccountProps = AppStackScreenProps<"Account">
 export const Account: FC<AccountProps> = observer(function ViewTripScreen() {
+  const { doLogout } = useAuth()
   return (
-    <View>
-      <Text>Account</Text>
-    </View>
+    <Screen>
+      <Icon icon="personSmall" style={{
+        justifyContent: "center"
+      }}/>
+        <Text text="Account screen"/>
+        <Button text="logout" onPress={() => doLogout()} />
+    </Screen>
   )
 })
