@@ -253,11 +253,23 @@ export function Screen(props: ScreenProps) {
             ) : (
               <ScreenWithScrolling {...props} />
             )}
-            {showNavBar ? <TabNavigator /> : null}
           </KeyboardAvoidingView>
         </View>
       </ImageBackground>
     )
+  if (showNavBar) // Dashboard Page is active
+    return ( 
+    <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
+      {props.goBackHeader ? (
+        <Header leftIcon={"caretLeft"} leftIconColor={colors.text} onLeftPress={() => goBack()} />
+      ) : (
+        <></>
+      )}
+      {showNavBar ? <TabNavigator /> : <></>}
+
+      <StatusBar style={statusBarStyle} {...StatusBarProps} />
+      
+    </View>)
   return (
     <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
       {props.goBackHeader ? (
@@ -278,7 +290,6 @@ export function Screen(props: ScreenProps) {
         ) : (
           <ScreenWithScrolling {...props} />
         )}
-        {showNavBar ? <TabNavigator /> : null}
       </KeyboardAvoidingView>
     </View>
   )

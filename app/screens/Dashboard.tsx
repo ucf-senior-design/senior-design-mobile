@@ -8,8 +8,6 @@ import { observer } from "mobx-react-lite"
 type DashboardProps = AppStackScreenProps<"Dashboard">
 export const Dashboard: FC<DashboardProps> = observer(function DashboardScreen() {
   return (
-    <Screen preset="fixed" statusBarStyle="light" goBackHeader={true} showNavBar={true}>
-      <Text> Dashboard </Text>
-    </Screen>
+    <Screen preset="fixed" statusBarStyle="light" goBackHeader={true} showNavBar={true}/>
   )
 })
