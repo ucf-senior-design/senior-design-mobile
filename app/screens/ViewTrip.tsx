@@ -6,7 +6,7 @@ import { AppStackScreenProps } from "../navigators"
 type ViewTripProps = AppStackScreenProps<"ViewTrip">
 export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Text>Trips</Text>
     </View>
   )
