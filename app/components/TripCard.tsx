@@ -6,6 +6,7 @@ import { colors, typography } from "../theme"
 import Divider from "./Divider"
 import { Text } from "./Text"
 import { Trip } from "../../types/auth"
+import { Avatar } from "@ui-kitten/components"
 
 const background = {
   back: require("../../assets/images/gradientBg.png"),
@@ -40,6 +41,7 @@ const TripCard = (props: TripCardProps) => {
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",
         height: size === "lg" ? 250 : 150,
+        paddingTop: size === "lg" ? 20 : 0,
       }}
     >
       <ImageBackground source={background.back} resizeMode="cover" style={$image}>
@@ -67,6 +69,13 @@ const TripCard = (props: TripCardProps) => {
 
           {/* <Icon icon="personSmall" style={{left:300}}/> */}
           {/* This will be the icons spot */}
+        </View>
+        <View>
+          {size === "lg" ? (
+            <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
+          ) : (
+            <></>
+          )}
         </View>
       </ImageBackground>
     </View>
