@@ -70,13 +70,17 @@ const TripCard = (props: TripCardProps) => {
           {/* <Icon icon="personSmall" style={{left:300}}/> */}
           {/* This will be the icons spot */}
         </View>
-        <View>
-          {size === "lg" ? (
+        {size === "lg" ? (
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: 20 }}>
             <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
-          ) : (
-            <></>
-          )}
-        </View>
+            <Avatar source={background.back} />
+            <Avatar source={background.back} />
+            <Avatar source={background.back} />
+            <Avatar source={background.back} />
+          </View>
+        ) : (
+          <></>
+        )}
       </ImageBackground>
     </View>
   )
