@@ -1,16 +1,10 @@
 import { View, ImageBackground, ViewStyle, StyleProp } from "react-native"
 import React from "react"
-import { Card } from "./Card"
-import { Icon } from "./Icon"
-import { colors, typography } from "../theme"
-import Divider from "./Divider"
+import { colors } from "../theme"
 import { Text } from "./Text"
-import { Trip } from "../../types/auth"
+import { Trip } from "../../types/trip"
 import { Avatar } from "@ui-kitten/components"
 
-const background = {
-  back: require("../../assets/images/gradientBg.png"),
-}
 const $image: ViewStyle = {
   flex: 1,
   height: "100%",
@@ -33,6 +27,7 @@ const TripCard = (props: TripCardProps) => {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    backgroundColor: trip.image ? colors.transparent : "black",
   }
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
@@ -41,10 +36,11 @@ const TripCard = (props: TripCardProps) => {
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",
         height: size === "lg" ? 250 : 150,
-        paddingTop: size === "lg" ? 20 : 0,
+        paddingTop: size === "lg" ? 30 : 0,
+        paddingHorizontal: size === "lg" ? 0 : 5,
       }}
     >
-      <ImageBackground source={background.back} resizeMode="cover" style={$image}>
+      <ImageBackground source={{ uri: trip.image }} resizeMode="cover" style={$image}>
         <View style={$style}>
           <Text
             text={trip.destination}
@@ -66,17 +62,11 @@ const TripCard = (props: TripCardProps) => {
           ) : (
             <Text text={`${getTime(trip.duration.start)}`} preset="subheading" size="sm" />
           )}
-
-          {/* <Icon icon="personSmall" style={{left:300}}/> */}
-          {/* This will be the icons spot */}
         </View>
         {size === "lg" ? (
           <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: 20 }}>
             <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
-            <Avatar source={background.back} />
-            <Avatar source={background.back} />
-            <Avatar source={background.back} />
-            <Avatar source={background.back} />
+            {trip.image ? <Avatar source={{ uri: trip.image }} /> : <></>}
           </View>
         ) : (
           <></>

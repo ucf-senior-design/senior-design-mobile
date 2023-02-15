@@ -1,29 +1,26 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Icon, Screen, Text, useAutoImage } from "../components"
+import { Icon, Screen, Text } from "../components"
 import { AppStackScreenProps } from "../navigators"
 import { ScrollView, View } from "react-native"
-import { useAuth } from "../models/hooks"
 import TripCard from "../components/TripCard"
 
 type TripHomeProps = AppStackScreenProps<"TripHome">
 export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
-  const { doLogout } = useAuth()
-  const background = {
-    back: require("../../assets/images/gradientBg.png"),
-  }
-  const exTrips = [
+  const trips = [
     {
       destination: "Orlando",
       uid: "uid",
       attendees: [],
       duration: { start: new Date(), end: new Date() },
+      image: "https://i.imgur.com/cbenG4l.png",
     },
     {
       destination: "Miami",
-      uid: "uid",
+      uid: "uid2",
       attendees: [],
       duration: { start: new Date(), end: new Date() },
+      image: "https://i.imgur.com/cbenG4l.png",
     },
   ]
   return (
@@ -41,6 +38,7 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
             justifyContent: "center",
           }}
         >
+          {/* TODO: Implement function to get current trip, if any */}
           <Text text="current" preset="heading" style={{ paddingBottom: 10 }} />
           <TripCard
             size="lg"
@@ -49,6 +47,7 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
               uid: "uid",
               attendees: [],
               duration: { start: new Date(), end: new Date() },
+              image: "https://i.imgur.com/cbenG4l.png",
             }}
           />
           <View
@@ -60,17 +59,25 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
             }}
           >
             <Text text="upcoming" preset="heading" />
-            <Text text="x trips" size="xs" preset="default" />
+            {/* TODO: Once API is in, change the trips.length */}
+            <Text
+              text={trips.length + " trips"}
+              size="xs"
+              preset="default"
+              style={{ paddingTop: 10 }}
+            />
           </View>
-          <TripCard
-            size="sm"
-            trip={{
-              destination: "Orlando",
-              uid: "uid",
-              attendees: [],
-              duration: { start: new Date(), end: new Date() },
-            }}
-          />
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            {trips.map((trip) => {
+              return (
+                <TripCard
+                  key={trip.uid}
+                  size="sm"
+                  trip={trip}
+                />
+              )
+            })}
+          </View>
 
           <View
             style={{
@@ -81,17 +88,24 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
             }}
           >
             <Text text="previous" preset="heading" />
-            <Text text="x trips" size="xs" preset="default" />
+            <Text
+              text={trips.length + " trips"}
+              size="xs"
+              preset="default"
+              style={{ paddingTop: 10 }}
+            />
           </View>
-          <TripCard
-            size="sm"
-            trip={{
-              destination: "Orlando",
-              uid: "uid",
-              attendees: [],
-              duration: { start: new Date(), end: new Date() },
-            }}
-          />
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            {trips.map((trip) => {
+              return (
+                <TripCard
+                  key={trip.uid}
+                  size="sm"
+                  trip={trip}
+                />
+              )
+            })}
+          </View>
         </ScrollView>
       </View>
     </Screen>

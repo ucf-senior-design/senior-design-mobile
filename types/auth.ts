@@ -8,14 +8,3 @@ export interface User {
   allergies: Array<string>
 }
 
-export type Trip = {
-  uid: string;
-  attendees: Array<string>;
-  duration: Duration;
-  destination: string;
-};
-
-export type Duration = {
-  start: Date;
-  end: Date;
-};

@@ -5,7 +5,7 @@ import { AppStackScreenProps } from "../../navigators"
 import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
 import { useAuth, SelectListHook } from "../../models/hooks"
 import { User } from "../../../types/auth"
-import { colors, spacing } from "../../theme"
+import { spacing } from "../../theme"
 import { load } from "../../utils/storage"
 import { launchImageLibrary } from "react-native-image-picker"
 type RegisterProps = AppStackScreenProps<"Details">

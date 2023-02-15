@@ -1,7 +1,7 @@
-import { View, ScrollView } from "react-native"
+import { View } from "react-native"
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Icon, Screen, Text, useAutoImage } from "../components"
+import { Button, Icon, Screen, Text } from "../components"
 import { AppStackScreenProps } from "../navigators"
 import { useAuth } from "../models/hooks/authentication"
 
