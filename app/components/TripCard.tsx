@@ -28,6 +28,7 @@ const TripCard = (props: TripCardProps) => {
     alignItems: "center",
     height: "100%",
     backgroundColor: trip.image ? colors.transparent : "black",
+    padding: 5
   }
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
@@ -35,12 +36,12 @@ const TripCard = (props: TripCardProps) => {
       style={{
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",
-        height: size === "lg" ? 250 : 150,
-        paddingTop: size === "lg" ? 30 : 0,
-        paddingHorizontal: size === "lg" ? 0 : 5,
+        height: size === "lg" ? 270 : 120,
+        padding: size === "lg" ? 30 : 6,
+        paddingHorizontal: size === "lg" ? 0 : 8,
       }}
     >
-      <ImageBackground source={{ uri: trip.image }} resizeMode="cover" style={$image}>
+      <ImageBackground source={{ uri: trip.image }} resizeMode="cover" style={$image} imageStyle={{borderRadius: 15}}>
         <View style={$style}>
           <Text
             text={trip.destination}
