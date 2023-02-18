@@ -1,4 +1,4 @@
-import { View, Text, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { TripHome, ViewTrip, Account } from "../screens"
