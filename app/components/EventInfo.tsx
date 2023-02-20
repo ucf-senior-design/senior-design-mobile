@@ -1,17 +1,12 @@
-import { View, ImageBackground, ViewStyle, StyleProp } from "react-native"
+import { View, ViewStyle } from "react-native"
 import React from "react"
-import { Card } from "./Card"
 import { Icon } from "./Icon"
-import { colors, typography } from "../theme"
-import Divider from "./Divider"
+import { colors} from "../theme"
 import { Text } from "./Text"
 import { Event } from "../../types/trip"
 import { Avatar, Modal } from "@ui-kitten/components"
 import { Button } from "./Button"
 
-const background = {
-  back: require("../../assets/images/gradientBg.png"),
-}
 const $image: ViewStyle = {
   flex: 1,
   height: "100%",
