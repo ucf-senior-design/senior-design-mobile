@@ -1,19 +1,12 @@
 import { View, ViewStyle } from "react-native"
 import React from "react"
 import { Icon } from "./Icon"
-import { colors} from "../theme"
+import { colors } from "../theme"
 import { Text } from "./Text"
 import { Event } from "../../types/trip"
 import { Avatar, Modal } from "@ui-kitten/components"
 import { Button } from "./Button"
 
-const $image: ViewStyle = {
-  flex: 1,
-  height: "100%",
-  width: "100%",
-  backgroundColor: colors.transparent,
-  borderRadius: 5,
-}
 export function getTime(date: Date) {
   // Need to check for minute rather than just put hour
   return date.toLocaleTimeString([], { hour: "2-digit" })
