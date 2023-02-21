@@ -1,11 +1,10 @@
 import { View, ViewStyle } from "react-native"
 import React from "react"
-import { Icon } from "./Icon"
-import { colors } from "../theme"
-import { Text } from "./Text"
-import { Event } from "../../types/trip"
+import { colors } from "../../theme"
+import { Text } from "../Text"
+import { Event } from "../../../types/trip"
 import { Avatar, Modal } from "@ui-kitten/components"
-import { Button } from "./Button"
+import { Icon, Button } from "../"
 
 export function getTime(date: Date) {
   // Need to check for minute rather than just put hour
@@ -47,31 +46,17 @@ export function EventInfo(props: EventInfoProps) {
               }}
             />
           </View>
-
-          {/* <Icon icon="personSmall" style={{left:300}}/> */}
-          {/* This will be the icons spot */}
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-evenly", padding: 10 }}>
-          <Avatar
-            source={{
-              uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-            }}
-          />
-          <Avatar
-            source={{
-              uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-            }}
-          />
-          <Avatar
-            source={{
-              uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-            }}
-          />
-          <Avatar
-            source={{
-              uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-            }}
-          />
+          {event.attendees.map((attendee)=>{
+            return(
+              <Avatar
+                source={{
+                  uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
+                }}
+              />
+            );
+          })}
         </View>
         <View style={{}}>
           <Text
