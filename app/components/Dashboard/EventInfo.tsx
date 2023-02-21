@@ -21,14 +21,19 @@ export function EventInfo(props: EventInfoProps) {
   return (
     <Modal
       visible={visible}
-      style={{ width: "80%", height: "80%", justifyContent: "center", borderRadius: 5 }}
+      style={{ width: "90%", height: "80%", justifyContent: "center", borderRadius: 5 }}
     >
       <View style={{ backgroundColor: "white", borderRadius: 20, padding: 15 }}>
         <View>
-          <Text text={event.title} preset="title" style={{ color: colors.palette.neutral1000 }} />
+          <Text
+            text={event.title}
+            preset="title"
+            style={{ color: colors.palette.neutral1000 }}
+            size="xxl"
+          />
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row" }}>
-              <Icon icon="pin" />
+              <Icon icon={"vector"} />
               <Text
                 text={event.location}
                 preset="bold"
@@ -47,15 +52,16 @@ export function EventInfo(props: EventInfoProps) {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly", padding: 10 }}>
+        <View style={{ flexDirection: "row", padding: 10, flexWrap: "wrap" }}>
           {event.attendees.map((attendee) => {
             return (
-              <Avatar
-                key={attendee.substring(0, 1)}
-                source={{
-                  uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-                }}
-              />
+              <View key={Math.random()} style={{ paddingRight: 10 }}>
+                <Avatar
+                  source={{
+                    uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
+                  }}
+                />
+              </View>
             )
           })}
         </View>

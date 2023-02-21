@@ -111,6 +111,7 @@ export const iconRegistry = {
   settings: require("../../assets/icons/settings.png"),
   slack: require("../../assets/icons/slack.png"),
   view: require("../../assets/icons/view.png"),
+  vector: require("../../assets/icons/vector.png"),
   x: require("../../assets/icons/x.png"),
   facebook: require("../../assets/icons/facebook.png"),
   twitter: require("../../assets/icons/twitter.png"),
