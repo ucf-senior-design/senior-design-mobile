@@ -1,4 +1,4 @@
-import { View, ViewStyle } from "react-native"
+import { View } from "react-native"
 import React from "react"
 import { colors } from "../../theme"
 import { Text } from "../Text"
@@ -48,15 +48,15 @@ export function EventInfo(props: EventInfoProps) {
           </View>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-evenly", padding: 10 }}>
-          {event.attendees.map((attendee)=>{
-            return(
+          {event.attendees.map((attendee) => {
+            return (
               <Avatar
-                key={ attendee.substring(0,1)}
+                key={attendee.substring(0, 1)}
                 source={{
                   uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
                 }}
               />
-            );
+            )
           })}
         </View>
         <View style={{}}>
