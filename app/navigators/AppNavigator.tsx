@@ -78,32 +78,31 @@ const AppStack = observer(function AppStack({
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* Pages shown to users that did not finish registration */}
-      {/* {user !== undefined && user !== null && !user.didFinishRegister && (
+      {user !== undefined && user !== null && !user.didFinishRegister && (
         <>
           <Stack.Screen name="Details" component={Details} />
         </>
-      )} */}
+      )}
       {/* Pages that should only be shown to not logged in users */}
-      {/* {(user === undefined || user === null) && (
+      {(user === undefined || user === null) && (
         <>
           <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CreateAccount" component={CreateAccount} />
         </>
-      )} */}
+      )}
       {/* Pages shown to only logged in users */}
-      {/* {user && user.didFinishRegister && (
+      {user && user.didFinishRegister && (
         <>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ViewTrip" component={ViewTrip} />
           <Stack.Screen name="Account" component={Account} />
         </>
-      )} */}
+      )}
       {/* Pages that can be shown to anyone */}
-      {/* <Stack.Screen name="Email" component={Email} />
-      <Stack.Screen name="Password" component={Password} /> */}
-      <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="Email" component={Email} />
+      <Stack.Screen name="Password" component={Password} />
     </Stack.Navigator>
   )
 })

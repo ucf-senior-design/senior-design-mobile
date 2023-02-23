@@ -1,7 +1,7 @@
 import { View, ViewStyle } from "react-native"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { TripHome, ViewTrip, Account, TripItinerary } from "../screens"
+import { TripHome, Account, TripItinerary } from "../screens"
 import { Icon } from "./Icon"
 
 export type TabStackParamList = {

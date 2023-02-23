@@ -53,6 +53,7 @@ export function EventInfo(props: EventInfoProps) {
           </View>
         </View>
         <View style={{ flexDirection: "row", padding: 10, flexWrap: "wrap" }}>
+          {/* TODO: This will map the attendee profile pictures once they are implemented */}
           {event.attendees.map((attendee) => {
             return (
               <View key={Math.random()} style={{ paddingRight: 10 }}>
