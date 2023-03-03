@@ -42,13 +42,12 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
       <ScrollView
         contentContainerStyle={{
           width: "100%",
-          height: "100%",
           alignContent: "center",
           justifyContent: "center",
         }}
       >
         {/* TODO: Implement function to get current trip, if any */}
-        <Text text="current" preset="heading" style={{ paddingBottom: 10 }} size="xl" />
+        <Text text="current" preset="heading" style={{ paddingBottom: 0 }} size="xl" />
         <TripCard
           size="lg"
           trip={{
