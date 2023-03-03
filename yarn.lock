@@ -13276,6 +13276,11 @@ react-native-codegen@^0.69.2:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-collapsible-list@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible-list/-/react-native-collapsible-list-2.2.2.tgz#b3b65d9b03896e954c6566d05c477b29c21f8a8a"
+  integrity sha512-u+Ic3BUkL0FD0pa2MxSmIZkj9qISY3708TYZuPcKx1495BnYYpjqMiRn/SASveu41tvaUrKpR4Th8EueUiZRHw==
+
 react-native-dotenv@^3.4.6:
   version "3.4.6"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-3.4.6.tgz#7860f9b4543789f661765a0e7c3f40914133fa4e"

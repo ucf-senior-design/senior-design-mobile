@@ -8,6 +8,8 @@ import { Trip, Duration } from "../../types/trip"
 import { JoinEvent } from "../components/Dashboard/JoinEvent"
 import { TripHeader } from "../components/Dashboard/TripHeader"
 import { TimelineInfo } from "../components/Dashboard/TimelineInfo"
+import { Text } from "../components"
+import CollapsibleList from "react-native-collapsible-list"
 
 type TripItineraryProps = AppStackScreenProps<"TripItinerary">
 export function getTime(date: Date) {
@@ -30,6 +32,8 @@ export function getDuration(duration: Duration) {
 }
 
 export const TripItinerary: FC<TripItineraryProps> = observer(function TripItineraryScreen() {
+
+
   const trips = [
     {
       destination: "Orlando",
@@ -45,7 +49,7 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
     {
       uid: "uid",
       title: "Titles",
-      attendees: ["Array<string>","Array<string>", ],
+      attendees: ["Array<string>", "Array<string>"],
       duration: { start: new Date(), end: new Date() },
       location: "Location",
       description: "Description",
@@ -60,7 +64,7 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
     },
     {
       uid: "uid",
-      title: "Titles2",
+      title: "Titles3",
       attendees: ["Array<string>"],
       duration: { start: new Date(), end: new Date() },
       location: "Location",
@@ -68,7 +72,15 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
     },
     {
       uid: "uid",
-      title: "Titles2",
+      title: "Titles4",
+      attendees: ["Array<string>"],
+      duration: { start: new Date(), end: new Date() },
+      location: "Location",
+      description: "Description",
+    },
+    {
+      uid: "uid",
+      title: "Titles5",
       attendees: ["Array<string>"],
       duration: { start: new Date(), end: new Date() },
       location: "Location",
@@ -78,27 +90,23 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
 
   return (
     <SafeAreaView style={{ backgroundColor: colors.background, height: "100%" }}>
-
+        <TripHeader trip={trips[0]} />
       <ScrollView>
-      <TripHeader trip={trips[0]} />
-      <View style={{ alignItems: "center" }}>
-        <Select
-          placeholder="Date"
-          style={{ width: "95%" }}
-          value={printDay(selectedIndex.row, trips[0])}
-          selectedIndex={selectedIndex}
-          onSelect={(index) => {
-            setSelectedIndex(index)
-          }}
-          >
-          <SelectItem title={"March 1"} />
-          <SelectItem title={"March 2"} />
-          <SelectItem title={"March 3"} />
-        </Select>
-        <View style={{ backgroundColor: "white", height: 2, width: "95%" }} />
-      </View>
-      <TimelineInfo event={sampleEvent}/>
-      <JoinEvent event={sampleEvent[0]}></JoinEvent>
+          <CollapsibleList
+          numberOfVisibleItems={1}
+          buttonPosition="top"
+              buttonContent={
+                <View style={{ alignSelf: "center", width: "95%", justifyContent: "center", paddingTop: 15}}>
+                  <Text text="Hello!" preset="bold" size="xl"></Text>
+                </View>
+              }
+            >
+        <View style={{ alignItems: "center" }}>
+          <View style={{ backgroundColor: "white", height: 2, width: "95%" }} />
+        </View>
+        <TimelineInfo event={sampleEvent} />
+        <JoinEvent event={sampleEvent[0]}></JoinEvent>
+          </CollapsibleList>
       </ScrollView>
     </SafeAreaView>
   )
