@@ -1,8 +1,8 @@
 import { View, ImageBackground, ViewStyle, StyleProp } from "react-native"
 import React from "react"
-import { colors } from "../theme"
-import { Text } from "./Text"
-import { Trip } from "../../types/trip"
+import { colors } from "../../theme"
+import { Text } from "../Text"
+import { Trip } from "../../../types/trip"
 import { Avatar } from "@ui-kitten/components"
 
 const $image: ViewStyle = {
@@ -27,7 +27,7 @@ const TripCard = (props: TripCardProps) => {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    backgroundColor: trip.image ? colors.transparent : "black",
+    backgroundColor: trip.photoURL ? colors.transparent : "black",
     padding: 5,
   }
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
@@ -42,10 +42,12 @@ const TripCard = (props: TripCardProps) => {
       }}
     >
       <ImageBackground
-        source={{ uri: trip.image }}
+        source={{ uri: trip.photoURL }}
         resizeMode="cover"
         style={$image}
-        imageStyle={{ borderRadius: 15 }}
+        imageStyle={{
+          borderRadius: 15,
+        }}
       >
         <View style={$style}>
           <Text
@@ -72,7 +74,7 @@ const TripCard = (props: TripCardProps) => {
         {size === "lg" ? (
           <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: 20 }}>
             <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
-            {trip.image ? <Avatar source={{ uri: trip.image }} /> : <></>}
+            {trip.photoURL ? <Avatar source={{ uri: trip.photoURL }} /> : <></>}
           </View>
         ) : (
           <></>

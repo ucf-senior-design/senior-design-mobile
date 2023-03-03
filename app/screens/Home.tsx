@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { Button, Screen, Text } from "../components"
-import { AppStackScreenProps } from "../navigators"
+import { AppStackScreenProps, navigate } from "../navigators"
 import { View } from "react-native"
 import { useAuth } from "../models/hooks"
 
@@ -19,7 +19,7 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
         }}
       >
         <Text text="home screen" />
-        <Button text="logout" onPress={() => doLogout()} />
+        <Button text="logout" onPress={() => navigate("Dashboard")} />
       </View>
     </Screen>
   )
