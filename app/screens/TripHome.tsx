@@ -47,7 +47,7 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
         }}
       >
         {/* TODO: Implement function to get current trip, if any */}
-        <Text text="current" preset="heading" style={{ paddingBottom: 0 }} size="xl" />
+        <Text text="current" preset="heading" size="xl" />
         <TripCard
           size="lg"
           trip={{
