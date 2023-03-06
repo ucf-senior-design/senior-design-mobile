@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React from "react"
 import { View } from "react-native"
 import { Avatar } from "@ui-kitten/components"
 import { Event, Duration } from "../../../types/trip"
@@ -25,7 +25,7 @@ type TimelineInfoProps = {
 }
 export function TimelineInfo(props: TimelineInfoProps) {
   const { event } = props
-  const renderDetail = (event, sectionID, rowID) => {
+  const renderDetail = (event) => {
     const title = (
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <Text text={event.title} preset="bold" size="md" />
