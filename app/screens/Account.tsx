@@ -1,10 +1,10 @@
 import { View } from "react-native"
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Icon, Screen, Text } from "../components"
+import { Button, Icon, iconRegistry, Screen, Text } from "../components"
 import { AppStackScreenProps } from "../navigators"
 import { useAuth } from "../models/hooks/authentication"
-import { Avatar } from "@ui-kitten/components"
+import { Avatar, Menu, MenuItem } from "@ui-kitten/components"
 
 type AccountProps = AppStackScreenProps<"Account">
 export const Account: FC<AccountProps> = observer(function ViewTripScreen() {
@@ -21,10 +21,28 @@ export const Account: FC<AccountProps> = observer(function ViewTripScreen() {
         </View>
       </View>
       <View>
-        <Text text="Profile" preset="heading" size="xl"/>
+        <Text text="Profile" preset="heading" size="xl" style={{paddingVertical: 20}}/>
+        <Menu style={{borderRadius: 20, backgroundColor: "white"}}>
+          <MenuItem title="Update Personal Information" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+          <MenuItem title="Update Emergency Information" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+          <MenuItem title="Change email" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+          <MenuItem title="Change password" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+        </Menu>
       </View>
-      <View>
-        <Text text="Notifications" preset="heading" size="xl"/>
+      <View style={{paddingVertical: 10}}>
+        <Text text="Notifications" preset="heading" size="xl" style={{paddingVertical: 20}}/>
+        <Menu style={{borderRadius: 20}}>
+          <MenuItem title="Event Change Notifications" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+          <MenuItem title="Itinerary Change Notifications" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+          <MenuItem title="Upcoming Event Notifications" accessoryRight={<Icon icon="caretRight"/>}/>
+          <View style={{height: 1, backgroundColor: "white"}}/>
+        </Menu>
       </View>
         <Button text="logout" onPress={() => doLogout()} />
     </Screen>
