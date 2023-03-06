@@ -10,6 +10,7 @@ import { TripHeader } from "../components/Dashboard/TripHeader"
 import { TimelineInfo } from "../components/Dashboard/TimelineInfo"
 import { Text } from "../components"
 import CollapsibleList from "react-native-collapsible-list"
+import { ItineraryDropdown } from "../components/Dashboard/ItineraryDropdown"
 
 type TripItineraryProps = AppStackScreenProps<"TripItinerary">
 export function getTime(date: Date) {
@@ -45,68 +46,13 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
   ]
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0))
 
-  const sampleEvent = [
-    {
-      uid: "uid",
-      title: "Titles",
-      attendees: ["Array<string>", "Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles2",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles3",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles4",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles5",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-  ]
+
 
   return (
     <SafeAreaView style={{ backgroundColor: colors.background, height: "100%" }}>
         <TripHeader trip={trips[0]} />
-      <ScrollView>
-          <CollapsibleList
-          numberOfVisibleItems={1}
-          buttonPosition="top"
-              buttonContent={
-                <View style={{ alignSelf: "center", width: "95%", justifyContent: "center", paddingTop: 15}}>
-                  <Text text="Hello!" preset="bold" size="xl"></Text>
-                </View>
-              }
-            >
-        <View style={{ alignItems: "center" }}>
-          <View style={{ backgroundColor: "white", height: 2, width: "95%" }} />
-        </View>
-        <TimelineInfo event={sampleEvent} />
-        <JoinEvent event={sampleEvent[0]}></JoinEvent>
-          </CollapsibleList>
+      <ScrollView contentContainerStyle={{paddingBottom: 30}}>
+          <ItineraryDropdown trip={trips[0]}/>
       </ScrollView>
     </SafeAreaView>
   )

@@ -7,9 +7,9 @@ type TripHeaderProps = {
   trip: Trip
 }
 
-export function getTime(date: Date, year: boolean) {
-  if (year) return date.toLocaleDateString([], { year: "numeric", month: "long", day: "2-digit" })
-  else return date.toLocaleDateString([], { month: "long", day: "2-digit" })
+export function getDate(date: Date, year: boolean) {
+  if (year) return date.toLocaleDateString([], { year: "numeric", month: "long", day: "numeric" })
+  else return date.toLocaleDateString([], { month: "long", day: "numeric" })
 }
 
 export function TripHeader(props: TripHeaderProps) {
@@ -25,7 +25,7 @@ export function TripHeader(props: TripHeaderProps) {
         <View style={{ marginBottom: 30, marginTop: "auto", paddingLeft: 20 }}>
           <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
           <Text
-            text={getTime(trip.duration.start, false) + " - " + getTime(trip.duration.end, true)}
+            text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}
             preset="subheading"
             style={{ paddingTop: 5 }}
             size="sm"
