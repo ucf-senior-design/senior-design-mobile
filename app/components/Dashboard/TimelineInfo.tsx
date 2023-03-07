@@ -52,6 +52,7 @@ export function TimelineInfo(props: TimelineInfoProps) {
           </View>
         </View>
         <View style={{ flexDirection: "row", paddingTop: 10 }}>
+          {/* TODO: The key will be the user's uid */}
           {event.attendees.map((attendee) => {
             return (
               <View key={Math.random()} style={{ paddingRight: 10 }}>

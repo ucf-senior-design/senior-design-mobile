@@ -1,9 +1,9 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { AppStackScreenProps } from "../navigators"
-import { SafeAreaView, ScrollView, View } from "react-native"
+import { SafeAreaView, ScrollView } from "react-native"
 import { colors } from "../theme"
-import { Trip, Duration } from "../../types/trip"
+import { Trip, Duration, Event } from "../../types/trip"
 import { TripHeader } from "../components/Dashboard/TripHeader"
 import { ItineraryDropdown } from "../components/Dashboard/ItineraryDropdown"
 
@@ -27,6 +27,43 @@ export function getDuration(duration: Duration) {
   )
 }
 
+const sampleEvent: Array<Array<Event>> = [
+  [
+    {
+      uid: "uid",
+      title: "Titles",
+      attendees: ["Array<string>", "Array<string>"],
+      duration: { start: new Date(), end: new Date() },
+      location: "Location",
+      description: "Description",
+    },
+    {
+      uid: "uid",
+      title: "Titles2",
+      attendees: ["Array<string>"],
+      duration: { start: new Date(), end: new Date() },
+      location: "Location",
+      description: "Description",
+    },
+    {
+      uid: "uid",
+      title: "Titles3",
+      attendees: ["Array<string>"],
+      duration: { start: new Date(), end: new Date() },
+      location: "Location",
+      description: "Description",
+    },
+    {
+      uid: "uid",
+      title: "Titles4",
+      attendees: ["Array<string>"],
+      duration: { start: new Date(), end: new Date() },
+      location: "Location",
+      description: "Description",
+    },
+  ],
+]
+
 export const TripItinerary: FC<TripItineraryProps> = observer(function TripItineraryScreen() {
   const trips = [
     {
@@ -42,8 +79,7 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
     <SafeAreaView style={{ backgroundColor: colors.background, height: "100%" }}>
       <TripHeader trip={trips[0]} />
       <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-        <ItineraryDropdown trip={trips[0]} />
-        <ItineraryDropdown trip={trips[0]} />
+        <ItineraryDropdown itinerary={sampleEvent} joinableEvents={sampleEvent} />
       </ScrollView>
     </SafeAreaView>
   )
