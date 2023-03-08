@@ -43,7 +43,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     let trip = await getTrip()
     let eventData = await getEventData()
 
-    if (trip === null || eventData == null) {
+    if (trip === null || eventData === null) {
       alert("Cannot load trip.")
       return
     }
@@ -130,7 +130,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
         if (joinableIndex < joinable.length) {
           if (
             event.duration.end <= joinable[joinableIndex].duration.start &&
-            (index + 1 == itinerary.length ||
+            (index + 1 === itinerary.length ||
               itinerary[index + 1].duration.start >= joinable[joinableIndex].duration.end)
           ) {
             joinableEvents = addEventToList(joinableEvents, joinable[joinableIndex])
