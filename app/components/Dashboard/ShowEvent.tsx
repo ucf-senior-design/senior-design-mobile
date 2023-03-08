@@ -25,26 +25,22 @@ export function ShowEvent() {
           style={{ color: colors.palette.neutral1000, marginVertical: 5 }}
           size="xl"
         />
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={{ flexDirection: "row" }}>
-            <Icon icon={"vector"} style={{ marginRight: 10 }} />
-            <Text
-              text={selectedEvent.location}
-              preset="bold"
-              size="sm"
-              style={{ color: colors.palette.neutral1000, paddingLeft: 5 }}
-            />
-          </View>
+        <Text
+          text={`${getTime(selectedEvent.duration.start)} - ${getTime(selectedEvent.duration.end)}`}
+          preset="bold"
+          size="sm"
+          style={{
+            color: colors.palette.neutral1000,
+            marginBottom: 5,
+          }}
+        />
+        <View style={{ flexDirection: "row" }}>
+          <Icon icon={"vector"} style={{ marginRight: 10 }} />
           <Text
-            text={`${getTime(selectedEvent.duration.start)} - ${getTime(
-              selectedEvent.duration.end,
-            )}`}
+            text={selectedEvent.location}
             preset="bold"
             size="sm"
-            style={{
-              textAlign: "right",
-              color: colors.palette.neutral1000,
-            }}
+            style={{ color: colors.palette.neutral1000, paddingLeft: 5 }}
           />
         </View>
 
