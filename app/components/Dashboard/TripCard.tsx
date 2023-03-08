@@ -59,6 +59,7 @@ const TripCard = (props: TripCardProps) => {
         height: size === "lg" ? 270 : 120,
         padding: size === "lg" ? 30 : 6,
         paddingHorizontal: size === "lg" ? 0 : 8,
+        paddingTop: size === "lg" ? 10 : 6,
       }}
     >
       <ImageBackground
