@@ -1,12 +1,13 @@
 import { View, ViewStyle } from "react-native"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { TripHome, ViewTrip, Account } from "../screens"
+import { TripHome, Account, TripItinerary } from "../screens"
 import { Icon } from "./Icon"
 
 export type TabStackParamList = {
   TripHome: undefined
   Trips: undefined
+  TripItinerary: undefined
   Account: undefined
 }
 
@@ -60,7 +61,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="TripHome" component={TripHome} />
-      <Tab.Screen name="Trips" component={ViewTrip} />
+      <Tab.Screen name="Trips" component={TripItinerary} />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   )
