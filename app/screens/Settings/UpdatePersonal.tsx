@@ -1,26 +1,42 @@
-import { observer } from "mobx-react-lite"
+import { ScrollView, View, ViewStyle } from "react-native"
 import React, { FC, useState } from "react"
-import { View, ViewStyle, ScrollView, Image } from "react-native"
+import { observer } from "mobx-react-lite"
+import { Button, Icon, Screen, SelectChipList, Text, TextField } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
-import { Screen, TextField, SelectChipList, Button, Icon, Text } from "../../components"
-import { useAuth, SelectListHook } from "../../models/hooks"
-import { User } from "../../../types/auth"
+import { Avatar } from "@ui-kitten/components"
 import { spacing } from "../../theme"
-import { load } from "../../utils/storage"
 import { launchImageLibrary } from "react-native-image-picker"
-type RegisterProps = AppStackScreenProps<"Details">
+import { SelectListHook } from "../../models/hooks"
+import { load } from "../../utils/storage"
+import { User } from "@react-native-google-signin/google-signin"
 
-interface RegisterUser extends User {
+interface UpdateUser extends User {
+  uid: string
+  email: string
+  name: string
+  profilePic: string
+  medicalInfo: string[]
+  allergies: string[]
   username: string
 }
-export const Details: FC<RegisterProps> = observer(function Details() {
-  // TODO: two usernames
-  const [details, sDetails] = useState<RegisterUser>({
+
+type UpdatePersonalProps = AppStackScreenProps<"UpdatePersonal">
+export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdatePersonalScreen() {
+  const [details, sDetails] = useState<UpdateUser>({
+    user: {
+      id: "string",
+      name: "string",
+      email: "string",
+      photo: "string",
+      familyName: "string",
+      givenName: "string",
+    },
+    idToken: "",
+    serverAuthCode: "",
     uid: "",
     email: "",
     name: "",
     profilePic: "",
-    userName: "",
     medicalInfo: [],
     allergies: [],
     username: "",
@@ -34,6 +50,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }
     sDetails((details) => ({
       ...details,
+      user,
       uid: user.uid,
       email: user.email,
       profilePic: user.profilePic,
@@ -41,7 +58,6 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }))
   }
 
-  const { addDetails } = useAuth()
   React.useEffect(() => {
     getStoredUserInfo()
   }, [])
@@ -70,60 +86,33 @@ export const Details: FC<RegisterProps> = observer(function Details() {
       }))
     }
   }
-  async function maybeFinishRegister() {
-    const user: User = {
-      ...details,
-      medicalInfo: Array.from(medicalCond.values.selected),
-      allergies: Array.from(foodAllergies.values.selected),
-    }
-    await addDetails(user, (response) => {
-      if (!response.isSuccess) {
-        alert(response.errorMessage)
-      }
-    })
+
+  const $container: ViewStyle = {
+    width: "100%",
+    paddingRight: 10,
+    alignContent: "center",
+    flexGrow: 1,
+    flexDirection: "column",
   }
+
   return (
-    <Screen
-      style={{ paddingHorizontal: 15, marginBottom: 20 }}
-      preset="fixed"
-      statusBarStyle="light"
-      backgroundImage={require("../../../assets/images/gradientBg.png")}
-      goBackHeader={true}
-    >
+    <Screen goBackHeader={true}>
+      <View style={{ alignSelf: "center", alignItems: "center" }}>
+        <Text text="Personal Information" style={{ paddingBottom: 10 }} />
+        <Avatar
+          style={{ borderRadius: 100, minWidth: "30%", minHeight: 100 }}
+          source={{
+            uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
+          }}
+        />
+      </View>
       <View style={{ flex: 1 }}>
         <ScrollView style={$container} contentContainerStyle={$container} centerContent={true}>
-          <Text
-            text="let's add some details"
-            preset="title"
-            style={{ textAlign: "center", fontSize: 25 }}
-          />
-          {details.profilePic.length > 0 && (
-            <Image
-              source={{ uri: details.profilePic }}
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: "center",
-                margin: spacing.small,
-                borderRadius: spacing.medium,
-              }}
-            />
-          )}
-          {details.profilePic.length === 0 && (
-            <Icon
-              icon="person"
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: "center",
-                margin: spacing.small,
-                borderRadius: spacing.medium,
-              }}
-            />
-          )}
+          <Text text="Details" preset="title" style={{ textAlign: "center", fontSize: 25 }} />
+
           <Button
-            text="Upload Picture "
-            preset="noFill"
+            text="Change Profile Picture"
+            preset="reversed"
             style={{ margin: 0 }}
             onPress={async () => await maybeUpdatePicture()}
           />
@@ -132,7 +121,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             status={isNameInvalid ? "error" : undefined}
             helper={isNameInvalid ? "missing name" : undefined}
             value={details.name}
-            label="name"
+            label="First Name"
             onChangeText={(e) =>
               sDetails((details) => ({
                 ...details,
@@ -141,14 +130,14 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             }
           />
           <TextField
-            status={isUsernameInvalid ? "error" : undefined}
-            helper={isUsernameInvalid ? "invalid username" : undefined}
-            label="username"
-            value={details.username}
+            status={isNameInvalid ? "error" : undefined}
+            helper={isNameInvalid ? "missing name" : undefined}
+            value={details.name}
+            label="Last Name"
             onChangeText={(e) =>
               sDetails((details) => ({
                 ...details,
-                username: e,
+                name: e,
               }))
             }
           />
@@ -170,7 +159,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             text="continue"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
-              await maybeFinishRegister()
+              alert("Confirm the changes")
             }}
           />
         </ScrollView>
@@ -178,11 +167,3 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     </Screen>
   )
 })
-
-const $container: ViewStyle = {
-  width: "100%",
-  paddingRight: 10,
-  alignContent: "center",
-  flexGrow: 1,
-  flexDirection: "column",
-}
