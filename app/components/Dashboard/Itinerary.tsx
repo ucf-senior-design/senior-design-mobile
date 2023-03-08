@@ -10,7 +10,7 @@ export function Itinerary() {
   return (
     <View style={{ backgroundColor: colors.background }}>
       {trip.days.map((day, index) => {
-        return <TripDay day={day} index={index} />
+        return <TripDay day={day} index={index} key={index} />
       })}
     </View>
   )

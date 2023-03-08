@@ -74,6 +74,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       async (response) => {
         if (response.ok) {
           let events = await getEventData()
+
           setTrip({
             ...trip,
             joinableEvents: events.joinableEvents,
@@ -90,6 +91,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       async (response) => {
         if (response.ok) {
           let events = await getEventData()
+
           setTrip({
             ...trip,
             joinableEvents: events.joinableEvents,
@@ -130,10 +132,6 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       }
 
       if (jIndex < trip.joinableEvents.length) {
-        console.log(
-          trip.joinableEvents[jIndex][0].duration.start.toLocaleDateString(),
-          new Date(day).toLocaleDateString(),
-        )
         if (
           trip.joinableEvents[jIndex][0].duration.start.toLocaleDateString() ===
           new Date(day).toLocaleDateString()
@@ -276,6 +274,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   }, [])
 
   React.useEffect(() => {
+    console.log("update")
     setTrip({
       ...trip,
       days: getEventsByDay(),
