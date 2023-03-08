@@ -26,6 +26,7 @@ import {
   ViewTrip,
   Account,
   TripHome,
+  TripItinerary,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -97,7 +98,7 @@ const AppStack = observer(function AppStack({
       {user && user.didFinishRegister && (
         <>
           <Stack.Screen name="TripHome" component={TripHome} />
-
+          <Stack.Screen name="TripItinerary" component={TripItinerary} />
           <Stack.Screen name="ViewTrip" component={ViewTrip} />
           <Stack.Screen name="Account" component={Account} />
         </>

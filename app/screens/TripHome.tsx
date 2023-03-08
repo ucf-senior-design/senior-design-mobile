@@ -9,6 +9,7 @@ import { DashboardProvider, useDashboard } from "../models/hooks/dashboard"
 import { Trip } from "../../types/trip"
 import { useAuth } from "../models/hooks"
 
+
 type TripHomeProps = AppStackScreenProps<"TripHome">
 type TripList = {
   current: Array<Trip>

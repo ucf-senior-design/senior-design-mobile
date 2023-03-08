@@ -1,11 +1,11 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { AppStackScreenProps } from "../navigators"
-import { SafeAreaView, ScrollView } from "react-native"
-import { colors } from "../theme"
+import { AppStackScreenProps, navigationRef } from "../navigators"
+import { Screen } from "../components"
 import { Trip, Duration, Event } from "../../types/trip"
 import { TripHeader } from "../components/Dashboard/TripHeader"
 import { ItineraryDropdown } from "../components/Dashboard/ItineraryDropdown"
+import { TripProvider } from "../models/hooks/trip"
 
 type TripItineraryProps = AppStackScreenProps<"TripItinerary">
 export function getTime(date: Date) {
@@ -65,6 +65,7 @@ const sampleEvent: Array<Array<Event>> = [
 ]
 
 export const TripItinerary: FC<TripItineraryProps> = observer(function TripItineraryScreen() {
+  const { uid } = navigationRef.getCurrentRoute().params as any
   const trips = [
     {
       destination: "Orlando",
@@ -76,11 +77,11 @@ export const TripItinerary: FC<TripItineraryProps> = observer(function TripItine
   ]
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.background, height: "100%" }}>
-      <TripHeader trip={trips[0]} />
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-        <ItineraryDropdown itinerary={sampleEvent} joinableEvents={sampleEvent} />
-      </ScrollView>
-    </SafeAreaView>
+    <Screen style={{ paddingTop: 0, paddingHorizontal: 0 }}>
+      <TripProvider id={uid}>
+        <TripHeader />
+        <ItineraryDropdown />
+      </TripProvider>
+    </Screen>
   )
 })

@@ -1,28 +1,50 @@
 import { ImageBackground, View } from "react-native"
 import React from "react"
 import { Text } from "../Text"
-import { Trip } from "../../../types/trip"
-
-type TripHeaderProps = {
-  trip: Trip
-}
+import { locationToColor } from "../../utils/helper"
+import { useTrip } from "../../models/hooks/trip"
 
 export function getDate(date: Date, year: boolean) {
-  if (year) return date.toLocaleDateString([], { year: "numeric", month: "long", day: "numeric" })
-  else return date.toLocaleDateString([], { month: "long", day: "numeric" })
+  if (year) {
+    return date.toLocaleDateString()
+  }
+  return date.toLocaleDateString()
 }
 
-export function TripHeader(props: TripHeaderProps) {
-  const { trip } = props
-  const image = trip.image ? { uri: trip.image } : require("../../../assets/images/gradientBg.png")
+export function TripHeader() {
+  const { trip } = useTrip()
+  const $headerSize = { height: 200, width: "100%" }
+  console.log("header", trip.uid, trip)
+  if (trip.uid === undefined || trip.uid.length === 0) {
+    return <></>
+  }
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
       <ImageBackground
-        source={image}
-        style={{ height: 200, width: "100%" }}
+        source={trip.photoURL !== undefined ? { uri: trip.photoURL } : undefined}
+        style={[
+          $headerSize,
+          trip.photoURL === undefined && {
+            backgroundColor: locationToColor(trip.destination),
+          },
+        ]}
         imageStyle={{ flex: 1 }}
       >
-        <View style={{ marginBottom: 30, marginTop: "auto", paddingLeft: 20 }}>
+        <View
+          style={[
+            {
+              height: 200,
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "center",
+              paddingHorizontal: 15,
+            },
+
+            trip.photoURL !== undefined && {
+              backgroundColor: "rgba(0,0,0,0.5)",
+            },
+          ]}
+        >
           <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
           <Text
             text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}

@@ -6,18 +6,19 @@ import { Icon } from ".."
 import CollapsibleList from "react-native-collapsible-list"
 import { TimelineInfo } from "./TimelineInfo"
 import { JoinEvent } from "./JoinEvent"
+import { useTrip } from "../../models/hooks/trip"
 
 export function getDate(date: Date, year: boolean) {
   if (year) return date.toLocaleDateString([], { year: "numeric", month: "long", day: "2-digit" })
   else return date.toLocaleDateString([], { month: "long", day: "2-digit" })
 }
 
-type ItineraryDropdownProps = {
-  itinerary: Array<Array<Event>>
-  joinableEvents?: Array<Array<Event>>
-}
-export function ItineraryDropdown(props: ItineraryDropdownProps) {
-  const { itinerary, joinableEvents } = props
+export function ItineraryDropdown() {
+  const { trip } = useTrip()
+
+  if (trip.uid.length === 0) {
+    return <></>
+  }
 
   const [open, setOpen] = React.useState(false)
 
@@ -44,18 +45,14 @@ export function ItineraryDropdown(props: ItineraryDropdownProps) {
       <View style={{ alignItems: "center" }}>
         <View style={{ backgroundColor: "white", height: 2, width: "95%" }} />
       </View>
-      {itinerary.map((itinerary) => {
+      {trip.itinerary.map((itinerary) => {
         return <TimelineInfo key={Math.random()} event={itinerary} />
       })}
-      {joinableEvents ? (
-        joinableEvents.map((day) => {
-          return day.map((event) => {
-            return <JoinEvent event={event} key={Math.random()} />
-          })
+      {trip.joinableEvents.map((day) => {
+        return day.map((event) => {
+          return <JoinEvent event={event} key={Math.random()} />
         })
-      ) : (
-        <></>
-      )}
+      })}
     </CollapsibleList>
   )
 }

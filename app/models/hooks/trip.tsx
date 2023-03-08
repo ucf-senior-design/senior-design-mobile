@@ -4,7 +4,6 @@ import { Event, SuggestionWidget, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
 
 interface TripUseState extends Trip {
-  suggestions: Map<string, SuggestionWidget>
   joinableEvents: Array<Array<Event>>
   itinerary: Array<Array<Event>>
 }
@@ -35,7 +34,6 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       end: new Date(),
     },
     destination: "",
-    suggestions: new Map<string, SuggestionWidget>(),
     itinerary: [],
     joinableEvents: [],
     photoURL: "",
@@ -65,7 +63,10 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     if (response.ok) {
       t = (await response.json()) as Trip
     }
-    return t
+    return {
+      ...t,
+      duration: { start: new Date(t.duration.start), end: new Date(t.duration.end) },
+    } as Trip
   }
 
   function addEventToList(list: Array<Array<Event>>, event: Event) {

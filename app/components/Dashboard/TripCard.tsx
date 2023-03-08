@@ -5,6 +5,8 @@ import { Text } from "../Text"
 import { Trip } from "../../../types/trip"
 import { Avatar } from "@ui-kitten/components"
 import { navigationRef } from "../../navigators"
+import { locationToColor } from "../../utils/helper"
+
 const $image: ViewStyle = {
   flex: 1,
   height: "100%",
@@ -30,29 +32,11 @@ const TripCard = (props: TripCardProps) => {
     backgroundColor: trip.photoURL ? colors.transparent : "black",
     padding: 5,
   }
-  function locationToColor(string: string) {
-    let hash = 0
-    let i
 
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash)
-    }
-
-    let color = "#"
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff
-      color += `00${value.toString(16)}`.slice(-2)
-    }
-    /* eslint-enable no-bitwise */
-
-    return color
-  }
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
     <Pressable
-      onPress={() => navigationRef.navigate("ViewTrip", { uid: trip.uid })}
+      onPress={() => navigationRef.navigate("TripItinerary", { uid: trip.uid })}
       style={{
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",
