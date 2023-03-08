@@ -1,20 +1,15 @@
 import React from "react"
 import { View } from "react-native"
 import { Avatar } from "@ui-kitten/components"
-import { Event, Duration } from "../../../types/trip"
+import { Event } from "../../../types/trip"
 import Timeline from "react-native-timeline-flatlist"
-import { Icon, Text } from "../../components"
-import { Icon as UiKittenIcon } from "@ui-kitten/components"
-import { EventInfo } from "../../components/Dashboard/EventInfo"
+import { Icon, Text } from ".."
 import { getDuration } from "../../utils/helper"
+import { useTrip } from "../../models/hooks/trip"
 
+export function DayTimeline({ events }: { events: Array<Event> }) {
+  const { openShowEvent } = useTrip()
 
-
-type TimelineInfoProps = {
-  event: Array<Event>
-}
-export function TimelineInfo(props: TimelineInfoProps) {
-  const { event } = props
   const renderDetail = (event) => {
     const title = (
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -60,19 +55,22 @@ export function TimelineInfo(props: TimelineInfoProps) {
   }
 
   return (
-    <Timeline
-      data={event}
-      circleSize={20}
-      circleColor="white"
-      lineColor="white"
-      lineWidth={5}
-      renderFullLine={true}
-      showTime={false}
-      style={{ paddingTop: 20 }}
-      onEventPress={(item) => {
-        return <EventInfo event={item[0]} />
-      }}
-      renderDetail={renderDetail}
-    />
+    <>
+      <Timeline
+        data={events}
+        circleSize={20}
+        circleColor="white"
+        lineColor="white"
+        lineWidth={5}
+        renderFullLine={true}
+        showTime={false}
+        style={{ paddingTop: 20 }}
+        onEventPress={(item) => {
+          let event = item as any as Event
+          openShowEvent(event)
+        }}
+        renderDetail={renderDetail}
+      />
+    </>
   )
 }

@@ -17,7 +17,11 @@ interface TripUseState extends Trip {
 interface TripContext {
   trip: TripUseState
   initilizeTrip: () => Promise<void>
+  leaveEvent: (uid: string) => void
   joinEvent: (uid: string) => void
+  closeShowEvent: () => void
+  openShowEvent: (event: Event) => void
+  selectedEvent: Event
 }
 
 const TripContext = React.createContext<TripContext>({} as TripContext)
@@ -30,6 +34,7 @@ export function useTrip(): TripContext {
   }
   return context
 }
+
 export function TripProvider({ children, id }: { children: React.ReactNode; id: string }) {
   // TODO: remove this and read in the trip in the initilizeTrip() function
 
@@ -46,6 +51,16 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     photoURL: "",
     days: [],
   })
+  const [selectedEvent, setSelectedEvent] = React.useState<Event | undefined>()
+
+  console.log("trip.tsx", selectedEvent)
+  function closeShowEvent() {
+    setSelectedEvent(undefined)
+  }
+
+  function openShowEvent(event: Event) {
+    setSelectedEvent(event)
+  }
 
   function getISODate(date: Date) {
     var year = date.getFullYear()
@@ -54,6 +69,22 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     return year + "-" + month + "-" + day
   }
 
+  async function leaveEvent(uid: string) {
+    await fetch(`${API_URL}trip/${trip.uid}/event/leave/${uid}`, { method: "PUT" }).then(
+      async (response) => {
+        if (response.ok) {
+          let events = await getEventData()
+          setTrip({
+            ...trip,
+            joinableEvents: events.joinableEvents,
+            itinerary: events.userEvents,
+          })
+        } else {
+          alert("Cannot leave event right now.")
+        }
+      },
+    )
+  }
   async function joinEvent(uid: string) {
     await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, { method: "PUT" }).then(
       async (response) => {
@@ -77,21 +108,14 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
 
     let iIndex = 0
     let jIndex = 0
-    console.log(
-      trip.duration.start,
-      getISODate(trip.duration.start),
-      new Date(getISODate(trip.duration.start)).getTime(),
-      new Date(trip.duration.start.toLocaleDateString()).getTime(),
-      new Date(trip.duration.end.toLocaleDateString()).getTime(),
-    )
+
     for (
       let day = new Date(getISODate(trip.duration.start)).getTime();
       day <= new Date(getISODate(trip.duration.end)).getTime();
       day += dayMilli
     ) {
-      console.log("day", new Date(day).toLocaleDateString())
       days.push({
-        date: new Date(day).toLocaleDateString(),
+        date: new Date(day).toLocaleDateString("en-US", { month: "long", day: "numeric" }),
         itinerary: [],
         joinable: [],
       })
@@ -264,6 +288,10 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
         initilizeTrip,
         trip,
         joinEvent,
+        closeShowEvent,
+        openShowEvent,
+        selectedEvent,
+        leaveEvent,
       }}
     >
       {children}

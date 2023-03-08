@@ -5,8 +5,7 @@ import { Text } from "../Text"
 import { Event } from "../../../types/trip"
 import { Icon } from ".."
 import CollapsibleList from "react-native-collapsible-list"
-import { TimelineInfo } from "./TimelineInfo"
-import { JoinEvent } from "./JoinEvent"
+import { JoinEvent, DayTimeline } from "./"
 import { useTrip } from "../../models/hooks/trip"
 
 export function TripDay({ day, index }: { day: Day; index: number }) {
@@ -22,21 +21,21 @@ export function TripDay({ day, index }: { day: Day; index: number }) {
           <View
             style={{
               alignSelf: "center",
-              width: "95%",
+              width: "90%",
               flexDirection: "row",
               justifyContent: "space-between",
-              paddingTop: 15,
+              padding: 15,
+              borderColor: "white",
+              borderBottomWidth: 0.5,
             }}
           >
-            <Text text={day.date ?? ""} preset="bold" size="xl" style={{ paddingLeft: 5 }}></Text>
-            {open ? <Icon icon="chevronDown" /> : <Icon icon="chevronUp" />}
+            <Text text={day.date ?? ""} preset="bold" size="lg"></Text>
+            {open ? <Icon size={18} icon="chevronDown" /> : <Icon size={18} icon="chevronUp" />}
           </View>
         }
       >
-        <View style={{ alignItems: "center" }}>
-          <View style={{ backgroundColor: "white", height: 2, width: "95%" }} />
-        </View>
-        <TimelineInfo key={index} event={day.itinerary} />
+        <DayTimeline key={index} events={day.itinerary} />
+
         {day.joinable.map((event) => {
           return <JoinEvent event={event} key={event.uid} />
         })}

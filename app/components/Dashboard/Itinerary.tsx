@@ -1,16 +1,17 @@
 import React from "react"
+import { View } from "react-native"
 import { useTrip } from "../../models/hooks/trip"
+import { colors } from "../../theme"
 import { TripDay } from "./TripDay"
 
-export function ItineraryDropdown() {
+export function Itinerary() {
   const { trip } = useTrip()
-  const [open, setOpen] = React.useState(false)
 
   return (
-    <>
+    <View style={{ backgroundColor: colors.background }}>
       {trip.days.map((day, index) => {
         return <TripDay day={day} index={index} />
       })}
-    </>
+    </View>
   )
 }

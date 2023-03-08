@@ -1,20 +1,13 @@
 import { ImageBackground, View } from "react-native"
 import React from "react"
 import { Text } from "../Text"
-import { locationToColor } from "../../utils/helper"
+import { getDate, locationToColor } from "../../utils/helper"
 import { useTrip } from "../../models/hooks/trip"
-
-export function getDate(date: Date, year: boolean) {
-  if (year) {
-    return date.toLocaleDateString()
-  }
-  return date.toLocaleDateString()
-}
 
 export function TripHeader() {
   const { trip } = useTrip()
   const $headerSize = { height: 200, width: "100%" }
-  console.log("header", trip.uid, trip)
+
   if (trip.uid === undefined || trip.uid.length === 0) {
     return <></>
   }
