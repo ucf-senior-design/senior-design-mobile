@@ -36,7 +36,7 @@ const TripCard = (props: TripCardProps) => {
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
     <Pressable
-      onPress={() => navigationRef.navigate("TripItinerary", { uid: trip.uid })}
+      onPress={() => navigationRef.navigate("ViewTrip", { uid: trip.uid })}
       style={{
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",

@@ -22,11 +22,7 @@ import {
   Home,
   Password,
   Details,
-  Dashboard,
   ViewTrip,
-  Account,
-  TripHome,
-  TripItinerary,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -44,19 +40,14 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Login: undefined
   Landing: undefined
-  Details: undefined
+  Login: undefined
   CreateAccount: undefined
   Email: undefined
-  Home: undefined
+  Details: undefined
   Password: undefined
+  Home: undefined
   ViewTrip: undefined
-  Settings: undefined
-  TripHome: undefined
-  TripItinerary: undefined
-  Dashboard: undefined
-  Account: undefined
 }
 
 /**
@@ -97,10 +88,8 @@ const AppStack = observer(function AppStack({
       {/* Pages shown to only logged in users */}
       {user && user.didFinishRegister && (
         <>
-          <Stack.Screen name="TripHome" component={TripHome} />
-          <Stack.Screen name="TripItinerary" component={TripItinerary} />
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="ViewTrip" component={ViewTrip} />
-          <Stack.Screen name="Account" component={Account} />
         </>
       )}
       {/* Pages that can be shown to anyone */}

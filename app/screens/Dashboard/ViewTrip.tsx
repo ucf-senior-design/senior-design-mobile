@@ -1,13 +1,13 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { AppStackScreenProps, navigationRef } from "../navigators"
-import { Screen } from "../components"
-import { Trip, Duration, Event } from "../../types/trip"
-import { TripHeader } from "../components/Dashboard/TripHeader"
-import { ItineraryDropdown } from "../components/Dashboard/ItineraryDropdown"
-import { TripProvider } from "../models/hooks/trip"
+import { AppStackScreenProps, navigationRef } from "../../navigators"
+import { Screen } from "../../components"
+import { Trip, Duration, Event } from "../../../types/trip"
+import { TripHeader } from "../../components/Dashboard/TripHeader"
+import { ItineraryDropdown } from "../../components/Dashboard/ItineraryDropdown"
+import { TripProvider } from "../../models/hooks/trip"
 
-type TripItineraryProps = AppStackScreenProps<"TripItinerary">
+type ViewTripProps = AppStackScreenProps<"ViewTrip">
 export function getTime(date: Date) {
   return date.toLocaleDateString([], { month: "long", day: "2-digit" })
 }
@@ -64,7 +64,7 @@ const sampleEvent: Array<Array<Event>> = [
   ],
 ]
 
-export const TripItinerary: FC<TripItineraryProps> = observer(function TripItineraryScreen() {
+export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
   const { uid } = navigationRef.getCurrentRoute().params as any
   const trips = [
     {

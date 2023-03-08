@@ -1,22 +1,21 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Icon, Screen, Text } from "../components"
-import { AppStackScreenProps } from "../navigators"
+import { Button, Icon, Screen, Text } from "../../components"
+import { AppStackScreenProps } from "../../navigators"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
-import TripCard from "../components/Dashboard/TripCard"
-import { DashboardProvider, useDashboard } from "../models/hooks/dashboard"
-import { Trip } from "../../types/trip"
-import { useAuth } from "../models/hooks"
+import TripCard from "../../components/Dashboard/TripCard"
+import { DashboardProvider, useDashboard } from "../../models/hooks/dashboard"
+import { Trip } from "../../../types/trip"
+import { useAuth } from "../../models/hooks"
 
-
-type TripHomeProps = AppStackScreenProps<"TripHome">
+type HomeProps = AppStackScreenProps<"Home">
 type TripList = {
   current: Array<Trip>
   upcoming: Array<Trip>
   previous: Array<Trip>
 }
-export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
+export const Home: FC<HomeProps> = observer(function HomeScreen() {
   const [tripList, setTripList] = React.useState<TripList>({
     current: [],
     upcoming: [],

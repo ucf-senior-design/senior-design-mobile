@@ -38,7 +38,7 @@ export function ItineraryDropdown() {
           }}
         >
           <Text text="March 1st" preset="bold" size="xl" style={{ paddingLeft: 5 }}></Text>
-          {open ? <Icon icon="chevronUp" /> : <Icon icon="chevronDown" />}
+          {open ? <Icon icon="chevronDown" /> : <Icon icon="chevronUp" />}
         </View>
       }
     >

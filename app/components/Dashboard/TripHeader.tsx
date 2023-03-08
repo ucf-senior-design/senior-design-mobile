@@ -33,7 +33,7 @@ export function TripHeader() {
         <View
           style={[
             {
-              height: 200,
+              height: 250,
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
