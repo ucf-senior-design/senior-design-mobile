@@ -17,6 +17,7 @@ interface TripUseState extends Trip {
 interface TripContext {
   trip: TripUseState
   initilizeTrip: () => Promise<void>
+  joinEvent: (uid: string) => void
 }
 
 const TripContext = React.createContext<TripContext>({} as TripContext)
@@ -52,6 +53,24 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     var day = date.getDate()
     return year + "-" + month + "-" + day
   }
+
+  async function joinEvent(uid: string) {
+    await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, { method: "PUT" }).then(
+      async (response) => {
+        if (response.ok) {
+          let events = await getEventData()
+          setTrip({
+            ...trip,
+            joinableEvents: events.joinableEvents,
+            itinerary: events.userEvents,
+          })
+        } else {
+          alert("Cannot join event right now.")
+        }
+      },
+    )
+  }
+
   function getEventsByDay() {
     let dayMilli = 1000 * 3600 * 24
     let days: Array<Day> = []
@@ -244,6 +263,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       value={{
         initilizeTrip,
         trip,
+        joinEvent,
       }}
     >
       {children}
