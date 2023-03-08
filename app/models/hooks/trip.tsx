@@ -3,9 +3,15 @@ import { API_URL } from "@env"
 import { Event, SuggestionWidget, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
 
+export type Day = {
+  date: string
+  itinerary: Array<Event>
+  joinable: Array<Event>
+}
 interface TripUseState extends Trip {
   joinableEvents: Array<Array<Event>>
   itinerary: Array<Array<Event>>
+  days: Array<Day>
 }
 
 interface TripContext {
@@ -37,10 +43,72 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     itinerary: [],
     joinableEvents: [],
     photoURL: "",
+    days: [],
   })
 
+  function getISODate(date: Date) {
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var day = date.getDate()
+    return year + "-" + month + "-" + day
+  }
+  function getEventsByDay() {
+    let dayMilli = 1000 * 3600 * 24
+    let days: Array<Day> = []
+
+    let iIndex = 0
+    let jIndex = 0
+    console.log(
+      trip.duration.start,
+      getISODate(trip.duration.start),
+      new Date(getISODate(trip.duration.start)).getTime(),
+      new Date(trip.duration.start.toLocaleDateString()).getTime(),
+      new Date(trip.duration.end.toLocaleDateString()).getTime(),
+    )
+    for (
+      let day = new Date(getISODate(trip.duration.start)).getTime();
+      day <= new Date(getISODate(trip.duration.end)).getTime();
+      day += dayMilli
+    ) {
+      console.log("day", new Date(day).toLocaleDateString())
+      days.push({
+        date: new Date(day).toLocaleDateString(),
+        itinerary: [],
+        joinable: [],
+      })
+      if (iIndex < trip.itinerary.length) {
+        if (
+          trip.itinerary[iIndex][0].duration.start.toLocaleDateString() ===
+          new Date(day).toLocaleDateString()
+        ) {
+          days[days.length - 1].itinerary = trip.itinerary[iIndex]
+          iIndex += 1
+        }
+      }
+
+      if (jIndex < trip.joinableEvents.length) {
+        console.log(
+          trip.joinableEvents[jIndex][0].duration.start.toLocaleDateString(),
+          new Date(day).toLocaleDateString(),
+        )
+        if (
+          trip.joinableEvents[jIndex][0].duration.start.toLocaleDateString() ===
+          new Date(day).toLocaleDateString()
+        ) {
+          days[days.length - 1].joinable = trip.joinableEvents[jIndex]
+          jIndex += 1
+        }
+      }
+    }
+
+    return days
+  }
   async function initilizeTrip() {
     let trip = await getTrip()
+    if (trip === null) {
+      alert("Cannot load trip.")
+      return
+    }
     let eventData = await getEventData()
 
     if (trip === null || eventData === null) {
@@ -53,6 +121,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       ...trip,
       itinerary: eventData.userEvents,
       joinableEvents: eventData.joinableEvents,
+      days: getEventsByDay(),
     })
   }
 
@@ -162,6 +231,13 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     console.log("getting data for trip:", id)
     initilizeTrip()
   }, [])
+
+  React.useEffect(() => {
+    setTrip({
+      ...trip,
+      days: getEventsByDay(),
+    })
+  }, [trip.joinableEvents, trip.itinerary])
 
   return (
     <TripContext.Provider

@@ -36,6 +36,7 @@ const TripCard = (props: TripCardProps) => {
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
     <Pressable
+      // @ts-ignore
       onPress={() => navigationRef.navigate("ViewTrip", { uid: trip.uid })}
       style={{
         borderRadius: 5,

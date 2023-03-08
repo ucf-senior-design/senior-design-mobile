@@ -6,6 +6,7 @@ import { Trip, Duration, Event } from "../../../types/trip"
 import { TripHeader } from "../../components/Dashboard/TripHeader"
 import { ItineraryDropdown } from "../../components/Dashboard/ItineraryDropdown"
 import { TripProvider } from "../../models/hooks/trip"
+import { SafeAreaView, ScrollView } from "react-native"
 
 type ViewTripProps = AppStackScreenProps<"ViewTrip">
 export function getTime(date: Date) {
@@ -27,43 +28,6 @@ export function getDuration(duration: Duration) {
   )
 }
 
-const sampleEvent: Array<Array<Event>> = [
-  [
-    {
-      uid: "uid",
-      title: "Titles",
-      attendees: ["Array<string>", "Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles2",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles3",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-    {
-      uid: "uid",
-      title: "Titles4",
-      attendees: ["Array<string>"],
-      duration: { start: new Date(), end: new Date() },
-      location: "Location",
-      description: "Description",
-    },
-  ],
-]
-
 export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
   const { uid } = navigationRef.getCurrentRoute().params as any
   const trips = [
@@ -80,7 +44,11 @@ export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
     <Screen style={{ paddingTop: 0, paddingHorizontal: 0 }}>
       <TripProvider id={uid}>
         <TripHeader />
-        <ItineraryDropdown />
+        <SafeAreaView>
+          <ScrollView>
+            <ItineraryDropdown />
+          </ScrollView>
+        </SafeAreaView>
       </TripProvider>
     </Screen>
   )
