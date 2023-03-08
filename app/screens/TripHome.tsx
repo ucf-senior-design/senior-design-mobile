@@ -1,12 +1,13 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Icon, Screen, Text } from "../components"
+import { Button, Icon, Screen, Text } from "../components"
 import { AppStackScreenProps } from "../navigators"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import TripCard from "../components/Dashboard/TripCard"
 import { DashboardProvider, useDashboard } from "../models/hooks/dashboard"
 import { Trip } from "../../types/trip"
+import { useAuth } from "../models/hooks"
 
 type TripHomeProps = AppStackScreenProps<"TripHome">
 type TripList = {
@@ -47,82 +48,88 @@ export const TripHome: FC<TripHomeProps> = observer(function TripHomeScreen() {
   }, [trips])
 
   return (
-    <DashboardProvider>
-      <Screen>
-        <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+    <Screen preset="scroll">
+      <>
+        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginVertical: 40 }}>
           <Icon icon="briefcase" size={50}></Icon>
           <Text text=" Trips" preset="title" style={{ paddingTop: 5 }} size="xxl" />
         </View>
-        <ScrollView
-          contentContainerStyle={{
-            width: "100%",
-            height: "100%",
-            alignContent: "center",
-            justifyContent: "center",
+
+        <View
+          style={{
+            flexDirection: "row",
+            paddingBottom: 10,
+            paddingTop: 10,
+            justifyContent: "space-between",
           }}
         >
-          <Text text="current" preset="heading" style={{ paddingBottom: 10 }} size="xl" />
-          {tripList.current.map((trip) => {
+          <Text text="current" preset="heading" size="xl" />
+          <Text
+            text={tripList.current.length + " trips"}
+            size="xs"
+            preset="default"
+            style={{ paddingTop: 10 }}
+          />
+        </View>
+        {tripList.current.map((trip) => {
+          return (
+            <>
+              <TripCard key={trip.uid} size="lg" trip={trip} />
+            </>
+          )
+        })}
+        <View
+          style={{
+            flexDirection: "row",
+            paddingBottom: 10,
+            paddingTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text text="upcoming" preset="heading" size="xl" />
+
+          <Text
+            text={tripList.upcoming.length + " trips"}
+            size="xs"
+            preset="default"
+            style={{ paddingTop: 10 }}
+          />
+        </View>
+        <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start" }}>
+          {tripList.upcoming.map((trip) => {
             return (
               <>
-                <TripCard size="lg" trip={trip} />
+                <TripCard key={trip.uid} size="sm" trip={trip} />
               </>
             )
           })}
-          <View
-            style={{
-              flexDirection: "row",
-              paddingBottom: 10,
-              paddingTop: 10,
-              justifyContent: "space-between",
-            }}
-          >
-            <Text text="upcoming" preset="heading" size="xl" />
-
-            <Text
-              text={tripList.upcoming.length + " trips"}
-              size="xs"
-              preset="default"
-              style={{ paddingTop: 10 }}
-            />
-          </View>
-          <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start" }}>
-            {tripList.current.map((trip) => {
-              return (
-                <>
-                  <TripCard size="sm" trip={trip} />
-                </>
-              )
-            })}
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              paddingBottom: 10,
-              paddingTop: 10,
-              justifyContent: "space-between",
-            }}
-          >
-            <Text text="previous" preset="heading" size="xl" />
-            <Text
-              text={tripList.previous.length + " trips"}
-              size="xs"
-              preset="default"
-              style={{ paddingTop: 10 }}
-            />
-          </View>
-          <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "space-between" }}>
-            {tripList.previous.map((trip) => {
-              return (
-                <>
-                  <TripCard size="sm" trip={trip} />
-                </>
-              )
-            })}
-          </View>
-        </ScrollView>
-      </Screen>
-    </DashboardProvider>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            paddingBottom: 10,
+            paddingTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text text="previous" preset="heading" size="xl" />
+          <Text
+            text={tripList.previous.length + " trips"}
+            size="xs"
+            preset="default"
+            style={{ paddingTop: 10 }}
+          />
+        </View>
+        <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "space-between" }}>
+          {tripList.previous.map((trip) => {
+            return (
+              <>
+                <TripCard key={trip.uid} size="sm" trip={trip} />
+              </>
+            )
+          })}
+        </View>
+      </>
+    </Screen>
   )
 })
