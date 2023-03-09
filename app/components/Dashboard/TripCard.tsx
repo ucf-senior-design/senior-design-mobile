@@ -62,28 +62,22 @@ const TripCard = (props: TripCardProps) => {
               backgroundColor: locationToColor(trip.destination),
               borderRadius: 15,
             },
-            trip.photoURL !== undefined && { flex: 1, backgroundColor: "rgba(0,0,0,0.5)" },
+            trip.photoURL !== undefined && {
+              flex: 1,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              borderRadius: 15,
+            },
           ]}
         >
-          <Text
-            text={trip.destination}
-            preset="title"
-            size={size === "lg" ? undefined : "lg"}
-            style={{
-              textAlign: "right",
-            }}
-          />
+          <Text text={trip.destination} preset="title" size={"sm"} />
           {size === "lg" ? (
             <Text
               text={`${getTime(trip.duration.start)} - ${getTime(trip.duration.end)}`}
               preset="subheading"
-              size="sm"
-              style={{
-                textAlign: "right",
-              }}
+              size="xs"
             />
           ) : (
-            <Text text={`${getTime(trip.duration.start)}`} preset="subheading" size="sm" />
+            <Text text={`${getTime(trip.duration.start)}`} preset="subheading" size="xs" />
           )}
         </View>
         {size === "lg" ? (

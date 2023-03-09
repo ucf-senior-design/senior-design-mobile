@@ -48,9 +48,15 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
   }, [trips])
 
   return (
-    <Screen preset="scroll">
-      <>
-        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginVertical: 40 }}>
+    <Screen
+      preset="fixed"
+      showNavBar={true}
+      contentContainerStyle={{ marginTop: 35 }}
+      statusBarStyle="light"
+      backgroundImage={require("../../../assets/images/gradientBg.png")}
+    >
+      <ScrollView>
+        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 40 }}>
           <Icon icon="briefcase" size={50}></Icon>
           <Text text=" Trips" preset="title" style={{ paddingTop: 5 }} size="xxl" />
         </View>
@@ -129,7 +135,7 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
             )
           })}
         </View>
-      </>
+      </ScrollView>
     </Screen>
   )
 })

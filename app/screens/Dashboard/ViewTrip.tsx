@@ -7,7 +7,6 @@ import { Itinerary } from "../../components/Dashboard/Itinerary"
 import { TripProvider } from "../../models/hooks/trip"
 import { SafeAreaView, ScrollView } from "react-native"
 import { ShowEvent } from "../../components/Dashboard/ShowEvent"
-import { Event } from "../../../types/trip"
 
 type ViewTripProps = AppStackScreenProps<"ViewTrip">
 export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
@@ -18,7 +17,7 @@ export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
       <Screen style={{ paddingTop: 0, paddingHorizontal: 0 }}>
         <ShowEvent />
         <TripHeader />
-        <SafeAreaView>
+        <SafeAreaView style={{flex:1}}>
           <ScrollView>
             <Itinerary />
           </ScrollView>
