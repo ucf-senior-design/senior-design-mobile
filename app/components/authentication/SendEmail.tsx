@@ -4,6 +4,8 @@ import { Text, Button, Icon } from ".."
 import { useAuth } from "../../models/hooks"
 import { navigate } from "../../navigators"
 import { spacing } from "../../theme"
+import { Toast } from 'toastify-react-native';
+
 export function SendEmail({ purpose }: { purpose: "emailVerify" | "passwordReset" }) {
   const { sendEmailVerification, sendPasswordReset } = useAuth()
   const title = purpose === "emailVerify" ? "almost there!" : "password reset"
@@ -19,16 +21,16 @@ export function SendEmail({ purpose }: { purpose: "emailVerify" | "passwordReset
     if (purpose === "emailVerify") {
       sendEmailVerification((response) => {
         if (!response.isSuccess) {
-          alert(response.errorMessage)
+          Toast.error(response.errorMessage)
         }
       })
     }
     if (purpose === "passwordReset") {
       sendPasswordReset((response) => {
         if (!response.isSuccess) {
-          alert(response.errorMessage)
+          Toast.error(response.errorMessage)
         } else {
-          alert("Password reset email sent.")
+          Toast.success("Password reset email sent.")
         }
       })
     }
@@ -41,6 +43,7 @@ export function SendEmail({ purpose }: { purpose: "emailVerify" | "passwordReset
         <Text style={{ marginBottom: spacing.medium }} preset="subheading" text={message} />
         {purpose === "emailVerify" && <Button text="Login" onPress={() => navigate("Login")} />}
         <Button text="Resend Email" preset="filled" onPress={() => handleEmailSend()} />
+        <Toast />
       </View>
     </View>
   )
