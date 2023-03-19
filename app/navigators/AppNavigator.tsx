@@ -99,7 +99,6 @@ const AppStack = observer(function AppStack({
       {/* Pages shown to only logged in users */}
       {user && user.didFinishRegister && (
         <>
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="ViewTrip" component={ViewTrip} />
         <Stack.Screen name="Account" component={Account} />

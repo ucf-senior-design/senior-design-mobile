@@ -6,7 +6,7 @@ import { AppStackScreenProps } from "../../navigators"
 import { Avatar } from "@ui-kitten/components"
 import { spacing } from "../../theme"
 import { launchImageLibrary } from "react-native-image-picker"
-import { SelectListHook } from "../../models/hooks"
+import { SelectListHook, useAuth } from "../../models/hooks"
 import { load } from "../../utils/storage"
 import { User } from "@react-native-google-signin/google-signin"
 
@@ -22,6 +22,7 @@ interface UpdateUser extends User {
 
 type UpdatePersonalProps = AppStackScreenProps<"UpdatePersonal">
 export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdatePersonalScreen() {
+  const { user } = useAuth();
   const [details, sDetails] = useState<UpdateUser>({
     user: {
       id: "string",
