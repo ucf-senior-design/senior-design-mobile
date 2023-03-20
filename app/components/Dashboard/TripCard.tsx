@@ -1,9 +1,11 @@
-import { View, ImageBackground, ViewStyle, StyleProp } from "react-native"
+import { View, ImageBackground, ViewStyle, StyleProp, Pressable } from "react-native"
 import React from "react"
-import { colors } from "../theme"
-import { Text } from "./Text"
-import { Trip } from "../../types/trip"
+import { colors } from "../../theme"
+import { Text } from "../Text"
+import { Trip } from "../../../types/trip"
 import { Avatar } from "@ui-kitten/components"
+import { navigationRef } from "../../navigators"
+import { locationToColor } from "../../utils/helper"
 
 const $image: ViewStyle = {
   flex: 1,
@@ -27,12 +29,15 @@ const TripCard = (props: TripCardProps) => {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    backgroundColor: trip.image ? colors.transparent : "black",
+    backgroundColor: trip.photoURL ? colors.transparent : "black",
     padding: 5,
   }
+
   const $style = [$defaultStyles, size === "sm" && $stylesToCenter]
   return (
-    <View
+    <Pressable
+      // @ts-ignore
+      onPress={() => navigationRef.navigate("ViewTrip", { uid: trip.uid })}
       style={{
         borderRadius: 5,
         width: size === "lg" ? "100%" : "50%",
@@ -43,12 +48,23 @@ const TripCard = (props: TripCardProps) => {
       }}
     >
       <ImageBackground
-        source={{ uri: trip.image }}
+        source={trip.photoURL !== undefined ? { uri: trip.photoURL } : undefined}
         resizeMode="cover"
-        style={$image}
-        imageStyle={{ borderRadius: 15 }}
+        style={[$image]}
+        imageStyle={{
+          borderRadius: 15,
+        }}
       >
-        <View style={$style}>
+        <View
+          style={[
+            $style,
+            trip.photoURL === undefined && {
+              backgroundColor: locationToColor(trip.destination),
+              borderRadius: 15,
+            },
+            trip.photoURL !== undefined && { flex: 1, backgroundColor: "rgba(0,0,0,0.5)" },
+          ]}
+        >
           <Text
             text={trip.destination}
             preset="title"
@@ -73,13 +89,13 @@ const TripCard = (props: TripCardProps) => {
         {size === "lg" ? (
           <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: 20 }}>
             <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
-            {trip.image ? <Avatar source={{ uri: trip.image }} /> : <></>}
+            {trip.photoURL ? <Avatar source={{ uri: trip.photoURL }} /> : <></>}
           </View>
         ) : (
           <></>
         )}
       </ImageBackground>
-    </View>
+    </Pressable>
   )
 }
 

@@ -13,6 +13,7 @@ import { useColorScheme } from "react-native"
 import { User } from "../../types/auth"
 import Config from "../config"
 import { useAuth } from "../models/hooks"
+import { DashboardProvider } from "../models/hooks/dashboard"
 import {
   LandingScreen,
   Login,
@@ -21,9 +22,7 @@ import {
   Home,
   Password,
   Details,
-  Dashboard,
   ViewTrip,
-  Account,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -41,19 +40,14 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Login: undefined
   Landing: undefined
-  Details: undefined
+  Login: undefined
   CreateAccount: undefined
   Email: undefined
-  Home: undefined
+  Details: undefined
   Password: undefined
+  Home: undefined
   ViewTrip: undefined
-  Settings: undefined
-  TripHome: undefined
-  TripItinerary: undefined
-  Dashboard: undefined
-  Account: undefined
 }
 
 /**
@@ -95,9 +89,7 @@ const AppStack = observer(function AppStack({
       {user && user.didFinishRegister && (
         <>
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ViewTrip" component={ViewTrip} />
-          <Stack.Screen name="Account" component={Account} />
         </>
       )}
       {/* Pages that can be shown to anyone */}
