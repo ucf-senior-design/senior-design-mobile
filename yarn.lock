@@ -17744,9 +17744,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-dotenv@npm:^3.4.6":
-  version: 3.4.6
-  resolution: "react-native-dotenv@npm:3.4.6"
+react-native-collapsible-list@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible-list/-/react-native-collapsible-list-2.2.2.tgz#b3b65d9b03896e954c6566d05c477b29c21f8a8a"
+  integrity sha512-u+Ic3BUkL0FD0pa2MxSmIZkj9qISY3708TYZuPcKx1495BnYYpjqMiRn/SASveu41tvaUrKpR4Th8EueUiZRHw==
+
+react-native-dotenv@^3.4.6:
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-3.4.6.tgz#7860f9b4543789f661765a0e7c3f40914133fa4e"
+  integrity sha512-OS+XdceNZmfFTIobQg8J5ZT6979Dr3j5GTgsIzu1JDdKV2IjIfYBTryTT3hJ8VMwdj5WiaredmZEVWwrRIwdtg==
   dependencies:
     dotenv: ^16.0.3
   peerDependencies:
@@ -17969,9 +17975,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-walkthrough-tooltip@npm:1.1.0":
-  version: 1.1.0
-  resolution: "react-native-walkthrough-tooltip@npm:1.1.0"
+react-native-timeline-flatlist@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-timeline-flatlist/-/react-native-timeline-flatlist-0.8.0.tgz#7965a1ccd52b72791ddc3a0c976fe34701fa1ed7"
+  integrity sha512-IVfCOxYx7Js84CaUJmtuxq2eyLvoQ1nRO5GG0mri14NH2NbMUwL9VhX19/yI8LpU2bnarlo7kjR6GLUP3DM/iQ==
+
+react-native-walkthrough-tooltip@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-walkthrough-tooltip/-/react-native-walkthrough-tooltip-1.1.0.tgz#cfead884b1816223af6640196261238dab916c91"
+  integrity sha512-r+8E79L/CnkFriVMef1QpgfO8yUnhiDchopXelYC+XuoXRM8JnNuqJofGc72YCP385M24y0189pzlvftjB0tkw==
   dependencies:
     prop-types: ^15.6.1
     react-fast-compare: ^2.0.4

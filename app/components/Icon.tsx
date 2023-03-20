@@ -90,6 +90,8 @@ export const iconRegistry = {
   briefcase: require("../../assets/icons/briefcase.png"),
   caretLeft: require("../../assets/icons/caretLeft.png"),
   caretRight: require("../../assets/icons/caretRight.png"),
+  chevronUp: require("../../assets/icons/chevronUp.png"),
+  chevronDown: require("../../assets/icons/chevronDown.png"),
   check: require("../../assets/icons/check.png"),
   clap: require("../../assets/icons/clap.png"),
   community: require("../../assets/icons/community.png"),
