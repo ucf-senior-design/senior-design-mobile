@@ -25,7 +25,6 @@ import {
   ViewTrip,
   Account,
   UpdatePersonal,
-  ChangeEmail,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -104,7 +103,6 @@ const AppStack = observer(function AppStack({
         <Stack.Screen name="Account" component={Account} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="UpdatePersonal" component={UpdatePersonal} />
-        <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
         <Stack.Screen name="Details" component={Details} />
         </>
       )}

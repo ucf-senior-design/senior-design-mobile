@@ -75,7 +75,6 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
       "avoid loud noises",
     ],
   })
-  const isUsernameInvalid = details.username.length === 0
   const isNameInvalid = details.name.length === 0
 
   async function maybeUpdatePicture() {
@@ -150,14 +149,14 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
           />
 
           <Button
-            disabled={isNameInvalid || isUsernameInvalid}
+            disabled={isNameInvalid}
             preset="default"
             style={{
               margin: 5,
               width: "100%",
               marginTop: spacing.small,
             }}
-            text="continue"
+            text="Save Changes"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
               alert("Confirm the changes")
