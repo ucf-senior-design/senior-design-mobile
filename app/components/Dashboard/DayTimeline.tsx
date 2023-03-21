@@ -66,7 +66,7 @@ export function DayTimeline({ events }: { events: Array<Event> }) {
         showTime={false}
         style={{ paddingTop: 20 }}
         onEventPress={(item) => {
-          let event = item as any as Event
+          const event = item as any as Event
           openShowEvent(event)
         }}
         renderDetail={renderDetail}

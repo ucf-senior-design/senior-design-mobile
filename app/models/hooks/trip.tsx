@@ -1,6 +1,6 @@
 import React from "react"
 import { API_URL } from "@env"
-import { Event, SuggestionWidget, Trip } from "../../../types/trip"
+import { Event, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
 
 export type Day = {
@@ -63,9 +63,9 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   }
 
   function getISODate(date: Date) {
-    var year = date.getFullYear()
-    var month = date.getMonth() + 1
-    var day = date.getDate()
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
     return year + "-" + month + "-" + day
   }
 
@@ -73,7 +73,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     await fetch(`${API_URL}trip/${trip.uid}/event/leave/${uid}`, { method: "PUT" }).then(
       async (response) => {
         if (response.ok) {
-          let events = await getEventData()
+          const events = await getEventData()
 
           setTrip({
             ...trip,
@@ -90,7 +90,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, { method: "PUT" }).then(
       async (response) => {
         if (response.ok) {
-          let events = await getEventData()
+          const events = await getEventData()
 
           setTrip({
             ...trip,
@@ -105,8 +105,8 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   }
 
   function getEventsByDay() {
-    let dayMilli = 1000 * 3600 * 24
-    let days: Array<Day> = []
+    const dayMilli = 1000 * 3600 * 24
+    const days: Array<Day> = []
 
     let iIndex = 0
     let jIndex = 0
@@ -145,12 +145,12 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     return days
   }
   async function initilizeTrip() {
-    let trip = await getTrip()
+    const trip = await getTrip()
     if (trip === null) {
       alert("Cannot load trip.")
       return
     }
-    let eventData = await getEventData()
+    const eventData = await getEventData()
 
     if (trip === null || eventData === null) {
       alert("Cannot load trip.")
@@ -229,7 +229,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     })
 
     if (response.ok) {
-      let data = await response.json()
+      const data = await response.json()
 
       const { joinable, itinerary }: { joinable: Array<Event>; itinerary: Array<Event> } = data
 

@@ -1,5 +1,3 @@
-type Method = "POST" | "GET" | "DELETE" | "PUT"
-
 export function createFetchRequestOptions(
   body: string | null,
   method: "POST" | "GET" | "DELETE" | "PUT",
@@ -15,7 +13,7 @@ export function createFetchRequestOptions(
           method,
           headers: myHeaders,
           redirect: "follow",
-          body: body,
+          body,
         }
       : {
           method,

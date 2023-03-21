@@ -1,18 +1,11 @@
 import React from "react"
 import { API_URL } from "@env"
-import { createFetchRequestOptions } from "../../utils/fetch"
 import { Trip } from "../../../types/trip"
 import { useAuth } from "./authentication"
 
 interface DashboardContext {
   trips: Map<string, Trip> | undefined
   getTrips: () => Promise<void>
-}
-
-interface Response {
-  result?: any
-  isSuccess: boolean
-  errorMessage?: string
 }
 
 const DashboardContext = React.createContext<DashboardContext>({} as DashboardContext)
