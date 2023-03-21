@@ -10,3 +10,4 @@ export * from "./AuthScreen/PasswordReset"
 
 export * from "./Dashboard/Home"
 export * from "./Dashboard/ViewTrip"
+export * from "./Dashboard/Account"
