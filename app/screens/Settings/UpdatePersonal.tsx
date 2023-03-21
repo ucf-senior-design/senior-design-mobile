@@ -121,19 +121,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
             status={isNameInvalid ? "error" : undefined}
             helper={isNameInvalid ? "missing name" : undefined}
             value={details.name}
-            label="First Name"
-            onChangeText={(e) =>
-              sDetails((details) => ({
-                ...details,
-                name: e,
-              }))
-            }
-          />
-          <TextField
-            status={isNameInvalid ? "error" : undefined}
-            helper={isNameInvalid ? "missing name" : undefined}
-            value={details.name}
-            label="Last Name"
+            label="Name"
             onChangeText={(e) =>
               sDetails((details) => ({
                 ...details,

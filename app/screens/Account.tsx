@@ -44,7 +44,7 @@ export const Account: FC<AccountProps> = observer(function AccountScreen() {
           <View style={{ height: 1, backgroundColor: "white" }} />
         </Menu>
       </View>
-      <View style={{ paddingVertical: 10 }}>
+      {/* <View style={{ paddingVertical: 10 }}>
         <Text text="Notifications" preset="heading" size="xl" style={{ paddingVertical: 10 }} />
         <Menu style={{ borderRadius: 20 }}>
           <MenuItem
@@ -66,7 +66,7 @@ export const Account: FC<AccountProps> = observer(function AccountScreen() {
             />
           <View style={{ height: 1, backgroundColor: "white" }} />
         </Menu>
-      </View>
+      </View> */}
       <Button text="logout" onPress={() => doLogout()}/>
       </SafeAreaView>
   )
