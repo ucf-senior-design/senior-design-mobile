@@ -209,9 +209,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: { email: string; password: string },
     callback: (response: AuthenticationResponse) => void,
   ) {
+    console.log(API_URL)
+
     const options = createFetchRequestOptions(JSON.stringify(register), "POST")
     const response = await fetch(`${API_URL}auth/register`, options)
 
+    console.log(await response.text())
     if (response.ok) {
       await storePartialCredentialResult(await response.json())
       navigate("Details")

@@ -1,43 +1,28 @@
 import { ImageBackground, View } from "react-native"
 import React from "react"
 import { Text } from "../Text"
-import { getDate, locationToColor } from "../../utils/helper"
-import { useTrip } from "../../models/hooks/trip"
+import { Trip } from "../../../types/trip"
 
-export function TripHeader() {
-  const { trip } = useTrip()
-  const $headerSize = { height: 200, width: "100%" }
+type TripHeaderProps = {
+  trip: Trip
+}
 
-  if (trip.uid === undefined || trip.uid.length === 0) {
-    return <></>
-  }
+export function getDate(date: Date, year: boolean) {
+  if (year) return date.toLocaleDateString([], { year: "numeric", month: "long", day: "numeric" })
+  else return date.toLocaleDateString([], { month: "long", day: "numeric" })
+}
+
+export function TripHeader(props: TripHeaderProps) {
+  const { trip } = props
+  const image = trip.image ? { uri: trip.image } : require("../../../assets/images/gradientBg.png")
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
       <ImageBackground
-        source={trip.photoURL !== undefined ? { uri: trip.photoURL } : undefined}
-        style={[
-          $headerSize,
-          trip.photoURL === undefined && {
-            backgroundColor: locationToColor(trip.destination),
-          },
-        ]}
+        source={image}
+        style={{ height: 200, width: "100%" }}
         imageStyle={{ flex: 1 }}
       >
-        <View
-          style={[
-            {
-              height: 250,
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              paddingHorizontal: 15,
-            },
-
-            trip.photoURL !== undefined && {
-              backgroundColor: "rgba(0,0,0,0.5)",
-            },
-          ]}
-        >
+        <View style={{ marginBottom: 30, marginTop: "auto", paddingLeft: 20 }}>
           <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
           <Text
             text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}
