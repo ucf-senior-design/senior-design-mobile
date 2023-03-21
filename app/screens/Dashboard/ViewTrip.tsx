@@ -13,16 +13,16 @@ export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {
   const { uid } = navigationRef.getCurrentRoute().params as any
 
   return (
-    <TripProvider id={uid}>
-      <Screen style={{ paddingTop: 0, paddingHorizontal: 0 }}>
-        <ShowEvent />
+    <Screen style={{ paddingTop: 0, paddingHorizontal: 0 }}>
+      <TripProvider id={uid}>
+        {/* <ShowEvent /> */}
         <TripHeader />
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{ flex: 1 }}>
           <ScrollView>
             <Itinerary />
           </ScrollView>
         </SafeAreaView>
-      </Screen>
-    </TripProvider>
+      </TripProvider>
+    </Screen>
   )
 })

@@ -77,10 +77,10 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
             style={{ paddingTop: 10 }}
           />
         </View>
-        {tripList.current.map((trip) => {
+        {tripList.current.map((trip,index) => {
           return (
             <>
-              <TripCard key={trip.uid} size="lg" trip={trip} />
+              <TripCard key={index} size="lg" trip={trip} />
             </>
           )
         })}
@@ -102,10 +102,10 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
           />
         </View>
         <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start" }}>
-          {tripList.upcoming.map((trip) => {
+          {tripList.upcoming.map((trip,index) => {
             return (
               <>
-                <TripCard key={trip.uid} size="sm" trip={trip} />
+                <TripCard key={index} size="sm" trip={trip} />
               </>
             )
           })}
@@ -127,10 +127,10 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
           />
         </View>
         <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "space-between" }}>
-          {tripList.previous.map((trip) => {
+          {tripList.previous.map((trip,index) => {
             return (
               <>
-                <TripCard key={trip.uid} size="sm" trip={trip} />
+                <TripCard key={index} size="sm" trip={trip} />
               </>
             )
           })}
