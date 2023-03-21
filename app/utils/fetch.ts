@@ -1,25 +1,15 @@
-type Method = "POST" | "GET" | "DELETE" | "PUT"
+type Method = "POST" | "GET" | "DELETE"
 
-export function createFetchRequestOptions(
-  body: string | null,
-  method: "POST" | "GET" | "DELETE" | "PUT",
-) {
+export function createFetchRequestOptions(body: string, method: Method) {
   const myHeaders = new Headers()
-  if (body !== null) {
-    myHeaders.append("Content-Type", "application/json")
-  }
+  myHeaders.append("Content-Type", "application/json")
 
-  const requestOptions: RequestInit =
-    method !== "GET"
-      ? {
-          method,
-          headers: myHeaders,
-          redirect: "follow",
-          body: body,
-        }
-      : {
-          method,
-        }
+  const requestOptions: RequestInit = {
+    method,
+    headers: myHeaders,
+    body,
+    redirect: "follow",
+  }
 
   return requestOptions
 }
