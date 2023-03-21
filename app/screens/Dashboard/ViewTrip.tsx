@@ -6,7 +6,6 @@ import { TripHeader } from "../../components/Dashboard/TripHeader"
 import { Itinerary } from "../../components/Dashboard/Itinerary"
 import { TripProvider } from "../../models/hooks/trip"
 import { SafeAreaView, ScrollView } from "react-native"
-import { ShowEvent } from "../../components/Dashboard/ShowEvent"
 
 type ViewTripProps = AppStackScreenProps<"ViewTrip">
 export const ViewTrip: FC<ViewTripProps> = observer(function ViewTripScreen() {

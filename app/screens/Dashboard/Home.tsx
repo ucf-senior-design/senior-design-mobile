@@ -1,13 +1,12 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { Button, Icon, Screen, Text } from "../../components"
+import { Icon, Screen, Text } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import TripCard from "../../components/Dashboard/TripCard"
-import { DashboardProvider, useDashboard } from "../../models/hooks/dashboard"
+import { useDashboard } from "../../models/hooks/dashboard"
 import { Trip } from "../../../types/trip"
-import { useAuth } from "../../models/hooks"
 
 type HomeProps = AppStackScreenProps<"Home">
 type TripList = {
@@ -24,9 +23,9 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
   const { trips } = useDashboard()
 
   React.useEffect(() => {
-    let current: Array<Trip> = []
-    let upcoming: Array<Trip> = []
-    let previous: Array<Trip> = []
+    const current: Array<Trip> = []
+    const upcoming: Array<Trip> = []
+    const previous: Array<Trip> = []
     if (trips === undefined) {
       return
     }
@@ -41,9 +40,9 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
     })
 
     setTripList({
-      current: current,
-      upcoming: upcoming,
-      previous: previous,
+      current,
+      upcoming,
+      previous,
     })
   }, [trips])
 
@@ -77,7 +76,7 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
             style={{ paddingTop: 10 }}
           />
         </View>
-        {tripList.current.map((trip,index) => {
+        {tripList.current.map((trip, index) => {
           return (
             <>
               <TripCard key={index} size="lg" trip={trip} />
@@ -102,7 +101,7 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
           />
         </View>
         <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start" }}>
-          {tripList.upcoming.map((trip,index) => {
+          {tripList.upcoming.map((trip, index) => {
             return (
               <>
                 <TripCard key={index} size="sm" trip={trip} />
@@ -127,7 +126,7 @@ export const Home: FC<HomeProps> = observer(function HomeScreen() {
           />
         </View>
         <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "space-between" }}>
-          {tripList.previous.map((trip,index) => {
+          {tripList.previous.map((trip, index) => {
             return (
               <>
                 <TripCard key={index} size="sm" trip={trip} />
