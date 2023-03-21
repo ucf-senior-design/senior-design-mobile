@@ -31,11 +31,36 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Set up Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: GitHub Environment Variables Action
+        uses: FranzDiebold/github-env-vars-action@v2.7.0
+
       - name: Install dependencies
         run: yarn install
       
-      - name: Run Linter
-        run: yarn lint
+      - name: Set up Expo-Updates
+        run: npx expo install expo-updates
+      
+      - name: 🚀 Build app
+        run: eas build -p all --non-interactive
+      - name: Publish update
+        id: eas-publish-update
+        run: |
+          { 
+            echo 'EAS_UPDATE_OUTPUT<<EOF'
+            eas update --branch "$CI_ACTION_REF_NAME" --message "$CI_PR_TITLE" --non-interactive --json
+            echo 'EOF'
+          } >> $GITHUB_ENV
 
-      - name: Prettify code
-        run: yarn format
+      - name: Add QR Code
+        uses: matthewmcintyre/eas-update-qr-commenter@v2.0
+        with:
+          ios-build-id: '${{ fromJSON(env.EAS_UPDATE_OUTPUT)[1].id }}'
+          android-build-id: '${{ fromJSON(env.EAS_UPDATE_OUTPUT)[0].id }}'
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
