@@ -2,8 +2,11 @@ import React from "react"
 import { Day } from "../../models/hooks/trip"
 import { View } from "react-native"
 import { Text } from "../Text"
+import { Event } from "../../../types/trip"
 import { Icon } from ".."
+import CollapsibleList from "react-native-collapsible-list"
 import { JoinEvent, DayTimeline } from "./"
+import { useTrip } from "../../models/hooks/trip"
 
 export function TripDay({ day, index }: { day: Day; index: number }) {
   const [open, setOpen] = React.useState(true)

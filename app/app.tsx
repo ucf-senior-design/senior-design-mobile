@@ -29,6 +29,7 @@ import { AuthProvider } from "./models/hooks"
 import { ApplicationProvider } from "@ui-kitten/components"
 import * as eva from "@eva-design/eva"
 import { DashboardProvider } from "./models/hooks/dashboard"
+import { TripProvider } from "./models/hooks/trip"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron

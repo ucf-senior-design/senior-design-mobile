@@ -14,7 +14,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
     email: "",
     password: "",
   })
-
+  
   const { doEmailPasswordLogin } = useAuth()
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
 

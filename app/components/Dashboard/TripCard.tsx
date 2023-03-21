@@ -50,7 +50,7 @@ const TripCard = (props: TripCardProps) => {
       <ImageBackground
         source={trip.photoURL !== undefined ? { uri: trip.photoURL } : undefined}
         resizeMode="cover"
-        style={$image}
+        style={[$image]}
         imageStyle={{
           borderRadius: 15,
         }}
