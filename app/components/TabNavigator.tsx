@@ -1,14 +1,12 @@
-import { View, ViewStyle } from "react-native"
+import { Pressable, View, ViewStyle } from "react-native"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { TripHome, Account, TripItinerary } from "../screens"
 import { Icon } from "./Icon"
+import { navigate, navigationRef } from "../navigators"
 
 export type TabStackParamList = {
-  TripHome: undefined
-  Trips: undefined
-  TripItinerary: undefined
-  Account: undefined
+  ViewTrip: undefined
+  Home: undefined
 }
 
 const $focusedBar: ViewStyle = {
@@ -20,50 +18,37 @@ const $focusedBar: ViewStyle = {
   alignItems: "center",
 }
 
-const Tab = createBottomTabNavigator<TabStackParamList>()
 const TabNavigator = () => {
+  const $selected: ViewStyle = {
+    borderTopWidth: 3,
+    borderColor: "white",
+  }
+
+  console.log()
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: "black",
-          border: "none",
-        },
-        tabBarIcon: ({ focused }) => {
-          if (route.name === "TripHome")
-            return (
-              <>
-                <View style={focused ? $focusedBar : {}}>
-                  <Icon icon="home"></Icon>
-                </View>
-              </>
-            )
-          else if (route.name === "Account")
-            return (
-              <>
-                <View style={focused ? $focusedBar : {}}>
-                  <Icon icon="personSmall"></Icon>
-                </View>
-              </>
-            )
-          else if (route.name === "Trips")
-            return (
-              <>
-                <View style={focused ? $focusedBar : {}}>
-                  <Icon icon="briefcase"></Icon>
-                </View>
-              </>
-            )
-          else return <Icon icon="debug" />
-        },
-      })}
-    >
-      <Tab.Screen name="TripHome" component={TripHome} />
-      <Tab.Screen name="Trips" component={TripItinerary} />
-      <Tab.Screen name="Account" component={Account} />
-    </Tab.Navigator>
+    <View style={{ backgroundColor: "black", height: 50, display: "flex", flexDirection: "row" }}>
+      <Pressable
+        onPress={() => navigate("Home")}
+        style={[
+          {
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+          navigationRef.current.getRootState().routes[0].name === "Home" && $selected,
+        ]}
+      >
+        <Icon icon="briefcase"></Icon>
+      </Pressable>
+      <Pressable
+        style={[
+          { flex: 1, alignItems: "center", justifyContent: "center" },
+          navigationRef.current.getRootState().routes[0].name === "Account" && $selected,
+        ]}
+      >
+        <Icon icon="personSmall"></Icon>
+      </Pressable>
+    </View>
   )
 }
 

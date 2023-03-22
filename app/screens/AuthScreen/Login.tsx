@@ -5,7 +5,6 @@ import { Screen, Text, TextField, Button } from "../../components"
 import { AppStackScreenProps, navigate } from "../../navigators"
 import { colors, spacing } from "../../theme"
 import * as EmailValidator from "email-validator"
-import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
 import { useAuth } from "../../models/hooks"
 type LoginProps = AppStackScreenProps<"Login">
 
@@ -15,6 +14,7 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
     email: "",
     password: "",
   })
+
   const { doEmailPasswordLogin } = useAuth()
   const isEmailInvalid = user.email.length === 0 || !EmailValidator.validate(user.email)
 
@@ -93,7 +93,6 @@ export const Login: FC<LoginProps> = observer(function LoginScreen() {
               style={{ justifyContent: "flex-end", margin: 0 }}
             />
           </View>
-          <ThirdPartyAuth />
           <Button text="log in" onPress={() => handleLogin()} />
         </View>
       </Screen>
