@@ -24,7 +24,6 @@ import {
   Dashboard,
   ViewTrip,
   Account,
-  Account,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -51,7 +50,6 @@ export type AppStackParamList = {
   Password: undefined
   ViewTrip: undefined
   Settings: undefined
-  TripHome: undefined
   TripItinerary: undefined
   Dashboard: undefined
   Account: undefined

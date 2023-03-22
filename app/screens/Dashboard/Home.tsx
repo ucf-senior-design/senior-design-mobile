@@ -4,7 +4,7 @@ import { Icon, Screen, Text } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
-import TripCard from "../../components/Dashboard/TripCard"
+import TripCard from "../../components/TripCard"
 import { useDashboard } from "../../models/hooks/dashboard"
 import { Trip } from "../../../types/trip"
 
