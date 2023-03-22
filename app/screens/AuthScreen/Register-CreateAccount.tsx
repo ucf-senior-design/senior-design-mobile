@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
 import { Dimensions, View, ViewStyle } from "react-native"
 import { Screen, Text, TextField, Button, Icon } from "../../components"
-import ThirdPartyAuth from "../../components/authentication/ThirdPartyAuth"
 import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { colors, spacing } from "../../theme"
 import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter"
@@ -128,7 +127,6 @@ export const CreateAccount: FC<RegisterProps> = observer(function CreateAccount(
           }
         />
 
-        <ThirdPartyAuth />
         <Button
           disabled={isConfirmPasswordInvalid || isEmailInvalid}
           style={{ alignSelf: "flex-end", marginTop: spacing.small }}

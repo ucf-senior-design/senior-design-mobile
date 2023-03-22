@@ -79,6 +79,7 @@ export function TimelineInfo(props: TimelineInfoProps) {
   }
 
   return (
+<<<<<<< HEAD:app/components/Dashboard/TimelineInfo.tsx
     <Timeline
       data={event}
       circleSize={20}
@@ -93,5 +94,24 @@ export function TimelineInfo(props: TimelineInfoProps) {
       }}
       renderDetail={renderDetail}
     />
+=======
+    <>
+      <Timeline
+        data={events}
+        circleSize={20}
+        circleColor="white"
+        lineColor="white"
+        lineWidth={5}
+        renderFullLine={true}
+        showTime={false}
+        style={{ paddingTop: 20 }}
+        onEventPress={(item) => {
+          const event = item as any as Event
+          openShowEvent(event)
+        }}
+        renderDetail={renderDetail}
+      />
+    </>
+>>>>>>> hooks:app/components/Dashboard/DayTimeline.tsx
   )
 }

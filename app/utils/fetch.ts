@@ -1,6 +1,7 @@
-type Method = "POST" | "GET" | "DELETE"
-
-export function createFetchRequestOptions(body: string, method: Method) {
+export function createFetchRequestOptions(
+  body: string | null,
+  method: "POST" | "GET" | "DELETE" | "PUT",
+) {
   const myHeaders = new Headers()
   myHeaders.append("Content-Type", "application/json")
 

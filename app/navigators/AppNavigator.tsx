@@ -24,6 +24,7 @@ import {
   Dashboard,
   ViewTrip,
   Account,
+  Account,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
