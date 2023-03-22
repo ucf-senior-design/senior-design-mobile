@@ -8,7 +8,6 @@ export * from "./AuthScreen/Register-CreateAccount"
 export * from "./AuthScreen/Register-Email"
 export * from "./AuthScreen/PasswordReset"
 
-export * from "./TripItinerary"
 export * from "./Dashboard"
 export * from "./Dashboard/Home"
 export * from "./Dashboard/ViewTrip"
