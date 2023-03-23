@@ -11,6 +11,7 @@ import { useTrip } from "../../models/hooks/trip"
 export function TripDay({ day, index }: { day: Day; index: number }) {
   const [open, setOpen] = React.useState(true)
 
+  console.log(index, day.joinable.length, day.itinerary.length)
   return (
     <>
       <View
@@ -25,7 +26,7 @@ export function TripDay({ day, index }: { day: Day; index: number }) {
           marginVertical: 10,
         }}
       >
-        <Text text={day.date ?? ""} preset="bold" size="md"></Text>
+        <Text text={day.date.toLocaleDateString("en-US", { month: "long", day: "numeric" }) ?? ""} preset="bold" size="md"></Text>
         {open ? (
           <Icon onPress={() => setOpen(!open)} size={18} icon="chevronDown" />
         ) : (
@@ -37,7 +38,7 @@ export function TripDay({ day, index }: { day: Day; index: number }) {
           {day.itinerary.length !== 0 || day.joinable.length !== 0 ? (
             <>
               <DayTimeline key={index} events={day.itinerary} />
-              {day.joinable.map((event) => {
+              {day.joinable.map((event, index) => {
                 return <JoinEvent event={event} key={event.uid} />
               })}
             </>

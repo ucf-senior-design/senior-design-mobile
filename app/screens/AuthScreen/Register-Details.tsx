@@ -96,36 +96,6 @@ export const Details: FC<RegisterProps> = observer(function Details() {
             preset="title"
             style={{ textAlign: "center", fontSize: 25 }}
           />
-          {details.profilePic.length > 0 && (
-            <Image
-              source={{ uri: details.profilePic }}
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: "center",
-                margin: spacing.small,
-                borderRadius: spacing.medium,
-              }}
-            />
-          )}
-          {details.profilePic.length === 0 && (
-            <Icon
-              icon="person"
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: "center",
-                margin: spacing.small,
-                borderRadius: spacing.medium,
-              }}
-            />
-          )}
-          <Button
-            text="Upload Picture "
-            preset="noFill"
-            style={{ margin: 0 }}
-            onPress={async () => await maybeUpdatePicture()}
-          />
 
           <TextField
             status={isNameInvalid ? "error" : undefined}

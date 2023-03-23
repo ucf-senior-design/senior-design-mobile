@@ -67,7 +67,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         }
       })
       .catch((e) => {
-        console.log(e)
+        console.log("error", e)
       })
   }
 }

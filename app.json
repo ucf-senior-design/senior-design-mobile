@@ -14,7 +14,8 @@
       "backgroundColor": "#191015"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/2c6b976d-68a8-4e9e-ab2d-e449fece046a"
     },
     "jsEngine": "hermes",
     "assetBundlePatterns": [
