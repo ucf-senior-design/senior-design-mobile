@@ -56,8 +56,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a",
-        "owner": "trip-planner-ucf"
+        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a"
       }
     }
   }
