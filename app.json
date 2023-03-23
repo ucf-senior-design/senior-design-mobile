@@ -1,5 +1,6 @@
 {
   "name": "tripPlanner",
+  "owner": "trip-planner-ucf",
   "displayName": "tripPlanner",
   "expo": {
     "name": "tripPlanner",
