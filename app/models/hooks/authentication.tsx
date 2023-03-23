@@ -55,7 +55,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     maybeLoadPersistedUser()
-  
   }, [])
 
   return (
@@ -186,6 +185,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: { email: string; password: string },
     callback: (response: AuthenticationResponse) => void,
   ) {
+    console.log(API_URL)
+
     const options = createFetchRequestOptions(JSON.stringify(register), "POST")
     const response = await fetch("https://we-tinerary.vercel.app/api/auth/register", {
       method: "OPTIONS",
@@ -202,7 +203,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify(register),
     })
 
-    console.log(response.ok, response.ok)
     if (response.ok) {
       await storePartialCredentialResult(await response.json())
       navigate("Details")

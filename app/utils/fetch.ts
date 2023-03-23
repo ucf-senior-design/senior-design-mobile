@@ -1,5 +1,3 @@
-type Method = "POST" | "GET" | "DELETE" | "PUT"
-
 export function createFetchRequestOptions(
   body: string | null,
   method: "POST" | "GET" | "DELETE" | "PUT",

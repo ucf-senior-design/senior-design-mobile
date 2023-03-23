@@ -29,7 +29,6 @@ const $childrenWrapper: ViewStyle = {
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: "white",
-  borderRadius: 15,
   padding: spacing.large,
   width: "100%",
 }
