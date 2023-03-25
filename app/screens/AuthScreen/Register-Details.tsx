@@ -8,6 +8,7 @@ import { User } from "../../../types/auth"
 import { spacing } from "../../theme"
 import { load } from "../../utils/storage"
 import { launchImageLibrary } from "react-native-image-picker"
+import { Toast } from 'toastify-react-native';
 type RegisterProps = AppStackScreenProps<"Details">
 
 interface RegisterUser extends User {
@@ -77,7 +78,7 @@ export const Details: FC<RegisterProps> = observer(function Details() {
     }
     await addDetails(user, (response) => {
       if (!response.isSuccess) {
-        alert(response.errorMessage)
+        Toast.error(response.errorMessage)
       }
     })
   }

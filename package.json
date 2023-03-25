@@ -93,7 +93,8 @@
     "react-native-timeline-flatlist": "^0.8.0",
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
-    "reactotron-react-native": "5.0.3"
+    "reactotron-react-native": "5.0.3",
+    "toastify-react-native": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",

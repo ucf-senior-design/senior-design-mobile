@@ -6,6 +6,7 @@ import { save, load, remove } from "../../utils/storage"
 import React from "react"
 import { LoginManager as FacebookLogin, AccessToken } from "react-native-fbsdk-next"
 import { User } from "../../../types/auth"
+import { Toast } from 'toastify-react-native';
 
 interface EmailPasswordLogin {
   email: string
@@ -129,7 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await storePartialCredentialResult(await response.json())
       }
     } else {
-      alert(await response.text())
+      Toast.error(await response.text())
     }
   }
 
@@ -141,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         })
       },
       function (error) {
-        alert(error)
+        Toast.error(error)
       },
     )
   }
@@ -179,7 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await doLoginWithCredentials("google", user.idToken)
       })
     } catch (e) {
-      alert(e)
+      Toast.error(e)
     }
   }
 
