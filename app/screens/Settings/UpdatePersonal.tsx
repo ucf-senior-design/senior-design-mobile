@@ -102,7 +102,8 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
         <Avatar
           style={{ borderRadius: 100, minWidth: "30%", minHeight: 100 }}
           source={{
-            uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
+            // uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
+            uri: details.profilePic ? details.profilePic : "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png"
           }}
         />
       </View>
