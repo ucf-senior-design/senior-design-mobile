@@ -1,5 +1,6 @@
 {
   "name": "tripPlanner",
+  "owner": "trip-planner-ucf",
   "displayName": "tripPlanner",
   "expo": {
     "name": "tripPlanner",
@@ -14,7 +15,8 @@
       "backgroundColor": "#191015"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/2c6b976d-68a8-4e9e-ab2d-e449fece046a"
     },
     "jsEngine": "hermes",
     "assetBundlePatterns": [
@@ -54,7 +56,8 @@
     },
     "extra": {
       "eas": {
-        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a"
+        "projectId": "2c6b976d-68a8-4e9e-ab2d-e449fece046a",
+        "owner": "trip-planner-ucf"
       }
     }
   }

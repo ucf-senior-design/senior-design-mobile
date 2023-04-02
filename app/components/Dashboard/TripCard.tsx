@@ -81,10 +81,16 @@ const TripCard = (props: TripCardProps) => {
           )}
         </View>
         {size === "lg" ? (
-          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: 20 }}>
-            <Text text="5 Days away" style={{ padding: 15 }} size="xs" preset="default" />
-            {trip.photoURL ? <Avatar source={{ uri: trip.photoURL }} /> : <></>}
-          </View>
+          <View
+            style={[
+              { flexDirection: "row", justifyContent: "space-between", paddingRight: 20 },
+              trip.photoURL !== undefined && {
+                flex: 1,
+                backgroundColor: "rgba(0,0,0,0.5)",
+                borderRadius: 15,
+              },
+            ]}
+          ></View>
         ) : (
           <></>
         )}

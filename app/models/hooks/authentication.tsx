@@ -1,10 +1,8 @@
 import { API_URL } from "@env"
 import { navigate } from "../../navigators"
 import { createFetchRequestOptions } from "../../utils/fetch"
-import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { save, load, remove } from "../../utils/storage"
 import React from "react"
-import { LoginManager as FacebookLogin, AccessToken } from "react-native-fbsdk-next"
 import { User } from "../../../types/auth"
 
 interface EmailPasswordLogin {
@@ -133,18 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function doFacebookLogin() {
-    FacebookLogin.logInWithPermissions(["public_profile"]).then(
-      function () {
-        AccessToken.getCurrentAccessToken().then(async (facebookToken) => {
-          await doLoginWithCredentials("facebook", facebookToken.accessToken)
-        })
-      },
-      function (error) {
-        alert(error)
-      },
-    )
-  }
+  async function doFacebookLogin() {}
 
   async function saveRegisterdUser(user: User) {
     await save("user", {
@@ -162,26 +149,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const result = await response.text()
 
     if (response.ok) {
-      if (response.status === EMAIL_VERIFIED) {
-        navigate("Home")
-        return
-      }
+      navigate("Email")
+
       callback({ isSuccess: response.ok })
       return
     }
     callback({ isSuccess: response.ok, errorMessage: result })
   }
 
-  async function doGoogleLogin() {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
-    try {
-      await GoogleSignin.signIn().then(async (user) => {
-        await doLoginWithCredentials("google", user.idToken)
-      })
-    } catch (e) {
-      alert(e)
-    }
-  }
+  async function doGoogleLogin() {}
 
   async function sendEmailVerification(callback: (response: AuthenticationResponse) => void) {
     const user = await load("user")
@@ -212,9 +188,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log(API_URL)
 
     const options = createFetchRequestOptions(JSON.stringify(register), "POST")
-    const response = await fetch(`${API_URL}auth/register`, options)
+    const response = await fetch("https://we-tinerary.vercel.app/api/auth/register", {
+      method: "OPTIONS",
 
-    console.log(await response.text())
+      headers: {
+        Origin: "https://we-tinerary.vercel.app",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept",
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      body: JSON.stringify(register),
+    })
+
     if (response.ok) {
       await storePartialCredentialResult(await response.json())
       navigate("Details")
@@ -231,7 +219,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       JSON.stringify({ ...login, purpose: "email" }),
       "POST",
     )
-    const response = await fetch(`${API_URL}auth/login`, options)
+
+    console.log(JSON.stringify({ ...login, purpose: "email" }))
+    const response = await fetch("https://we-tinerary.vercel.app/api/auth/login", {
+      method: "OPTIONS",
+
+      headers: {
+        Origin: "https://we-tinerary.vercel.app",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept",
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      body: JSON.stringify(login),
+    })
 
     if (response.ok) {
       if (response.status === 200) {
@@ -245,6 +248,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       return
     }
+    console.log(response)
     const result = await response.text()
     callback({ isSuccess: response.ok, errorMessage: result })
   }
