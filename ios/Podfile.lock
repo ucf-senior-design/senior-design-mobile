@@ -19,7 +19,7 @@ PODS:
     - ExpoModulesCore
   - EXFont (10.2.1):
     - ExpoModulesCore
-  - Expo (46.0.17):
+  - Expo (48.0.8):
     - ExpoModulesCore
   - ExpoAdapterFBSDKNext (11.1.0):
     - ExpoModulesCore
@@ -29,7 +29,7 @@ PODS:
     - ExpoModulesCore
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - ExpoKeepAwake (10.2.1):
+  - ExpoKeepAwake (12.0.1):
     - ExpoModulesCore
   - ExpoLocalization (13.1.0):
     - ExpoModulesCore
@@ -638,10 +638,10 @@ SPEC CHECKSUMS:
   EXErrorRecovery: 74d71ee59f6814315457b09d68e86aa95cc7d05d
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
   EXFont: 06df627203afcb8a3b3152ec06eb2f11f46f0cff
-  Expo: 4de8a31146bb0480353b3ed1850e015c4862625f
+  Expo: 7c2a764808ef0f02d84ee13376e8926d85a3534f
   ExpoAdapterFBSDKNext: cb13ee1823c70383d17a82e7e2385053fa917d01
   ExpoAdapterGoogleSignIn: 98a113d9c0ed1ce7cf6259f0907d3f93209b0d7f
-  ExpoKeepAwake: 8b47e5358d54ea4922b630a74f2acb026ab7a28b
+  ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoLocalization: 63204f4b9d4f653469d266332ceaa6c6ac8a305d
   ExpoModulesCore: f9d1730cc2dde38e46b0becb97628b3ebbd29f21
   EXSplashScreen: 799bece80089219b2c989c1082d70f3b00995cda

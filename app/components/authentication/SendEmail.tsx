@@ -18,9 +18,9 @@ export function SendEmail({ purpose }: { purpose: "emailVerify" | "passwordReset
   async function handleEmailSend() {
     if (purpose === "emailVerify") {
       sendEmailVerification((response) => {
-        if (!response.isSuccess) {
+        `if (!response.isSuccess) {
           alert(response.errorMessage)
-        }
+        }`
       })
     }
     if (purpose === "passwordReset") {

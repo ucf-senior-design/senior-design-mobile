@@ -4,7 +4,7 @@ import { Event, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
 
 export type Day = {
-  date: string
+  date: Date
   itinerary: Array<Event>
   joinable: Array<Event>
 }
@@ -53,7 +53,6 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   })
   const [selectedEvent, setSelectedEvent] = React.useState<Event | undefined>()
 
-  console.log("trip.tsx", selectedEvent)
   function closeShowEvent() {
     setSelectedEvent(undefined)
   }
@@ -104,39 +103,40 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     )
   }
 
-  function getEventsByDay() {
-    const dayMilli = 1000 * 3600 * 24
-    const days: Array<Day> = []
+  function getEventsByDay(
+    start: Date,
+    end: Date,
+    itinerary: Array<Array<Event>>,
+    joinableEvents: Array<Array<Event>>,
+  ) {
+    let dayMilli = 1000 * 3600 * 24
+    let days: Array<Day> = []
 
     let iIndex = 0
     let jIndex = 0
 
-    for (
-      let day = new Date(getISODate(trip.duration.start)).getTime();
-      day <= new Date(getISODate(trip.duration.end)).getTime();
-      day += dayMilli
-    ) {
+    for (let day = start.getTime(); day <= end.getTime(); day += dayMilli) {
       days.push({
-        date: new Date(day).toLocaleDateString("en-US", { month: "long", day: "numeric" }),
+        date: new Date(day),
         itinerary: [],
         joinable: [],
       })
-      if (iIndex < trip.itinerary.length) {
+      if (iIndex < itinerary.length) {
         if (
-          trip.itinerary[iIndex][0].duration.start.toLocaleDateString() ===
-          new Date(day).toLocaleDateString()
+          itinerary[iIndex][0].duration.start.getDay() === new Date(day).getDay() &&
+          itinerary[iIndex][0].duration.start.getMonth() === new Date(day).getMonth()
         ) {
-          days[days.length - 1].itinerary = trip.itinerary[iIndex]
+          days[days.length - 1].itinerary = itinerary[iIndex]
           iIndex += 1
         }
       }
 
-      if (jIndex < trip.joinableEvents.length) {
+      if (jIndex < joinableEvents.length) {
         if (
-          trip.joinableEvents[jIndex][0].duration.start.toLocaleDateString() ===
-          new Date(day).toLocaleDateString()
+          joinableEvents[jIndex][0].duration.start.getDay() === new Date(day).getDay() &&
+          joinableEvents[jIndex][0].duration.start.getMonth() === new Date(day).getMonth()
         ) {
-          days[days.length - 1].joinable = trip.joinableEvents[jIndex]
+          days[days.length - 1].joinable = joinableEvents[jIndex]
           jIndex += 1
         }
       }
@@ -144,6 +144,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
 
     return days
   }
+
   async function initilizeTrip() {
     const trip = await getTrip()
     if (trip === null) {
@@ -151,7 +152,6 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       return
     }
     const eventData = await getEventData()
-
     if (trip === null || eventData === null) {
       alert("Cannot load trip.")
       return
@@ -162,7 +162,12 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       ...trip,
       itinerary: eventData.userEvents,
       joinableEvents: eventData.joinableEvents,
-      days: getEventsByDay(),
+      days: getEventsByDay(
+        trip.duration.start,
+        trip.duration.end,
+        eventData.userEvents,
+        eventData.joinableEvents,
+      ),
     })
   }
 
@@ -223,11 +228,9 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   async function getEventData() {
     let joinableEvents: Array<Array<Event>> = []
     let userEvents: Array<Array<Event>> = []
-
     const response = await fetch(`${API_URL}trip/${id}/event`, {
       method: "GET",
     })
-
     if (response.ok) {
       const data = await response.json()
 
@@ -275,10 +278,16 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
 
   React.useEffect(() => {
     console.log("update")
-    setTrip({
-      ...trip,
-      days: getEventsByDay(),
-    })
+    if (trip.uid.length !== 0)
+      setTrip({
+        ...trip,
+        days: getEventsByDay(
+          trip.duration.start,
+          trip.duration.end,
+          trip.itinerary,
+          trip.joinableEvents,
+        ),
+      })
   }, [trip.joinableEvents, trip.itinerary])
 
   return (

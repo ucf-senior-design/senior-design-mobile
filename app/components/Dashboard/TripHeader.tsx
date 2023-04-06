@@ -1,16 +1,14 @@
-import { ImageBackground, View } from "react-native"
+import { ImageBackground, Pressable, View } from "react-native"
 import React from "react"
 import { Text } from "../Text"
 import { getDate, locationToColor } from "../../utils/helper"
 import { useTrip } from "../../models/hooks/trip"
-
+import { Icon } from "../Icon"
+import { goBack } from "../../navigators"
 export function TripHeader() {
   const { trip } = useTrip()
-  const $headerSize = { height: 200, width: "100%" }
+  const $headerSize = { height: 250, width: "100%" }
 
-  if (trip.uid === undefined || trip.uid.length === 0) {
-    return <></>
-  }
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
       <ImageBackground
@@ -38,13 +36,26 @@ export function TripHeader() {
             },
           ]}
         >
-          <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
-          <Text
-            text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}
-            preset="subheading"
-            style={{ paddingTop: 5 }}
-            size="sm"
-          />
+          <View>
+            <Pressable
+              style={{
+                paddingTop: 5,
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "center",
+              }}
+              onPress={() => goBack()}
+            >
+              <Icon icon="caretLeft" size={30} color="white" />
+            </Pressable>
+            <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
+            <Text
+              text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}
+              preset="subheading"
+              style={{ paddingTop: 5 }}
+              size="sm"
+            />
+          </View>
         </View>
       </ImageBackground>
     </View>
