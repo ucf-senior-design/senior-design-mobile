@@ -8,39 +8,21 @@ import { spacing } from "../../theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import { SelectListHook, useAuth } from "../../models/hooks"
 import { load } from "../../utils/storage"
-import { User } from "@react-native-google-signin/google-signin"
+import updateUser from "../../models/hooks/settings"
 
-interface UpdateUser extends User {
-  uid: string
-  email: string
+interface UpdateUser{
   name: string
-  profilePic: string
   medicalInfo: string[]
   allergies: string[]
-  username: string
 }
 
 type UpdatePersonalProps = AppStackScreenProps<"UpdatePersonal">
 export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdatePersonalScreen() {
   const { user } = useAuth();
   const [details, sDetails] = useState<UpdateUser>({
-    user: {
-      id: "string",
-      name: "string",
-      email: "string",
-      photo: "string",
-      familyName: "string",
-      givenName: "string",
-    },
-    idToken: "",
-    serverAuthCode: "",
-    uid: "",
-    email: "",
     name: "",
-    profilePic: "",
     medicalInfo: [],
     allergies: [],
-    username: "",
   })
 
   async function getStoredUserInfo() {
@@ -51,11 +33,9 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     }
     sDetails((details) => ({
       ...details,
-      user,
-      uid: user.uid,
-      email: user.email,
-      profilePic: user.profilePic,
       name: user.name,
+      medicalInfo: user.medicalInfo,
+      allergies: user.allergies,
     }))
   }
 
@@ -95,6 +75,8 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     flexDirection: "column",
   }
 
+  const callbackFunc = () => {alert("Confirm the changes")}
+
   return (
     <Screen goBackHeader={true}>
       <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -102,8 +84,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
         <Avatar
           style={{ borderRadius: 100, minWidth: "30%", minHeight: 100 }}
           source={{
-            // uri: "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png",
-            uri: details.profilePic ? details.profilePic : "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png"
+            uri: user.profilePic ? user.profilePic : "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png"
           }}
         />
       </View>
@@ -148,7 +129,9 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
             text="Save Changes"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
-              alert("Confirm the changes")
+              updateUser({...details,
+                medicalInfo: Array.from(medicalCond.values.selected),
+                allergies: Array.from(foodAllergies.values.selected),}, callbackFunc)
             }}
           />
         </ScrollView>
