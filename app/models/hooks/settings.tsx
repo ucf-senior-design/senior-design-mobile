@@ -23,7 +23,7 @@ export default async function updateUser(
     const options = createFetchRequestOptions(JSON.stringify(user), "PUT")
     console.log(options.body)
     const response = await fetch(`${API_URL}auth/user`, options)
-
+    console.log(response)
   if (response.ok) {
     callback({ result: await response.text(), isSuccess: response.ok })
   } else {

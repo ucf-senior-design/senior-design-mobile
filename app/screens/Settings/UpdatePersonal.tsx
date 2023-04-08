@@ -75,30 +75,14 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     flexDirection: "column",
   }
 
-  const callbackFunc = () => {alert("Confirm the changes")}
+  const callbackFunc = (response) => {alert(response.isSuccess)}
 
   return (
-    <Screen goBackHeader={true}>
-      <View style={{ alignSelf: "center", alignItems: "center" }}>
-        <Text text="Personal Information" style={{ paddingBottom: 10 }} />
-        <Avatar
-          style={{ borderRadius: 100, minWidth: "30%", minHeight: 100 }}
-          source={{
-            uri: user.profilePic ? user.profilePic : "https://akveo.github.io/react-native-ui-kitten/docs/assets/playground-build/static/media/icon.a78e4b51.png"
-          }}
-        />
-      </View>
+    <Screen goBackHeader={true} statusBarStyle="light">
+        
       <View style={{ flex: 1 }}>
         <ScrollView style={$container} contentContainerStyle={$container} centerContent={true}>
-          <Text text="Details" preset="title" style={{ textAlign: "center", fontSize: 25 }} />
-
-          <Button
-            text="Change Profile Picture"
-            preset="reversed"
-            style={{ margin: 0 }}
-            onPress={async () => await maybeUpdatePicture()}
-          />
-
+        <Text text="Personal Information" style={{ paddingBottom: 10, alignSelf: "center" }} preset="heading"/>
           <TextField
             status={isNameInvalid ? "error" : undefined}
             helper={isNameInvalid ? "missing name" : undefined}
@@ -129,7 +113,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
             text="Save Changes"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
-              updateUser({...details,
+              await updateUser({...details,
                 medicalInfo: Array.from(medicalCond.values.selected),
                 allergies: Array.from(foodAllergies.values.selected),}, callbackFunc)
             }}

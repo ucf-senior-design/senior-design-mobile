@@ -109,8 +109,8 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     itinerary: Array<Array<Event>>,
     joinableEvents: Array<Array<Event>>,
   ) {
-    let dayMilli = 1000 * 3600 * 24
-    let days: Array<Day> = []
+    const dayMilli = 1000 * 3600 * 24
+    const days: Array<Day> = []
 
     let iIndex = 0
     let jIndex = 0
@@ -173,6 +173,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
 
   async function getTrip() {
     const options = createFetchRequestOptions(null, "GET")
+    console.log("GETTRIP",id)
     let t = null
     const response = await fetch(`${API_URL}trip/${id}`, options)
     if (response.ok) {
