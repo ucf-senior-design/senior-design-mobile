@@ -24,6 +24,7 @@ import {
   Dashboard,
   ViewTrip,
   Account,
+  UpdatePersonal,
 } from "../screens/"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -51,6 +52,9 @@ export type AppStackParamList = {
   ViewTrip: undefined
   Dashboard: undefined
   Account: undefined
+  UpdatePersonal: undefined
+  UpdateEmergency: undefined
+  ChangeEmail: undefined
 }
 
 /**
@@ -78,23 +82,26 @@ const AppStack = observer(function AppStack({
       {user !== undefined && user !== null && !user.didFinishRegister && (
         <>
           <Stack.Screen name="Details" component={Details} />
-        </>
-      )}
+          </>
+        )}
       {/* Pages that should only be shown to not logged in users */}
       {(user === undefined || user === null) && (
         <>
           <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        </>
-      )}
+          </>
+        )}
       {/* Pages shown to only logged in users */}
       {user && user.didFinishRegister && (
         <>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="ViewTrip" component={ViewTrip} />
-          <Stack.Screen name="Account" component={Account} />
+        {/* <Stack.Screen name="Home" component={Home} /> */}
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="ViewTrip" component={ViewTrip} />
+        <Stack.Screen name="Account" component={Account} />
+        <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name="UpdatePersonal" component={UpdatePersonal} />
+        <Stack.Screen name="Details" component={Details} />
         </>
       )}
       {/* Pages that can be shown to anyone */}

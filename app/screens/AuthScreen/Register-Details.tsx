@@ -14,6 +14,7 @@ interface RegisterUser extends User {
   username: string
 }
 export const Details: FC<RegisterProps> = observer(function Details() {
+  // TODO: two usernames
   const [details, sDetails] = useState<RegisterUser>({
     uid: "",
     email: "",

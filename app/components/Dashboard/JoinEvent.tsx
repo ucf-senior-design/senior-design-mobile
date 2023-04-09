@@ -5,24 +5,19 @@ import { Text } from "../Text"
 import { Event } from "../../../types/trip"
 import { Icon } from "../"
 import { TouchableOpacity } from "react-native-gesture-handler"
-
-export function getDuration(duration: Duration) {
-  // Need to check for minute rather than just put hour
-  return (
-    duration.start.toLocaleTimeString([], { hour: "2-digit" }).replaceAll(" ", "") +
-    " - " +
-    duration.end.toLocaleTimeString([], { hour: "2-digit" }).replaceAll(" ", "")
-  )
-}
+import { getDuration } from "../../utils/helper"
+import { useTrip } from "../../models/hooks/trip"
 
 type JoinEventProps = {
   event: Event
 }
+
 export function JoinEvent(props: JoinEventProps) {
   const { event } = props
+  const { joinEvent } = useTrip()
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => joinEvent(event.uid)}>
       <View
         style={{
           backgroundColor: colors.palette.neutral800,

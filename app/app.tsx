@@ -27,6 +27,7 @@ import { Settings } from "react-native-fbsdk-next"
 import { AuthProvider } from "./models/hooks"
 import { ApplicationProvider } from "@ui-kitten/components"
 import * as eva from "@eva-design/eva"
+import { DashboardProvider } from "./models/hooks/dashboard"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
@@ -116,12 +117,14 @@ function App(props: AppProps) {
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <ErrorBoundary catchErrors={Config.catchErrors}>
           <AuthProvider>
+            <DashboardProvider>
             <AppNavigator
               isLoggedIn={isLoggedIn}
               linking={linking}
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
+            </DashboardProvider>
           </AuthProvider>
         </ErrorBoundary>
       </SafeAreaProvider>

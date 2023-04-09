@@ -9,7 +9,6 @@ export function TripHeader() {
   const { trip } = useTrip()
   const $headerSize = { height: 250, width: "100%" }
 
-  console.log("trip", trip)
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
       <ImageBackground
@@ -42,7 +41,7 @@ export function TripHeader() {
               style={{
                 paddingTop: 5,
                 display: "flex",
-                alignItems: "start",
+                alignItems: "flex-start",
                 justifyContent: "center",
               }}
               onPress={() => goBack()}

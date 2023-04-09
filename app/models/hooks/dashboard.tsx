@@ -14,7 +14,7 @@ export function useDashboard(): DashboardContext {
   const context = React.useContext(DashboardContext)
   const { user } = useAuth()
 
-  if (!context || user.didFinishRegister === false) {
+  if (!context) {
     throw Error("useDashboard  must be used within an DashboardProvider")
   }
   return context
@@ -44,6 +44,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
     await fetch(`${API_URL}trip`, { method: "GET" })
       .then(async (response) => {
+        console.log("response", response)
         if (response.ok) {
           await response.json().then((uTrips) => {
             uTrips.forEach((trip: Trip) => {
