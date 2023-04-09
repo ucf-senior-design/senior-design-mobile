@@ -80,20 +80,7 @@ const TripCard = (props: TripCardProps) => {
             <Text text={`${getTime(trip.duration.start)}`} preset="subheading" size="xs" />
           )}
         </View>
-        {size === "lg" ? (
-          <View
-            style={[
-              { flexDirection: "row", justifyContent: "space-between", paddingRight: 20 },
-              trip.photoURL !== undefined && {
-                flex: 1,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                borderRadius: 15,
-              },
-            ]}
-          ></View>
-        ) : (
-          <></>
-        )}
+        
       </ImageBackground>
     </Pressable>
   )
