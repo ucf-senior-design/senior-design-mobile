@@ -4,22 +4,20 @@ import { observer } from "mobx-react-lite"
 import { Button, Icon, Text } from "../../components"
 import { AppStackScreenProps, navigate } from "../../navigators"
 import { useAuth } from "../../models/hooks/authentication"
-import { Avatar, Menu, MenuItem, Toggle } from "@ui-kitten/components"
+import { Menu, MenuItem } from "@ui-kitten/components"
 import { colors } from "../../theme"
 
 type AccountProps = AppStackScreenProps<"Account">
 export const Account: FC<AccountProps> = observer(function AccountScreen() {
   const { user, doLogout } = useAuth()
   return (
-    <SafeAreaView style={{ backgroundColor: colors.background, height: "100%", paddingHorizontal:20, paddingVertical: 100 }}>
-      <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
-        <View style={{ paddingLeft: 30 }}>
-          <Text text={user.name} preset="bold" size="xl" />
-          <Text text={user.email} preset="formLabel" />
-        </View>
+    <SafeAreaView style={{ backgroundColor: colors.background, height: "100%", paddingHorizontal:"5%", paddingVertical: "20%" }}>
+      <View style={{ alignItems: "center" }}>
+          <Text text={"Hello, " + user.name} preset="bold" size="xl" />
+          <Text text={user.email} preset="formLabel" size="xxs" />
       </View>
-      <View>
-        <Text text="Profile" preset="heading" size="xl" style={{ paddingVertical: 10 }} />
+      <View style={{paddingVertical: "5%"}}>
+        <Text text="Profile" preset="heading" size="xl" style={{ paddingVertical: "2%" }} />
         <Menu style={{ backgroundColor: "white" }}>
           <MenuItem
             onPress={() => navigate("UpdatePersonal")}

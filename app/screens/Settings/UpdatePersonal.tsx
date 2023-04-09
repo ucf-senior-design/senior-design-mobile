@@ -37,6 +37,14 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
       medicalInfo: user.medicalInfo,
       allergies: user.allergies,
     }))
+    console.log(user.allergies)
+    user.allergies.map((allergy) => {
+      console.log(allergy)
+      foodAllergies.updateSelected(allergy)
+    })
+    user.medicalInfo.map((med) => {
+      foodAllergies.updateSelected(med)
+    })
   }
 
   React.useEffect(() => {
@@ -57,16 +65,6 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
   })
   const isNameInvalid = details.name.length === 0
 
-  async function maybeUpdatePicture() {
-    const result = await launchImageLibrary({ includeBase64: true, mediaType: "photo" })
-    if (result.assets.length > 0 && result.assets[0].base64) {
-      sDetails((details) => ({
-        ...details,
-        profilePic: `data:image/png;base64,${result.assets[0].base64}`,
-      }))
-    }
-  }
-
   const $container: ViewStyle = {
     width: "100%",
     paddingRight: 10,
@@ -82,7 +80,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
         
       <View style={{ flex: 1 }}>
         <ScrollView style={$container} contentContainerStyle={$container} centerContent={true}>
-        <Text text="Personal Information" style={{ paddingBottom: 10, alignSelf: "center" }} preset="heading"/>
+        <Text text="Updating Personal Information" style={{ paddingBottom: "5%", alignSelf: "center" }} preset="heading" size="md"/>
           <TextField
             status={isNameInvalid ? "error" : undefined}
             helper={isNameInvalid ? "missing name" : undefined}
