@@ -2,7 +2,7 @@ import { ScrollView, View, ViewStyle } from "react-native"
 import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Button, Icon, Screen, SelectChipList, Text, TextField } from "../../components"
-import { AppStackScreenProps } from "../../navigators"
+import { AppStackScreenProps, goBack } from "../../navigators"
 import { Avatar } from "@ui-kitten/components"
 import { spacing } from "../../theme"
 import { launchImageLibrary } from "react-native-image-picker"
@@ -73,7 +73,16 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     flexDirection: "column",
   }
 
-  const callbackFunc = (response) => {alert(response.isSuccess)}
+  const callbackFunc = (response) => {
+    if(response.isSuccess)
+    {
+      goBack()
+    }
+    else
+    {
+      alert("Unable to update user")
+    }
+    }
 
   return (
     <Screen goBackHeader={true} statusBarStyle="light">
