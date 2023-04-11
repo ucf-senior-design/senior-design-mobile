@@ -85,14 +85,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function doLogout() {
-    const response = await fetch(`${API_URL}auth/logout`, { method: "POST" })
-    if(response.ok)
-    {
       await remove("user")
       setUser(undefined)
-    }
-    else
-      alert("Couldn't log out")
   }
 
   async function storePartialCredentialResult(u: any) {
