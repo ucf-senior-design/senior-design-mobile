@@ -7,7 +7,7 @@ import { Avatar } from "@ui-kitten/components"
 import { spacing } from "../../theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import { SelectListHook, useAuth } from "../../models/hooks"
-import { load } from "../../utils/storage"
+import { load, save } from "../../utils/storage"
 import updateUser from "../../models/hooks/settings"
 
 interface UpdateUser{
@@ -27,7 +27,6 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
 
   async function getStoredUserInfo() {
     const user = await load("user")
-
     if (user === undefined || user === null) {
       return
     }
@@ -37,11 +36,23 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
       medicalInfo: user.medicalInfo,
       allergies: user.allergies,
     }))
-    user.allergies.map((allergy) => {
-      foodAllergies.updateSelected(allergy)
+    user.allergies.map((allergy: string) => {
+      if(Array.from(foodAllergies.values.options).includes(allergy))
+          foodAllergies.updateSelected(allergy)
+      else
+      {
+        // foodAllergies.updateOptionInput(allergy)
+        foodAllergies.addOption(allergy)
+      }
     })
     user.medicalInfo.map((med) => {
-      foodAllergies.updateSelected(med)
+      if(Array.from(medicalCond.values.options).includes(med))
+          medicalCond.updateSelected(med)
+      else
+      {
+        // medicalCond.updateOptionInput(med)
+        medicalCond.addOption(med)
+      }
     })
   }
 
@@ -71,15 +82,26 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     flexDirection: "column",
   }
 
-  const callbackFunc = (response) => {
+  const callbackFunc = async (response) => {
     if(response.isSuccess)
     {
+      await save("user",{
+        ...user,
+        medicalInfo: Array.from(medicalCond.values.selected),
+        allergies: Array.from(foodAllergies.values.selected),
+      })
       goBack()
     }
     else
     {
-      alert("Unable to update user")
+      alert("Unable to update user: " + response.errorMessage)
     }
+    }
+
+    const updateUserHelper = async () => {
+      await updateUser({...details,
+        medicalInfo: Array.from(medicalCond.values.selected),
+        allergies: Array.from(foodAllergies.values.selected),}, callbackFunc)
     }
 
   return (
@@ -117,11 +139,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
             }}
             text="Save Changes"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
-            onPress={async () => {
-              await updateUser({...details,
-                medicalInfo: Array.from(medicalCond.values.selected),
-                allergies: Array.from(foodAllergies.values.selected),}, callbackFunc)
-            }}
+            onPress={updateUserHelper}
           />
         </ScrollView>
       </View>
