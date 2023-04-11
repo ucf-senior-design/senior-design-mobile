@@ -25,7 +25,12 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     console.log("getting user trips....")
-    getTrips()
+    const getTripsCall = async () => {
+      const tripsData = await getTrips()
+    }
+    getTripsCall().then(() => {
+      console.log("Successfully retrieved trips")
+    }).catch(()=> console.log("Failed to retrieve trips"))
   }, [])
 
   return (

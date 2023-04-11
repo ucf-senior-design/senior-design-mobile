@@ -37,9 +37,7 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
       medicalInfo: user.medicalInfo,
       allergies: user.allergies,
     }))
-    console.log(user.allergies)
     user.allergies.map((allergy) => {
-      console.log(allergy)
       foodAllergies.updateSelected(allergy)
     })
     user.medicalInfo.map((med) => {
