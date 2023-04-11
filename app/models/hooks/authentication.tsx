@@ -85,8 +85,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function doLogout() {
-    await remove("user")
-    setUser(undefined)
+    const response = await fetch(`${API_URL}auth/logout`, { method: "POST" })
+    if(response.ok)
+    {
+      await remove("user")
+      setUser(undefined)
+    }
+    else
+      alert("Couldn't log out")
   }
 
   async function storePartialCredentialResult(u: any) {
@@ -254,8 +260,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function sendPasswordReset(callback: (response: AuthenticationResponse) => void) {
-    const options = createFetchRequestOptions(JSON.stringify({ purpose: "password" }), "POST")
-    const response = await fetch(`${API_URL}auth/email`, options)
+    const options = createFetchRequestOptions(JSON.stringify({ email: user.email }), "POST")
+    const response = await fetch(`${API_URL}auth/passwordReset`, options)
 
     if (response.ok) {
       if (response.status === EMAIL_VERIFIED) {
