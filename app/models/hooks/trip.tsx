@@ -1,7 +1,9 @@
 import React from "react"
 import { API_URL } from "@env"
-import { Event, Trip } from "../../../types/trip"
+import { Duration, Event, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
+import { useAuth } from "./authentication"
+import dayjs from "dayjs"
 
 export type Day = {
   date: Date
@@ -51,6 +53,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     photoURL: "",
     days: [],
   })
+  const { user } = useAuth()
   const [selectedEvent, setSelectedEvent] = React.useState<Event | undefined>()
 
   function closeShowEvent() {
@@ -69,38 +72,52 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   }
 
   async function leaveEvent(uid: string) {
-    await fetch(`${API_URL}trip/${trip.uid}/event/leave/${uid}`, { method: "PUT" }).then(
-      async (response) => {
-        if (response.ok) {
-          const events = await getEventData()
-
-          setTrip({
-            ...trip,
-            joinableEvents: events.joinableEvents,
-            itinerary: events.userEvents,
-          })
-        } else {
-          alert("Cannot leave event right now.")
-        }
-      },
+    const options = createFetchRequestOptions(
+      JSON.stringify({
+        uid: user.uid ?? "uid",
+      }),
+      "PUT",
     )
+    await fetch(`${API_URL}trip/${trip.uid}/event/leave/${uid}`, options).then(async (response) => {
+      if (response.ok) {
+        const events = await getEventData(
+          dayjs(trip.duration.end).diff(dayjs(trip.duration.start), "days"),
+          trip.duration,
+        )
+
+        setTrip({
+          ...trip,
+          joinableEvents: events.joinableEvents,
+          itinerary: events.userEvents,
+        })
+      } else {
+        alert("Cannot leave event right now.")
+      }
+    })
   }
   async function joinEvent(uid: string) {
-    await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, { method: "PUT" }).then(
-      async (response) => {
-        if (response.ok) {
-          const events = await getEventData()
-
-          setTrip({
-            ...trip,
-            joinableEvents: events.joinableEvents,
-            itinerary: events.userEvents,
-          })
-        } else {
-          alert("Cannot join event right now.")
-        }
-      },
+    const options = createFetchRequestOptions(
+      JSON.stringify({
+        uid: user.uid ?? "uid",
+      }),
+      "PUT",
     )
+    await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, options).then(async (response) => {
+      if (response.ok) {
+        const events = await getEventData(
+          dayjs(trip.duration.end).diff(dayjs(trip.duration.start), "days"),
+          trip.duration,
+        )
+
+        setTrip({
+          ...trip,
+          joinableEvents: events.joinableEvents,
+          itinerary: events.userEvents,
+        })
+      } else {
+        alert("Cannot join event right now.")
+      }
+    })
   }
 
   function getEventsByDay(
@@ -109,37 +126,18 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     itinerary: Array<Array<Event>>,
     joinableEvents: Array<Array<Event>>,
   ) {
-    const dayMilli = 1000 * 3600 * 24
-    const days: Array<Day> = []
+    let days: Array<Day> = []
 
-    let iIndex = 0
-    let jIndex = 0
+    let day = dayjs(start)
 
-    for (let day = start.getTime(); day <= end.getTime(); day += dayMilli) {
+    while (!dayjs(end).add(1, "day").isSame(day, "day")) {
       days.push({
-        date: new Date(day),
-        itinerary: [],
-        joinable: [],
+        date: day.toDate(),
+        itinerary: itinerary[days.length],
+        joinable: joinableEvents[days.length],
       })
-      if (iIndex < itinerary.length) {
-        if (
-          itinerary[iIndex][0].duration.start.getDay() === new Date(day).getDay() &&
-          itinerary[iIndex][0].duration.start.getMonth() === new Date(day).getMonth()
-        ) {
-          days[days.length - 1].itinerary = itinerary[iIndex]
-          iIndex += 1
-        }
-      }
 
-      if (jIndex < joinableEvents.length) {
-        if (
-          joinableEvents[jIndex][0].duration.start.getDay() === new Date(day).getDay() &&
-          joinableEvents[jIndex][0].duration.start.getMonth() === new Date(day).getMonth()
-        ) {
-          days[days.length - 1].joinable = joinableEvents[jIndex]
-          jIndex += 1
-        }
-      }
+      day = day.add(1, "day")
     }
 
     return days
@@ -151,7 +149,10 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
       alert("Cannot load trip.")
       return
     }
-    const eventData = await getEventData()
+    const eventData = await getEventData(
+      dayjs(trip.duration.end).diff(dayjs(trip.duration.start), "days"),
+      trip.duration,
+    )
     if (trip === null || eventData === null) {
       alert("Cannot load trip.")
       return
@@ -173,7 +174,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
 
   async function getTrip() {
     const options = createFetchRequestOptions(null, "GET")
-    console.log("GETTRIP",id)
+
     let t = null
     const response = await fetch(`${API_URL}trip/${id}`, options)
     if (response.ok) {
@@ -185,87 +186,71 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     } as Trip
   }
 
-  function addEventToList(list: Array<Array<Event>>, event: Event) {
-    if (list.length === 0) {
-      list.push([
-        {
+  function addEventToList(list: Array<Array<Event>>, event: Event, duration: Duration) {
+    let l = Array.from(list)
+    let index = 0
+    let current = dayjs(duration.start)
+    let end = dayjs(duration.end)
+
+    while (current <= end) {
+      if (current.date() === dayjs(event.duration.start).date()) {
+        let oldDay = l[index]
+        oldDay.push({
           ...event,
           duration: {
             start: new Date(event.duration.start),
             end: new Date(event.duration.end),
           },
-        },
-      ])
-      return list
+        })
+
+        oldDay = oldDay.sort((a, b) => a.duration.start.getTime() - b.duration.start.getTime())
+        l[index] = oldDay
+        return l
+      }
+      index += 1
+      current = current.add(1, "day")
     }
 
-    if (
-      new Date(list[list.length - 1][0].duration.start).toLocaleDateString() !==
-      new Date(event.duration.start).toLocaleDateString()
-    ) {
-      list.push([
-        {
-          ...event,
-          duration: {
-            start: new Date(event.duration.start),
-            end: new Date(event.duration.end),
-          },
-        },
-      ])
-      return list
-    }
-
-    list[list.length - 1].push({
-      ...event,
-      duration: {
-        start: new Date(event.duration.start),
-        end: new Date(event.duration.end),
-      },
-    })
-    return list
+    return l
   }
 
-  // TODO: Handle short break periods when determining joinable events
-  async function getEventData() {
+  async function getEventData(days: number, duration: Duration) {
     let joinableEvents: Array<Array<Event>> = []
     let userEvents: Array<Array<Event>> = []
-    const response = await fetch(`${API_URL}trip/${id}/event`, {
-      method: "GET",
-    })
-    if (response.ok) {
-      const data = await response.json()
 
-      const { joinable, itinerary }: { joinable: Array<Event>; itinerary: Array<Event> } = data
-
-      // Determine actualy joinable events
-      let joinableIndex = 0
-
-      itinerary.forEach((event: Event, index) => {
-        if (joinableIndex < joinable.length) {
-          if (
-            event.duration.end <= joinable[joinableIndex].duration.start &&
-            (index + 1 === itinerary.length ||
-              itinerary[index + 1].duration.start >= joinable[joinableIndex].duration.end)
-          ) {
-            joinableEvents = addEventToList(joinableEvents, joinable[joinableIndex])
-            joinableIndex++
-          } else if (index === 0 && joinable[joinableIndex].duration.end <= event.duration.start) {
-            joinableEvents = addEventToList(joinableEvents, joinable[joinableIndex])
-            joinableIndex++
-          } else {
-            joinableIndex++
-          }
-        }
-
-        userEvents = addEventToList(userEvents, event)
-      })
-
-      while (joinableIndex < joinable.length) {
-        joinableEvents = addEventToList(joinableEvents, joinable[joinableIndex])
-        joinableIndex++
-      }
+    for (let i = 0; i <= days; i++) {
+      joinableEvents.push([])
+      userEvents.push([])
     }
 
+    const response = await fetch(`${API_URL}trip/${id}/${user?.uid ?? "uid"}/event`, {
+      method: "GET",
+    })
+
+    if (response.ok) {
+      let data = await response.json()
+
+      const { joinable, itinerary }: { joinable: Array<Event>; itinerary: Array<Event> } = data
+      if (
+        joinable === undefined ||
+        joinable === null ||
+        itinerary === undefined ||
+        itinerary === null
+      ) {
+        return null
+      }
+
+      itinerary.forEach((event: Event) => {
+        userEvents = addEventToList(userEvents, event, duration)
+      })
+
+      joinable.forEach((event: Event) => {
+        if (!event.attendees.includes(user?.uid ?? ""))
+          joinableEvents = addEventToList(joinableEvents, event, duration)
+      })
+    }
+
+    console.log(response.ok)
     if (response.ok) {
       return { userEvents, joinableEvents }
     }
@@ -278,7 +263,6 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
   }, [])
 
   React.useEffect(() => {
-    console.log("update")
     if (trip.uid.length !== 0)
       setTrip({
         ...trip,

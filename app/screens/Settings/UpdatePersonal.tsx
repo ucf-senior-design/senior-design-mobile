@@ -10,7 +10,7 @@ import { SelectListHook, useAuth } from "../../models/hooks"
 import { load } from "../../utils/storage"
 import updateUser from "../../models/hooks/settings"
 
-interface UpdateUser{
+interface UpdateUser {
   name: string
   medicalInfo: string[]
   allergies: string[]
@@ -18,7 +18,8 @@ interface UpdateUser{
 
 type UpdatePersonalProps = AppStackScreenProps<"UpdatePersonal">
 export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdatePersonalScreen() {
-  const { user } = useAuth();
+  const { user } = useAuth()
+  console.warn("USER", user)
   const [details, sDetails] = useState<UpdateUser>({
     name: "",
     medicalInfo: [],
@@ -26,22 +27,20 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
   })
 
   async function getStoredUserInfo() {
-    const user = await load("user")
-
     if (user === undefined || user === null) {
       return
     }
     sDetails((details) => ({
       ...details,
-      name: user.name,
-      medicalInfo: user.medicalInfo,
-      allergies: user.allergies,
+      name: user.name ?? "",
+      medicalInfo: user.medicalInfo ?? [],
+      allergies: user.allergies ?? [],
     }))
   }
 
   React.useEffect(() => {
     getStoredUserInfo()
-  }, [])
+  }, [user])
 
   const foodAllergies = SelectListHook({
     options: ["egg", "peanuts", "tree nuts", "milk", "vegan"],
@@ -75,14 +74,19 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
     flexDirection: "column",
   }
 
-  const callbackFunc = (response) => {alert(response.isSuccess)}
+  const callbackFunc = (response) => {
+    alert(response.isSuccess)
+  }
 
   return (
     <Screen goBackHeader={true} statusBarStyle="light">
-        
       <View style={{ flex: 1 }}>
         <ScrollView style={$container} contentContainerStyle={$container} centerContent={true}>
-        <Text text="Personal Information" style={{ paddingBottom: 10, alignSelf: "center" }} preset="heading"/>
+          <Text
+            text="Personal Information"
+            style={{ paddingBottom: 10, alignSelf: "center" }}
+            preset="heading"
+          />
           <TextField
             status={isNameInvalid ? "error" : undefined}
             helper={isNameInvalid ? "missing name" : undefined}
@@ -113,9 +117,15 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
             text="Save Changes"
             RightAccessory={() => <Icon icon="caretRight" color="white" />}
             onPress={async () => {
-              await updateUser({...details,
-                medicalInfo: Array.from(medicalCond.values.selected),
-                allergies: Array.from(foodAllergies.values.selected),}, callbackFunc)
+              await updateUser(
+                {
+                  ...details,
+                  medicalInfo: Array.from(medicalCond.values.selected),
+                  allergies: Array.from(foodAllergies.values.selected),
+                  uid: user.uid ?? "",
+                },
+                callbackFunc,
+              )
             }}
           />
         </ScrollView>

@@ -1,6 +1,6 @@
-import { API_URL } from "@env"
+import { API_URL, FIREBASE_API_KEY } from "@env"
 import { navigate } from "../../navigators"
-import { createFetchRequestOptions } from "../../utils/fetch"
+import { createFetchRequestOptions, createFirebaseFetchRequestOptions } from "../../utils/fetch"
 import { save, load, remove } from "../../utils/storage"
 import React from "react"
 import { User } from "../../../types/auth"
@@ -52,6 +52,7 @@ export function useAuth(): AuthContext {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User & { didFinishRegister: boolean }>()
+  console.warn("SEE USER", user)
 
   React.useEffect(() => {
     maybeLoadPersistedUser()
@@ -90,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function storePartialCredentialResult(u: any) {
+    console.log("USER", u)
     const user = {
       userName: "",
       medicalInfo: [],
@@ -144,13 +146,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function addDetails(user: User, callback: (response: AuthenticationResponse) => void) {
     // TODO: Upload Profile Picture For User
     const userWithNoPicture = { ...user, profilePic: "" }
+    console.log(userWithNoPicture)
     const options = createFetchRequestOptions(JSON.stringify(userWithNoPicture), "POST")
     const response = await fetch(`${API_URL}auth/details`, options)
     const result = await response.text()
 
     if (response.ok) {
+      console.log("added")
       navigate("Email")
-
       callback({ isSuccess: response.ok })
       return
     }
@@ -185,72 +188,59 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: { email: string; password: string },
     callback: (response: AuthenticationResponse) => void,
   ) {
-    console.log(API_URL)
-
-    const options = createFetchRequestOptions(JSON.stringify(register), "POST")
-    const response = await fetch("https://we-tinerary.vercel.app/api/auth/register", {
-      method: "OPTIONS",
-
-      headers: {
-        Origin: "https://we-tinerary.vercel.app",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept",
-        "Access-Control-Request-Method": "POST",
-        "Access-Control-Request-Headers": "X-Requested-With",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      body: JSON.stringify(register),
+    const firebaseOptions = createFirebaseFetchRequestOptions(JSON.stringify(register), "POST")
+    await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`,
+      firebaseOptions,
+    ).then(async (firebaseResponse) => {
+      if (firebaseResponse.ok) {
+        let result = await firebaseResponse.json()
+        await storePartialCredentialResult({ ...result, uid: result.localId })
+        navigate("Details")
+      } else {
+        alert(await firebaseResponse.text())
+      }
     })
-
-    if (response.ok) {
-      await storePartialCredentialResult(await response.json())
-      navigate("Details")
-    } else {
-      callback({ isSuccess: response.ok, errorMessage: await response.text() })
-    }
   }
 
   async function doEmailPasswordLogin(
     login: EmailPasswordLogin,
     callback: (response: AuthenticationResponse) => void,
   ) {
-    const options = createFetchRequestOptions(
-      JSON.stringify({ ...login, purpose: "email" }),
-      "POST",
-    )
+    const firebaseOptions = createFirebaseFetchRequestOptions(JSON.stringify(login), "POST")
+    await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
+      firebaseOptions,
+    ).then(async (result) => {
+      if (result.ok) {
+        let u1 = await result.json()
+        const options = createFetchRequestOptions(
+          JSON.stringify({ ...u1, uid: u1.localId }),
+          "POST",
+        )
+        const response = await fetch(`${API_URL}auth/login`, options)
 
-    console.log(JSON.stringify({ ...login, purpose: "email" }))
-    const response = await fetch("https://we-tinerary.vercel.app/api/auth/login", {
-      method: "OPTIONS",
-
-      headers: {
-        Origin: "https://we-tinerary.vercel.app",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept",
-        "Access-Control-Request-Method": "POST",
-        "Access-Control-Request-Headers": "X-Requested-With",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      body: JSON.stringify(login),
-    })
-
-    if (response.ok) {
-      if (response.status === 200) {
-        await saveRegisterdUser(await response.json())
-        navigate("Home")
-      } else if (response.status === MUST_VERIFY_EMAIL) {
-        navigate("Email")
-      } else if (response.status === MUST_ADD_DETAILS) {
-        await storePartialCredentialResult(await response.json())
-        navigate("Details")
+        if (response.ok) {
+          if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
+            let user = await response.json()
+            console.log("AUTH USR", user)
+            await saveRegisterdUser(user)
+            navigate("Home")
+          } else if (response.status === MUST_VERIFY_EMAIL) {
+            await storePartialCredentialResult({ ...u1, uid: u1.localId })
+            navigate("Email")
+          } else if (response.status === MUST_ADD_DETAILS) {
+            await storePartialCredentialResult({ ...u1, uid: u1.localId })
+            navigate("Details")
+          }
+        } else {
+          const result = await response.text()
+          callback({ isSuccess: response.ok, errorMessage: result })
+        }
+      } else {
+        alert(await result.text())
       }
-      return
-    }
-    console.log(response)
-    const result = await response.text()
-    callback({ isSuccess: response.ok, errorMessage: result })
+    })
   }
 
   async function sendPasswordReset(callback: (response: AuthenticationResponse) => void) {

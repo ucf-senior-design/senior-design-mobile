@@ -23,6 +23,30 @@ export function createFetchRequestOptions(
           redirect: "follow",
           body: body,
         }
-
+  if (method === "PUT") {
+    return {
+      method: "PUT",
+      headers: myHeaders,
+      redirect: "follow",
+      body: body,
+    } as RequestInit
+  }
   return requestOptions
+}
+
+export function createFirebaseFetchRequestOptions(
+  body: string | null,
+  method: "POST" | "GET" | "DELETE" | "PUT",
+) {
+  const myHeaders = new Headers()
+  if (body !== null) {
+    myHeaders.append("Access-Control-Request-Method", method)
+    myHeaders.append("Content-Type", "application/json")
+  }
+
+  return {
+    method: method,
+    headers: myHeaders,
+    body: body,
+  }
 }

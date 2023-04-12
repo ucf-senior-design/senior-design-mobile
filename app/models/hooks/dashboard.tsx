@@ -5,14 +5,12 @@ import { useAuth } from "./authentication"
 
 interface DashboardContext {
   trips: Map<string, Trip> | undefined
-  getTrips: () => Promise<void>
 }
 
 const DashboardContext = React.createContext<DashboardContext>({} as DashboardContext)
 
 export function useDashboard(): DashboardContext {
   const context = React.useContext(DashboardContext)
-  const { user } = useAuth()
 
   if (!context) {
     throw Error("useDashboard  must be used within an DashboardProvider")
@@ -22,17 +20,18 @@ export function useDashboard(): DashboardContext {
 
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [trips, setTrips] = React.useState<Map<string, Trip>>()
+  const { user } = useAuth()
 
+  console.log("tripstrips", trips)
   React.useEffect(() => {
-    console.log("getting user trips....")
-    getTrips()
-  }, [])
+    console.log("getting user trips....", user)
+    if (user !== undefined && user.uid !== undefined) getTrips()
+  }, [user])
 
   return (
     <DashboardContext.Provider
       value={{
         trips,
-        getTrips,
       }}
     >
       {children}
@@ -42,11 +41,12 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   async function getTrips() {
     const tTrips = new Map<string, Trip>()
 
-    await fetch(`${API_URL}trip`, { method: "GET" })
+    await fetch(`${API_URL}trip/none/${user?.uid ?? "uid"}/trip`, { method: "GET" })
       .then(async (response) => {
-        console.log("response", response)
+        console.warn("trip response", response)
         if (response.ok) {
           await response.json().then((uTrips) => {
+            console.warn("trip", uTrips)
             uTrips.forEach((trip: Trip) => {
               trip.duration.start = new Date(trip.duration.start)
               trip.duration.end = new Date(trip.duration.end)

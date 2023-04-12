@@ -85,8 +85,7 @@ function App(props: AppProps) {
 
   const [areFontsLoaded] = useFonts(customFontsToLoad)
 
-  React.useEffect(() => {
-  }, [])
+  React.useEffect(() => {}, [])
 
   const { rehydrated } = useInitialRootStore(() => {
     // This runs after the root store has been initialized and rehydrated.
@@ -117,14 +116,12 @@ function App(props: AppProps) {
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <ErrorBoundary catchErrors={Config.catchErrors}>
           <AuthProvider>
-            <DashboardProvider>
             <AppNavigator
               isLoggedIn={isLoggedIn}
               linking={linking}
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
-            </DashboardProvider>
           </AuthProvider>
         </ErrorBoundary>
       </SafeAreaProvider>

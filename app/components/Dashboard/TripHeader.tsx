@@ -7,6 +7,7 @@ import { Icon } from "../Icon"
 import { goBack } from "../../navigators"
 export function TripHeader() {
   const { trip } = useTrip()
+  console.warn("header", trip)
   const $headerSize = { height: 250, width: "100%" }
 
   return (
