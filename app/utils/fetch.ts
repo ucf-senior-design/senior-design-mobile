@@ -11,10 +11,17 @@ export function createFetchRequestOptions(
   }
 
   const requestOptions: RequestInit =
-    method !== "GET"
+    method !== "GET" && method !== "PUT"
       ? { method: "OPTIONS", headers: myHeaders, redirect: "follow", body: body }
-      : {
+      : method !== "PUT"
+      ? {
           method,
+        }
+      : {
+          method: "OPTIONS",
+          headers: myHeaders,
+          redirect: "follow",
+          body: body,
         }
 
   return requestOptions
