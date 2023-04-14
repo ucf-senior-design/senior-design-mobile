@@ -225,8 +225,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const response = await fetch(`${API_URL}auth/login`, options)
 
           if (response.ok) {
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
               let user = await response.json()
+              
 
               await saveRegisterdUser(user)
               navigate("Home")
