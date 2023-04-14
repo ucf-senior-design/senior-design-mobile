@@ -37,18 +37,28 @@ export function TripHeader() {
             },
           ]}
         >
-          <View>
-            <Pressable
-              style={{
-                paddingTop: 5,
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "center",
-              }}
-              onPress={() => goBack()}
-            >
+          <View
+            style={{
+              paddingTop: 5,
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "center",
+              flexDirection
+            }}
+          >
+            <Pressable onPress={() => goBack()}>
               <Icon icon="caretLeft" size={30} color="white" />
             </Pressable>
+
+            <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
+              <Icon
+                color="white"
+                icon="settings"
+                // @ts-ignore
+                onPress={() => navigationRef.navigate("UpdatePersonal")}
+              />
+            </View>
+
             <Text text={trip.destination} preset="heading" style={{ paddingTop: 5 }} size="xxl" />
             <Text
               text={getDate(trip.duration.start, false) + " - " + getDate(trip.duration.end, true)}

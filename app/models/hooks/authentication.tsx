@@ -52,7 +52,6 @@ export function useAuth(): AuthContext {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User & { didFinishRegister: boolean }>()
-  console.warn("SEE USER", user)
 
   React.useEffect(() => {
     maybeLoadPersistedUser()
@@ -144,9 +143,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function addDetails(user: User, callback: (response: AuthenticationResponse) => void) {
-    // TODO: Upload Profile Picture For User
     const userWithNoPicture = { ...user, profilePic: "" }
-    console.log(userWithNoPicture)
+
     const options = createFetchRequestOptions(JSON.stringify(userWithNoPicture), "POST")
     const response = await fetch(`${API_URL}auth/details`, options)
     const result = await response.text()
@@ -157,6 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       callback({ isSuccess: response.ok })
       return
     }
+
     callback({ isSuccess: response.ok, errorMessage: result })
   }
 
@@ -192,15 +191,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`,
       firebaseOptions,
-    ).then(async (firebaseResponse) => {
-      if (firebaseResponse.ok) {
-        let result = await firebaseResponse.json()
-        await storePartialCredentialResult({ ...result, uid: result.localId })
-        navigate("Details")
-      } else {
-        alert(await firebaseResponse.text())
-      }
-    })
+    )
+      .then(async (firebaseResponse) => {
+        if (firebaseResponse.ok) {
+          let result = await firebaseResponse.json()
+          await storePartialCredentialResult({ ...result, uid: result.localId })
+          navigate("Details")
+        } else {
+          alert(await firebaseResponse.text())
+        }
+      })
+      .catch((e) => {
+        console.warn(e)
+      })
   }
 
   async function doEmailPasswordLogin(
@@ -211,36 +214,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
       firebaseOptions,
-    ).then(async (result) => {
-      if (result.ok) {
-        let u1 = await result.json()
-        const options = createFetchRequestOptions(
-          JSON.stringify({ ...u1, uid: u1.localId }),
-          "POST",
-        )
-        const response = await fetch(`${API_URL}auth/login`, options)
+    )
+      .then(async (result) => {
+        if (result.ok) {
+          let u1 = await result.json()
+          const options = createFetchRequestOptions(
+            JSON.stringify({ ...u1, uid: u1.localId }),
+            "POST",
+          )
+          const response = await fetch(`${API_URL}auth/login`, options)
 
-        if (response.ok) {
-          if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
-            let user = await response.json()
-            console.log("AUTH USR", user)
-            await saveRegisterdUser(user)
-            navigate("Home")
-          } else if (response.status === MUST_VERIFY_EMAIL) {
-            await storePartialCredentialResult({ ...u1, uid: u1.localId })
-            navigate("Email")
-          } else if (response.status === MUST_ADD_DETAILS) {
-            await storePartialCredentialResult({ ...u1, uid: u1.localId })
-            navigate("Details")
+          if (response.ok) {
+            if (response.status === 200) {
+              let user = await response.json()
+
+              await saveRegisterdUser(user)
+              navigate("Home")
+            } else if (response.status === MUST_VERIFY_EMAIL) {
+              await storePartialCredentialResult({ ...u1, uid: u1.localId })
+              navigate("Email")
+            } else if (response.status === MUST_ADD_DETAILS) {
+              await storePartialCredentialResult({ ...u1, uid: u1.localId })
+              navigate("Details")
+            }
+          } else {
+            const result = await response.text()
+            callback({ isSuccess: response.ok, errorMessage: result })
           }
         } else {
-          const result = await response.text()
-          callback({ isSuccess: response.ok, errorMessage: result })
+          alert(await result.text())
         }
-      } else {
-        alert(await result.text())
-      }
-    })
+      })
+      .catch((e) => {
+        console.log(e)
+        alert(e)
+      })
   }
 
   async function sendPasswordReset(callback: (response: AuthenticationResponse) => void) {

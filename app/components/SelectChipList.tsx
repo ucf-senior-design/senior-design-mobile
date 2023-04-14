@@ -47,10 +47,23 @@ export function SelectChipList({
   return (
     <>
       <View style={$container}>
-        <Text text={label} style={$labelStyles} preset="formLabel" />
-        <View style={$chipContainer}>
-          {chips}
-          <View style={$addOption}>
+        <View
+          style={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+          }}
+        >
+          <Text text={label} style={$labelStyles} preset="formLabel" />
+          <View
+            style={{
+              ...$addOption,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Icon
               style={{ width: 20, height: 20 }}
               icon="add"
@@ -59,6 +72,8 @@ export function SelectChipList({
             />
           </View>
         </View>
+
+        <View style={$chipContainer}>{chips}</View>
       </View>
       <BackdropModal isVisible={hook.values.isPopUpVisible} toggleShow={() => hook.togglePopUp()}>
         <TextField

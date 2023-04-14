@@ -21,7 +21,7 @@ export default async function updateUser(
   },
   callback: (response: Response) => void,
 ) {
-  const options = createFetchRequestOptions(JSON.stringify({ user }), "PUT")
+  const options = createFetchRequestOptions(JSON.stringify(user), "PUT")
 
   const response = await fetch(`${API_URL}auth/user`, options)
 

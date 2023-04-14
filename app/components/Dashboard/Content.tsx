@@ -4,6 +4,7 @@ import { Trip } from "../../../types/trip"
 import { useDashboard } from "../../models/hooks/dashboard"
 import TripCard from "./TripCard"
 import { Icon, Screen, Text } from "../"
+import { navigationRef } from "../../navigators"
 type TripList = {
   current: Array<Trip>
   upcoming: Array<Trip>
@@ -46,6 +47,14 @@ export default function Content() {
       <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 40 }}>
         <Icon icon="briefcase" size={50}></Icon>
         <Text text=" Trips" preset="title" style={{ paddingTop: 5 }} size="xxl" />
+        <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
+          <Icon
+            color="white"
+            icon="settings"
+            // @ts-ignore
+            onPress={() => navigationRef.navigate("UpdatePersonal")}
+          />
+        </View>
       </View>
 
       <View

@@ -56,16 +56,6 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
   })
   const isNameInvalid = details.name.length === 0
 
-  async function maybeUpdatePicture() {
-    const result = await launchImageLibrary({ includeBase64: true, mediaType: "photo" })
-    if (result.assets.length > 0 && result.assets[0].base64) {
-      sDetails((details) => ({
-        ...details,
-        profilePic: `data:image/png;base64,${result.assets[0].base64}`,
-      }))
-    }
-  }
-
   const $container: ViewStyle = {
     width: "100%",
     paddingRight: 10,
@@ -79,12 +69,22 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
   }
 
   return (
-    <Screen goBackHeader={true} statusBarStyle="light">
+    <Screen
+      preset="fixed"
+      goBackHeader={true}
+      statusBarStyle="light"
+      backgroundImage={require("../../../assets/images/gradientBg.png")}
+    >
       <View style={{ flex: 1 }}>
         <ScrollView style={$container} contentContainerStyle={$container} centerContent={true}>
           <Text
-            text="Personal Information"
+            text="Settings"
             style={{ paddingBottom: 10, alignSelf: "center" }}
+            preset="heading"
+          />
+          <Text
+            text="Personal Information"
+            style={{ paddingBottom: 10, alignSelf: "center", fontSize: 20 }}
             preset="heading"
           />
           <TextField
@@ -108,14 +108,15 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
 
           <Button
             disabled={isNameInvalid}
-            preset="default"
+            preset="filled"
+            textStyle={{ color: "#111D40" }}
             style={{
               margin: 5,
               width: "100%",
+
               marginTop: spacing.small,
             }}
-            text="Save Changes"
-            RightAccessory={() => <Icon icon="caretRight" color="white" />}
+            text="Logout"
             onPress={async () => {
               await updateUser(
                 {
@@ -124,7 +125,33 @@ export const UpdatePersonal: FC<UpdatePersonalProps> = observer(function UpdateP
                   allergies: Array.from(foodAllergies.values.selected),
                   uid: user.uid ?? "",
                 },
-                callbackFunc,
+                (response) => {
+                  console.warn(response)
+                },
+              )
+            }}
+          />
+
+          <Button
+            disabled={isNameInvalid}
+            preset="default"
+            style={{
+              margin: 5,
+              width: "100%",
+              marginTop: spacing.small,
+            }}
+            text="Save Changes"
+            onPress={async () => {
+              await updateUser(
+                {
+                  ...details,
+                  medicalInfo: Array.from(medicalCond.values.selected),
+                  allergies: Array.from(foodAllergies.values.selected),
+                  uid: user.uid ?? "",
+                },
+                (response) => {
+                  if (!response.isSuccess) console.warn(response.errorMessage)
+                },
               )
             }}
           />
