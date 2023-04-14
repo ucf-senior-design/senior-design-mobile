@@ -227,7 +227,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (response.ok) {
             if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
               let user = await response.json()
-              
 
               await saveRegisterdUser(user)
               navigate("Home")

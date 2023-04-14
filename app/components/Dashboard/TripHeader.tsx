@@ -7,7 +7,6 @@ import { Icon } from "../Icon"
 import { goBack } from "../../navigators"
 export function TripHeader() {
   const { trip } = useTrip()
-  console.warn("header", trip)
   const $headerSize = { height: 250, width: "100%" }
 
   return (
@@ -43,7 +42,7 @@ export function TripHeader() {
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
-              flexDirection
+              flexDirection,
             }}
           >
             <Pressable onPress={() => goBack()}>

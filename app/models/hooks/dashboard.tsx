@@ -43,10 +43,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
     await fetch(`${API_URL}trip/none/${user?.uid ?? "uid"}/trip`, { method: "GET" })
       .then(async (response) => {
-        console.warn("trip response", response)
         if (response.ok) {
           await response.json().then((uTrips) => {
-            console.warn("trip", uTrips)
             uTrips.forEach((trip: Trip) => {
               trip.duration.start = new Date(trip.duration.start)
               trip.duration.end = new Date(trip.duration.end)

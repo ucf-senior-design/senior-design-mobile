@@ -84,14 +84,7 @@ const AppStack = observer(function AppStack({
           <Stack.Screen name="Details" component={Details} />
         </>
       )}
-      {/* Pages that should only be shown to not logged in users */}
-      {(user === undefined || user === null) && (
-        <>
-          {/* <Stack.Screen name="Landing" component={LandingScreen} /> */}
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        </>
-      )}
+
       {/* Pages shown to only logged in users */}
       {user && user.didFinishRegister && (
         <>
@@ -105,6 +98,8 @@ const AppStack = observer(function AppStack({
       )}
       {/* Pages that can be shown to anyone */}
       <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
       <Stack.Screen name="Email" component={Email} />
       <Stack.Screen name="Password" component={Password} />
     </Stack.Navigator>
