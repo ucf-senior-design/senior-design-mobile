@@ -153,7 +153,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     }
     const eventData = await getEventData()
     if (trip === null || eventData === null) {
-      alert("Cannot load trip.")
+      alert("Cannot load trip or event.")
       return
     }
 

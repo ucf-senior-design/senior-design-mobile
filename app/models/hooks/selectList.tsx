@@ -18,7 +18,7 @@ export interface SelectListHook {
   /**
    * Adds another selectable option to the list.
    */
-  addOption: () => void
+  addOption: (option?: string) => void
   /**
    * Toggles whether or not a value has been selected.
    */
@@ -61,8 +61,9 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
       optionInput: option,
     }))
   }
-  function addOption() {
-    if (values.optionInput.length === 0) {
+  function addOption(option?: string) {
+    console.log("option" + option)
+    if (values.optionInput.length === 0 && option === undefined) {
       setValues((values) => ({
         ...values,
         isPopUpVisible: false,
@@ -72,9 +73,9 @@ export function SelectListHook(props: valuesHookProps): SelectListHook {
 
     const nSelect = values.selected
     const nOptions = values.options
-
-    nSelect.add(values.optionInput)
-    nOptions.push(values.optionInput)
+    const newOption = (option) ? option : values.optionInput
+    nSelect.add(newOption)
+    nOptions.push(newOption)
 
     setValues({
       optionInput: "",
