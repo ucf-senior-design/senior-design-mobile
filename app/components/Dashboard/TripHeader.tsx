@@ -42,14 +42,24 @@ export function TripHeader() {
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
-              flexDirection,
+              flexDirection: "column",
+              marginBottom: 10,
             }}
           >
-            <Pressable onPress={() => goBack()}>
-              <Icon icon="caretLeft" size={30} color="white" />
-            </Pressable>
-
-            <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "flex-start"
+                ,marginTop:50,
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Pressable onPress={() => goBack()}>
+                  <Icon icon="caretLeft" size={30} color="white" />
+                </Pressable>
+              </View>
               <Icon
                 color="white"
                 icon="settings"

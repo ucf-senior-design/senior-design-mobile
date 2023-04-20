@@ -4,8 +4,10 @@
 
 import App from "./app/app.tsx"
 import React from "react"
-import { AppRegistry } from "react-native"
+import { AppRegistry, LogBox } from "react-native"
 import RNBootSplash from "react-native-bootsplash"
+
+LogBox.ignoreAllLogs(true)
 
 function IgniteApp() {
   return <App hideSplashScreen={RNBootSplash.hide} />

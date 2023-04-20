@@ -70,8 +70,8 @@ export function ShowEvent() {
               text="Leave"
               preset="filled"
               style={{ borderColor: colors.palette.inputText, borderWidth: 1 }}
-              onPress={() => {
-                leaveEvent(selectedEvent.uid)
+              onPress={async () => {
+                await leaveEvent(selectedEvent.uid)
                 closeShowEvent()
               }}
             ></Button>

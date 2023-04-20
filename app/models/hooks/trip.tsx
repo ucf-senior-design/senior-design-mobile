@@ -1,5 +1,4 @@
 import React from "react"
-import { API_URL } from "@env"
 import { Duration, Event, Trip } from "../../../types/trip"
 import { createFetchRequestOptions } from "../../utils/fetch"
 import { useAuth } from "./authentication"
@@ -19,13 +18,14 @@ interface TripUseState extends Trip {
 interface TripContext {
   trip: TripUseState
   initilizeTrip: () => Promise<void>
-  leaveEvent: (uid: string) => void
-  joinEvent: (uid: string) => void
+  leaveEvent: (uid: string) => Promise<void>
+  joinEvent: (uid: string) => Promise<void>
   closeShowEvent: () => void
   openShowEvent: (event: Event) => void
   selectedEvent: Event
 }
 
+const API_URL = "https://we-tinerary.vercel.app/api/"
 const TripContext = React.createContext<TripContext>({} as TripContext)
 
 export function useTrip(): TripContext {
@@ -75,10 +75,13 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
     const options = createFetchRequestOptions(
       JSON.stringify({
         uid: user.uid ?? "uid",
+        eventID: uid,
+        tripID: trip.uid,
+        method: "leave",
       }),
       "PUT",
     )
-    await fetch(`${API_URL}trip/${trip.uid}/event/leave/${uid}`, options).then(async (response) => {
+    await fetch(`${API_URL}trip/userInEvent`, options).then(async (response) => {
       if (response.ok) {
         const events = await getEventData(
           dayjs(trip.duration.end).diff(dayjs(trip.duration.start), "days"),
@@ -91,18 +94,23 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
           itinerary: events.userEvents,
         })
       } else {
+        console.info(await response.text())
         alert("Cannot leave event right now.")
       }
     })
   }
+
   async function joinEvent(uid: string) {
     const options = createFetchRequestOptions(
       JSON.stringify({
         uid: user.uid ?? "uid",
+        eventID: uid,
+        tripID: trip.uid,
+        method: "join",
       }),
       "PUT",
     )
-    await fetch(`${API_URL}trip/${trip.uid}/event/join/${uid}`, options).then(async (response) => {
+    await fetch(`${API_URL}trip/userInEvent`, options).then(async (response) => {
       if (response.ok) {
         const events = await getEventData(
           dayjs(trip.duration.end).diff(dayjs(trip.duration.start), "days"),
@@ -115,6 +123,7 @@ export function TripProvider({ children, id }: { children: React.ReactNode; id: 
           itinerary: events.userEvents,
         })
       } else {
+        console.info(response.status, await response.text())
         alert("Cannot join event right now.")
       }
     })

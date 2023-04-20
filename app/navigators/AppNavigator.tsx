@@ -111,6 +111,9 @@ type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
 }
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
+  console.log = () => {}
+  console.warn = () => {}
+  console.error = () => {}
   const colorScheme = useColorScheme()
   const { user } = useAuth()
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))

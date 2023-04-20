@@ -3,18 +3,28 @@ import { View } from "react-native"
 import { Avatar } from "@ui-kitten/components"
 import { Event } from "../../../types/trip"
 import Timeline from "react-native-timeline-flatlist"
-import { Icon, Text } from ".."
+import { Button, Icon, Text } from ".."
 import { getDuration } from "../../utils/helper"
 import { useTrip } from "../../models/hooks/trip"
+import { ShowEvent } from "./ShowEvent"
 
 export function DayTimeline({ events }: { events: Array<Event> }) {
   const { openShowEvent } = useTrip()
 
   const renderDetail = (event) => {
     const title = (
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-        <Text text={event.title} preset="bold" size="md" />
-        <Text text={getDuration(event.duration)} style={{ paddingRight: 10 }} size="xxs" />
+      <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <Text
+          text={event.title}
+          preset="bold"
+          size="md"
+          style={{ textAlign: "left", width: "100%" }}
+        />
+        <Text
+          text={getDuration(event.duration)}
+          style={{ textAlign: "left", width: "100%" }}
+          size="xxs"
+        />
       </View>
     )
     const desc = (
@@ -23,8 +33,7 @@ export function DayTimeline({ events }: { events: Array<Event> }) {
           style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Icon icon="personSmall" size={20} />
-            <Text style={{ paddingLeft: 10 }} text={event.location} size="sm" />
+            <Text text={event.location} size="sm" />
           </View>
         </View>
         <View style={{ flexDirection: "row", paddingTop: 10 }}>
@@ -56,6 +65,7 @@ export function DayTimeline({ events }: { events: Array<Event> }) {
 
   return (
     <>
+      <ShowEvent />
       <Timeline
         data={events}
         circleSize={20}
@@ -66,6 +76,7 @@ export function DayTimeline({ events }: { events: Array<Event> }) {
         showTime={false}
         style={{ paddingTop: 20 }}
         onEventPress={(item) => {
+          console.info("item", item)
           const event = item as any as Event
           openShowEvent(event)
         }}

@@ -12,7 +12,6 @@ export default function ThirdPartyAuth() {
       <Divider text={"or"} />
       <View style={$container}>
         <Icon icon="google" onPress={() => doGoogleLogin()} style={$iconStyle} />
-        <Icon icon="facebook" style={$iconStyle} onPress={() => doFacebookLogin()} />
       </View>
     </>
   )

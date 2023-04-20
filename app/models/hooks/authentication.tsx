@@ -1,4 +1,4 @@
-import { API_URL, FIREBASE_API_KEY } from "@env"
+import { FIREBASE_API_KEY } from "@env"
 import { navigate } from "../../navigators"
 import { createFetchRequestOptions, createFirebaseFetchRequestOptions } from "../../utils/fetch"
 import { save, load, remove } from "../../utils/storage"
@@ -37,6 +37,7 @@ interface AuthContext {
 const MUST_VERIFY_EMAIL = 203
 const MUST_ADD_DETAILS = 202
 const EMAIL_VERIFIED = 201
+const API_URL = "https://we-tinerary.vercel.app/api/"
 
 // Use this to handle any authentication processes
 const AuthContext = React.createContext<AuthContext>({} as AuthContext)
@@ -87,10 +88,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function doLogout() {
     await remove("user")
     setUser(undefined)
+    navigate("Landing")
   }
 
   async function storePartialCredentialResult(u: any) {
-    console.log("USER", u)
     const user = {
       userName: "",
       medicalInfo: [],
@@ -150,7 +151,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const result = await response.text()
 
     if (response.ok) {
-      console.log("added")
       navigate("Email")
       callback({ isSuccess: response.ok })
       return
@@ -211,44 +211,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     callback: (response: AuthenticationResponse) => void,
   ) {
     const firebaseOptions = createFirebaseFetchRequestOptions(JSON.stringify(login), "POST")
-    await fetch(
+    const result = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
       firebaseOptions,
     )
-      .then(async (result) => {
-        if (result.ok) {
-          let u1 = await result.json()
-          const options = createFetchRequestOptions(
-            JSON.stringify({ ...u1, uid: u1.localId }),
-            "POST",
-          )
-          const response = await fetch(`${API_URL}auth/login`, options)
 
-          if (response.ok) {
-            if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
-              let user = await response.json()
+    if (result.ok) {
+      let u1 = await result.json()
+      console.log(JSON.stringify({ ...u1, uid: u1.localId }))
+      const options = createFetchRequestOptions(JSON.stringify({ ...u1, uid: u1.localId }), "POST")
 
-              await saveRegisterdUser(user)
-              navigate("Home")
-            } else if (response.status === MUST_VERIFY_EMAIL) {
-              await storePartialCredentialResult({ ...u1, uid: u1.localId })
-              navigate("Email")
-            } else if (response.status === MUST_ADD_DETAILS) {
-              await storePartialCredentialResult({ ...u1, uid: u1.localId })
-              navigate("Details")
-            }
-          } else {
-            const result = await response.text()
-            callback({ isSuccess: response.ok, errorMessage: result })
-          }
-        } else {
-          alert(await result.text())
+      const response = await fetch(`${API_URL}auth/login`, options)
+
+      if (response.ok) {
+        if (response.status === 200 || response.status === MUST_VERIFY_EMAIL) {
+          let user = await response.json()
+
+          await saveRegisterdUser(user)
+          navigate("Home")
+        } else if (response.status === MUST_VERIFY_EMAIL) {
+          await storePartialCredentialResult({ ...u1, uid: u1.localId })
+          navigate("Email")
+        } else if (response.status === MUST_ADD_DETAILS) {
+          await storePartialCredentialResult({ ...u1, uid: u1.localId })
+          navigate("Details")
         }
-      })
-      .catch((e) => {
-        console.log(e)
-        alert(e)
-      })
+      } else {
+        const result = await response.text()
+        callback({ isSuccess: response.ok, errorMessage: result })
+      }
+    } else {
+      alert(await result.text())
+    }
   }
 
   async function sendPasswordReset(callback: (response: AuthenticationResponse) => void) {

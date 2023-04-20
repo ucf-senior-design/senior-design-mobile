@@ -1,5 +1,4 @@
 import React from "react"
-import { API_URL } from "@env"
 import { Trip } from "../../../types/trip"
 import { useAuth } from "./authentication"
 
@@ -7,6 +6,7 @@ interface DashboardContext {
   trips: Map<string, Trip> | undefined
 }
 
+const API_URL = "https://we-tinerary.vercel.app/api/"
 const DashboardContext = React.createContext<DashboardContext>({} as DashboardContext)
 
 export function useDashboard(): DashboardContext {
@@ -45,12 +45,14 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       .then(async (response) => {
         if (response.ok) {
           await response.json().then((uTrips) => {
-            uTrips.forEach((trip: Trip) => {
-              trip.duration.start = new Date(trip.duration.start)
-              trip.duration.end = new Date(trip.duration.end)
-              trip.attendees = new Set(trip.attendees)
-              tTrips.set(trip.uid, trip)
-            })
+            console.log(uTrips, "uTrips")
+            if (uTrips !== undefined && uTrips.length >= 0)
+              uTrips.forEach((trip: Trip) => {
+                trip.duration.start = new Date(trip.duration.start)
+                trip.duration.end = new Date(trip.duration.end)
+                trip.attendees = new Set(trip.attendees)
+                tTrips.set(trip.uid, trip)
+              })
           })
 
           setTrips(tTrips)

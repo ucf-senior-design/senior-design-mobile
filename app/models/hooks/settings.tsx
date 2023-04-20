@@ -5,7 +5,7 @@ update email
 update preferences/medical info/profile picture/allergies
 update emergency contact info 
 */
-const API_URL = process.env.API_URL
+const API_URL = "https://we-tinerary.vercel.app/api/"
 interface Response {
   result?: any
   isSuccess: boolean
